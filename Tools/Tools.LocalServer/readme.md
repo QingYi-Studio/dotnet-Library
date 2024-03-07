@@ -1,4 +1,4 @@
-﻿# Local Server
+# Local Server
 
 A C# library that can open a local server easily.
 
@@ -25,4 +25,3 @@ public void StopServer()
 	_localServer?.Dispose();
 }
 ```
-
