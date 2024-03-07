@@ -5,6 +5,30 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Configurations>Debug;Release;Publish</Configurations>
+    <SignAssembly>False</SignAssembly>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Tools.Shell</Title>
+    <Authors>QingYi-Studio</Authors>
+    <Copyright>AGPL-3.0</Copyright>
+    <PackageProjectUrl>https://github.com/QingYi-Studio/CSharp-Library</PackageProjectUrl>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/QingYi-Studio/CSharp-Library</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <FileVersion>1.0.0</FileVersion>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <PackageTags>Shell;Cmd;Powershell</PackageTags>
+    <Description>A package to run cmd or powershell command easily.</Description>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Publish|AnyCPU'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Update="readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
