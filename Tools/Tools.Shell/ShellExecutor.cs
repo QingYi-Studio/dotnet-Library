@@ -6,7 +6,7 @@ namespace Tools.Shell
     {
         public class Cmd
         {
-            public class user
+            public class User
             {
                 public static string ExecuteCmdCommand(string command, bool redirectOutput = true, bool useShellExecute = false, bool createNoWindow = true)
                 {
@@ -101,7 +101,7 @@ namespace Tools.Shell
                 }
             }
 
-            public class admin
+            public class Admin
             {
                 public static string ExecuteCmdCommand(string command, bool redirectOutput = true, bool useShellExecute = false, bool createNoWindow = true)
                 {
@@ -201,7 +201,7 @@ namespace Tools.Shell
 
         public class PowerShell
         {
-            public class user
+            public class User
             {
                 public static string ExecutePowerShellCommand(string command, bool redirectOutput = true, bool useShellExecute = false, bool createNoWindow = true)
                 {
@@ -236,7 +236,7 @@ namespace Tools.Shell
                 }
             }
 
-            public class admin
+            public class Admin
             {
                 public static string ExecutePowerShellCommandAsAdmin(string command, bool redirectOutput = true, bool useShellExecute = false, bool createNoWindow = true)
                 {
@@ -271,6 +271,25 @@ namespace Tools.Shell
                     return await Task.Run(() => ExecutePowerShellCommandAsAdmin(command, redirectOutput, useShellExecute, createNoWindow));
                 }
             }
+        }
+    }
+
+    class T
+    {
+        static void D(string[] args)
+        {
+            string cmdcommand = "ipconfig";
+            string pscommand = "ls";
+            ShellExecutor.Cmd.User.ExecuteCmdCommand(cmdcommand);
+            ShellExecutor.PowerShell.User.ExecutePowerShellCommand(pscommand);
+        }
+
+        static async void A(string[] args)
+        {
+            string cmdcommand = "ipconfig";
+            string pscommand = "ls";
+            await ShellExecutor.Cmd.User.ExecuteCmdCommandAsync(cmdcommand);
+            await ShellExecutor.PowerShell.User.ExecutePowerShellCommandAsync(pscommand);
         }
     }
 }
