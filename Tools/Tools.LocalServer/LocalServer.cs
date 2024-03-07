@@ -4,13 +4,10 @@ namespace Tools.LocalServer
 {
     public class LocalServer
     {
-        private string _rootFolder;
+        private string? _rootFolder;
         private bool _showConsole;
 
-        public string RootFolder
-        {
-            get { return _rootFolder; }
-        }
+        public string RootFolder => _rootFolder;
 
         public void Initialize(string rootFolder)
         {
@@ -87,7 +84,7 @@ namespace Tools.LocalServer
 
     class u
     {
-        private LocalServer _localServer;
+        private LocalServer? _localServer;
 
         public void StartServer()
         {
