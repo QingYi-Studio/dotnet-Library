@@ -1,25 +1,23 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Title>LocalServer</Title>
-    <Company>QingYi-Studio</Company>
+    <Title>Tools.LogRecord</Title>
+    <Version>1.0.0</Version>
     <Authors>QingYi-Studio</Authors>
-    <Version>1.3.0</Version>
-    <Copyright>AGPL-3.0</Copyright>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/QingYi-Studio/CSharp-Library</PackageProjectUrl>
     <RepositoryUrl>https://github.com/QingYi-Studio/CSharp-Library</RepositoryUrl>
-    <PackageReadmeFile>readme.md</PackageReadmeFile>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>Server;Local;Website</PackageTags>
-    <AssemblyVersion>1.1.0</AssemblyVersion>
-    <FileVersion>1.3.0</FileVersion>
+    <PackageTags>Log;Record;Output</PackageTags>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-    <SignAssembly>False</SignAssembly>
+    <Copyright>AGPL-3.0</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
