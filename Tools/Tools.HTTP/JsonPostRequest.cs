@@ -1,9 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Net.Http;
-using Newtonsoft.Json;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace Tools.HTTP
 {
