@@ -40,7 +40,7 @@ namespace Tools.HTTP
             }
         }
     }
-    class Test
+    internal class Test
     {
         public static async Task JsonData()
         {
