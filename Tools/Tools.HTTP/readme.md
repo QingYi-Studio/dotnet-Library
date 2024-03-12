@@ -96,3 +96,19 @@ static async Task Main()
     Console.WriteLine(response);
 }
 ```
+
+### Proxy Http Client
+
+```c#
+static void Main()
+{
+    ProxyHttpClient client = new ProxyHttpClient();
+    string response = client.Get("https://www.example.com");
+    Console.WriteLine(response);
+
+    // If you need to initiate a POST request, you can use the following code
+    // string postData = "key1=value1&key2=value2";
+    // string postResponse = client.Post("https://www.example.com/api", postData);
+    // Console.WriteLine(postResponse);
+}
+```
