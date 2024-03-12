@@ -64,3 +64,18 @@ static async Task Main(string[] args)
     Console.WriteLine(response);
 }
 ```
+
+### Get Response Header
+
+```c#
+static void Main(string[] args)
+{
+    string url = "https://www.example.com";
+    bool useHttps = true; // or false, default false
+    GetResponseHeader headerGetter = new GetResponseHeader();
+    string header = headerGetter.GetHeader(url, useHttps);
+    Console.WriteLine(header);
+}
+```
+
+### Http Get Request With Params
