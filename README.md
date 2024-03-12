@@ -27,3 +27,7 @@ A simple package optimizes natively deleted code to make it easier to use.
 #### [Tools.Delete.Async](https://www.nuget.org/packages/Tools.Delete.Async/)
 
 An asynchronous version of the Tools.Delete package that allows for asynchronous deletion.
+
+### [Tools.HTTP](https://www.nuget.org/packages/Tools.HTTP/)
+
+A library that contains most of the basic HTTP/HTTPS communication.

@@ -27,3 +27,7 @@ Tools.Shell的子库，使用DataFlow读取输出。
 #### [Tools.Delete.Async](https://www.nuget.org/packages/Tools.Delete.Async/)
 
 Tools.Delete的异步版本。
+
+### [Tools.HTTP](https://www.nuget.org/packages/Tools.HTTP/)
+
+一个包含大多数基本HTTP/HTTPS通信的类库。
