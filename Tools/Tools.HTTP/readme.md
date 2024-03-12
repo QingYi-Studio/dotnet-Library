@@ -112,3 +112,87 @@ static void Main()
     // Console.WriteLine(postResponse);
 }
 ```
+
+### Http Post File Uploader
+
+```c#
+static async Task Main(string[] args)
+{
+    var uploader = new HttpPostFileUploader();
+            
+    try
+    {
+        var url = "https://example.com/upload";
+        var filePath = "path/to/file.txt";
+                
+        var response = await uploader.UploadFile(url, filePath);
+        Console.WriteLine($"Upload successful. Response: {response}");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error occurred: {ex.Message}");
+    }
+}
+```
+
+### Secure Http Client
+
+```c#
+static async Task Main(string[] args)
+{
+    string url = "https://example.com/api/data";
+    string certificateFilePath = "path_to_certificate_file.pfx";
+    string certificatePassword = "certificate_password";
+
+    var httpClient = new SecureHttpClient(certificateFilePath, certificatePassword);
+    var response = await httpClient.GetAsync(url);
+
+    Console.WriteLine(response);
+}
+```
+
+### Put Request Client
+
+```c#
+static async Task Main(string[] args)
+{
+    string url = "https://example.com/api/resource";
+    string requestBody = "{\"key\": \"value\"}";
+
+    var putClient = new PutRequestClient();
+    var response = await putClient.SendPutRequestAsync(url, requestBody);
+
+    Console.WriteLine(response);
+}
+```
+
+### Patch Request Client
+
+```c#
+static async Task Main(string[] args)
+{
+    string url = "https://example.com/api/resource";
+    string requestBody = "{\"key\": \"value\"}";
+    var customHeaders = new HttpHeaders();
+    customHeaders.Add("Authorization", "Bearer your_access_token");
+
+    var patchClient = new PatchRequestClient();
+    var response = await patchClient.SendPatchRequestAsync(url, requestBody, customHeaders);
+
+    Console.WriteLine(response);
+}
+```
+
+### Cookie Request Client
+
+```c#
+static async Task Main(string[] args)
+{
+    string url = "https://example.com/api/resource";
+
+    var cookieClient = new CookieRequestClient();
+    var response = await cookieClient.SendRequestWithCookieAsync(url);
+
+    Console.WriteLine(response);
+}
+```
