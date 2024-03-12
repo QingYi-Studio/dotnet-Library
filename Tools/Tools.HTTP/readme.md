@@ -79,3 +79,20 @@ static void Main(string[] args)
 ```
 
 ### Http Get Request With Params
+
+```c#
+static async Task Main()
+{
+    var getRequestHelper = new HttpGetRequestWithParams();
+    var queryParams = new Dictionary<string, string>
+    {
+        { "key1", "value1" },
+        { "key2", "value2" }
+    };
+
+    string url = "https://api.example.com/data";
+    string response = await getRequestHelper.GetAsync(url, queryParams);
+
+    Console.WriteLine(response);
+}
+```
