@@ -1,6 +1,6 @@
 ﻿# Tools.HTTP
 
-A class library that contains most of the basic HTTP communication.
+A library that contains most of the basic HTTP/HTTPS communication.
 
 Attention:
 - 1.0.0 and later are for .NET 8.0
