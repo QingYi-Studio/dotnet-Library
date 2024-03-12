@@ -8,7 +8,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tools.LocalServer", "Tools.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tools.LogRecord", "Tools.LogRecord\Tools.LogRecord.csproj", "{EC8AC6C3-CD5E-4D75-B2C7-8C20A79813C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.Shell.DataFlow", "Tools.Shell.DataFlow\Tools.Shell.DataFlow.csproj", "{39AC7797-48DD-40E3-99A8-B313209D87D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tools.Shell.DataFlow", "Tools.Shell.DataFlow\Tools.Shell.DataFlow.csproj", "{39AC7797-48DD-40E3-99A8-B313209D87D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.Delete", "Tools.Delete\Tools.Delete.csproj", "{CF931FD8-ED36-493B-B4B8-1450A8325DDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.Delete.Async", "Tools.Delete.Async\Tools.Delete.Async.csproj", "{DCC7030D-861B-48B0-BDCE-1DD61BEA945C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +45,18 @@ Global
 		{39AC7797-48DD-40E3-99A8-B313209D87D9}.Publish|Any CPU.Build.0 = Debug|Any CPU
 		{39AC7797-48DD-40E3-99A8-B313209D87D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39AC7797-48DD-40E3-99A8-B313209D87D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF931FD8-ED36-493B-B4B8-1450A8325DDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF931FD8-ED36-493B-B4B8-1450A8325DDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF931FD8-ED36-493B-B4B8-1450A8325DDB}.Publish|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF931FD8-ED36-493B-B4B8-1450A8325DDB}.Publish|Any CPU.Build.0 = Debug|Any CPU
+		{CF931FD8-ED36-493B-B4B8-1450A8325DDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF931FD8-ED36-493B-B4B8-1450A8325DDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCC7030D-861B-48B0-BDCE-1DD61BEA945C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCC7030D-861B-48B0-BDCE-1DD61BEA945C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCC7030D-861B-48B0-BDCE-1DD61BEA945C}.Publish|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCC7030D-861B-48B0-BDCE-1DD61BEA945C}.Publish|Any CPU.Build.0 = Debug|Any CPU
+		{DCC7030D-861B-48B0-BDCE-1DD61BEA945C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCC7030D-861B-48B0-BDCE-1DD61BEA945C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
