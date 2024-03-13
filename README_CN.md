@@ -31,3 +31,11 @@ Tools.Delete的异步版本。
 ### [Tools.HTTP](https://www.nuget.org/packages/Tools.HTTP/)
 
 一个包含大多数基本HTTP/HTTPS通信的类库。
+
+### [Tools.Encrypt](https://www.nuget.org/packages/Tools.Encrypt)
+
+一个更简易加密的C#库。
+
+### [Tools.Decrypt](https://www.nuget.org/packages/Tools.Decrypt)
+
+一个更简易解密的C#库。
