@@ -1,4 +1,4 @@
-﻿# Tools.Encrypt
+# Tools.Encrypt
 
 A C# library for easier encryption.
 
