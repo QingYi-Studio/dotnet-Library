@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tools.Delete", "Tools.Delet
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tools.Delete.Async", "Tools.Delete.Async\Tools.Delete.Async.csproj", "{DCC7030D-861B-48B0-BDCE-1DD61BEA945C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.HTTP", "Tools.HTTP\Tools.HTTP.csproj", "{0CD28FCE-405E-4B87-9CA8-3F6B49C2759E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tools.HTTP", "Tools.HTTP\Tools.HTTP.csproj", "{0CD28FCE-405E-4B87-9CA8-3F6B49C2759E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
