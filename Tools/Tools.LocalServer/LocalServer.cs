@@ -82,7 +82,7 @@ namespace Tools.LocalServer
         }
     }
 
-    class u
+    class U
     {
         private LocalServer? _localServer;
 

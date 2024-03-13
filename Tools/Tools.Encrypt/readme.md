@@ -1,9 +1,10 @@
-﻿# Tools.Encrypt
+# Tools.Encrypt
 
 A C# library for easier encryption.
 
 Attention:
 - 1.0.0 is for .NET 6.0
+- 1.1.0 and later are for .NET 8.0
 
 ## Usage
 
