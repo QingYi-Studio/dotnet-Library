@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Tools.Encrypt</Title>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
     <Authors>QingYi-Studio</Authors>
     <Description>A C# library for easier encryption.</Description>
     <Copyright>AGPL-3.0</Copyright>
@@ -16,7 +16,7 @@
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <PackageTags>Encrypt;MD5;HMAC;SHA;Text</PackageTags>
     <AssemblyVersion>1.0.0</AssemblyVersion>
-    <FileVersion>1.0.0</FileVersion>
+    <FileVersion>1.1.0</FileVersion>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
   </PropertyGroup>
