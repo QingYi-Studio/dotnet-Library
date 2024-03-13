@@ -31,3 +31,11 @@ An asynchronous version of the Tools.Delete package that allows for asynchronous
 ### [Tools.HTTP](https://www.nuget.org/packages/Tools.HTTP/)
 
 A library that contains most of the basic HTTP/HTTPS communication.
+
+### [Tools.Encrypt](https://www.nuget.org/packages/Tools.Encrypt)
+
+A C# library for easier encryption.
+
+### [Tools.Decrypt](https://www.nuget.org/packages/Tools.Decrypt)
+
+A C# library for easier decryption.
