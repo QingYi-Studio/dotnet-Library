@@ -10,6 +10,10 @@
 
 Tools.Shell的子库，使用DataFlow读取输出。
 
+#### [Tools.Shell.Async](https://www.nuget.org/packages/Tools.Shell.Async)
+
+异步运行Tools.Sh
+
 ### [Tools.LocalServer](https://www.nuget.org/packages/Tools.LocalServer/)
 
 一个C#库，可以很轻松地打开本地服务器。
@@ -39,3 +43,9 @@ Tools.Delete的异步版本。
 ### [Tools.Decrypt](https://www.nuget.org/packages/Tools.Decrypt)
 
 一个更简易解密的C#库。
+
+## WPF
+
+### [WPF.MultiLanguage](https://www.nuget.org/packages/WPF.MultiLanguage/)
+
+该库通过读取JSON文件并相应地修改控件属性，简化了对WPF接口的动态更新。它增强了灵活性和代码可重用性，支持基于外部数据源的轻松定制。
