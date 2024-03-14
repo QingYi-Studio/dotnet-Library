@@ -10,6 +10,10 @@ A library made by Qing-Yi Studio to make it easier to execute Cmd or PowerShell 
 
 A subcomponent of the Tools.Shell module that uses DataFlow to read Shell output.
 
+#### [Tools.Shell.Async](https://www.nuget.org/packages/Tools.Shell.Async)
+
+ Run Tools.Shell asynchronously.
+
 ### [Tools.LocalServer](https://www.nuget.org/packages/Tools.LocalServer/)
 
 A C# library that can open a local server easily.
@@ -39,3 +43,9 @@ A C# library for easier encryption.
 ### [Tools.Decrypt](https://www.nuget.org/packages/Tools.Decrypt)
 
 A C# library for easier decryption.
+
+## WPF
+
+### [WPF.MultiLanguage](https://www.nuget.org/packages/WPF.MultiLanguage/)
+
+This library simplifies dynamic updates to WPF interface by reading JSON files and modifying control properties accordingly. It enhances flexibility and code reusability, enabling easy customization based on external data sources.
