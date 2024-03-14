@@ -10,17 +10,18 @@
     <Title>Tools.Shell</Title>
     <Authors>QingYi-Studio</Authors>
     <Copyright>AGPL-3.0</Copyright>
-    <PackageProjectUrl>https://github.com/QingYi-Studio/CSharp-Library</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/QingYi-Studio/dotnet-Library</PackageProjectUrl>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/QingYi-Studio/CSharp-Library</RepositoryUrl>
+    <RepositoryUrl>https://github.com/QingYi-Studio/dotnet-Library</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <FileVersion>1.4.0</FileVersion>
-    <AssemblyVersion>1.2.0</AssemblyVersion>
+    <FileVersion>1.4.1</FileVersion>
+    <AssemblyVersion>1.2.1</AssemblyVersion>
     <PackageTags>Shell;Cmd;Powershell</PackageTags>
     <Description>A package to run cmd or powershell command easily.</Description>
-    <Version>1.4.0</Version>
+    <Version>1.4.1</Version>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <RunAnalyzersDuringBuild>True</RunAnalyzersDuringBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Publish|AnyCPU'">
