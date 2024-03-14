@@ -153,16 +153,5 @@ namespace Tools.Shell
                 }
             }
         }
-
-        class T
-        {
-            static void D()
-            {
-                string cmdcommand = "ipconfig";
-                string pscommand = "ls";
-                Cmd.User.ExecuteCmdCommand(cmdcommand);
-                PowerShell.User.ExecutePowerShellCommand(pscommand);
-            }
-        }
     }
 }
