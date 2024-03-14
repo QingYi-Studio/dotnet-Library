@@ -7,7 +7,7 @@ namespace Tools.LocalServer
         private string? _rootFolder;
         private bool _showConsole;
 
-        public string RootFolder => _rootFolder;
+        public string RootFolder => _rootFolder!;
 
         public void Initialize(string rootFolder)
         {
@@ -18,7 +18,7 @@ namespace Tools.LocalServer
         {
             _showConsole = showConsole;
 
-            Thread serverThread = new Thread(() =>
+            Thread serverThread = new(() =>
             {
                 var protocol = useHttps ? "https" : "http";
                 var listener = new HttpListener();
@@ -32,17 +32,15 @@ namespace Tools.LocalServer
                     while (true)
                     {
                         var context = listener.GetContext();
-                        var requestUrl = context.Request.Url.AbsolutePath;
-                        var filePath = Path.Combine(_rootFolder, requestUrl.TrimStart('/'));
+                        var requestUrl = context.Request.Url!.AbsolutePath;
+                        var filePath = Path.Combine(_rootFolder!, requestUrl.TrimStart('/'));
 
                         if (File.Exists(filePath))
                         {
-                            using (var fileStream = File.OpenRead(filePath))
-                            {
-                                context.Response.ContentType = "application/octet-stream";
-                                context.Response.ContentLength64 = new FileInfo(filePath).Length;
-                                fileStream.CopyTo(context.Response.OutputStream);
-                            }
+                            using var fileStream = File.OpenRead(filePath);
+                            context.Response.ContentType = "application/octet-stream";
+                            context.Response.ContentLength64 = new FileInfo(filePath).Length;
+                            fileStream.CopyTo(context.Response.OutputStream);
                         }
                         else
                         {

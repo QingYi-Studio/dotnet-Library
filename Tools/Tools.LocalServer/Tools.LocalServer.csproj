@@ -8,18 +8,20 @@
     <Title>LocalServer</Title>
     <Company>QingYi-Studio</Company>
     <Authors>QingYi-Studio</Authors>
-    <Version>1.3.0</Version>
+    <Version>1.3.1</Version>
     <Copyright>AGPL-3.0</Copyright>
-    <PackageProjectUrl>https://github.com/QingYi-Studio/CSharp-Library</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/QingYi-Studio/CSharp-Library</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/QingYi-Studio/dotnet-Library</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/QingYi-Studio/dotnet-Library</RepositoryUrl>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Server;Local;Website</PackageTags>
-    <AssemblyVersion>1.1.0</AssemblyVersion>
-    <FileVersion>1.3.0</FileVersion>
+    <AssemblyVersion>1.1.1</AssemblyVersion>
+    <FileVersion>1.3.1</FileVersion>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <SignAssembly>False</SignAssembly>
+    <Description>A C# library that can open a local server easily.
+You can use it to test you website, such as static html file.</Description>
   </PropertyGroup>
 
   <ItemGroup>
