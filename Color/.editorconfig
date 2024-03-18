@@ -1,0 +1,7 @@
+﻿[*.cs]
+
+# IDE0059: 不需要赋值
+dotnet_diagnostic.IDE0059.severity = none
+
+# IDE0018: 内联变量声明
+dotnet_diagnostic.IDE0018.severity = none
