@@ -16,8 +16,7 @@ The purpose of this library is to allow WPF applications to dynamically update t
 
 **Warn**: Now we only support button and label, if you want more, please send an issue on [GitHub](https://github.com/QingYi-Studio/CSharp-Library).
 
-Attention:
-- 1.0.0 and later is for .NET 8.0
+Support .NET 6.0 to .NET 8.0.
 
 ## Usage
 
@@ -42,7 +41,7 @@ namespace WpfApp1
 
         private async void Cn_ClickAsync(object sender, RoutedEventArgs e)
         {
-            await Translate.ReadJsonFileAsync("language", "cn", this);
+            await Translate.ChangeLanguageAsync("language", "zh-cn", this);
         }
     }
 }
