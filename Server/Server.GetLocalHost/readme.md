@@ -11,6 +11,7 @@ Support .NET 6.0 to .NET 8.0 (Windows only).
 ### Get Local IP
 
 ```c#
+string LocalIP;
 LocalIP = IP.GetIP();
 Console.Writeline(LocalIP);
 ```
