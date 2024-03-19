@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# IDE0019: 使用模式匹配
+dotnet_diagnostic.IDE0019.severity = none

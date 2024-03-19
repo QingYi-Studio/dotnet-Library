@@ -20,7 +20,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tools.Encrypt", "Tools.Encr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tools.Decrypt", "Tools.Decrypt\Tools.Decrypt.csproj", "{E106E265-137F-425C-AC17-0BF5B353DE57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.Shell.Async", "Tools.Shell.Async\Tools.Shell.Async.csproj", "{53426DFF-0D04-4C12-8B81-63B794C4143C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tools.Shell.Async", "Tools.Shell.Async\Tools.Shell.Async.csproj", "{53426DFF-0D04-4C12-8B81-63B794C4143C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.ExternalAppOpen", "Tools.ExternalAppOpen\Tools.ExternalAppOpen.csproj", "{4061CAE2-439C-4259-B044-B1E1D4FD4CCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,6 +70,10 @@ Global
 		{53426DFF-0D04-4C12-8B81-63B794C4143C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53426DFF-0D04-4C12-8B81-63B794C4143C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53426DFF-0D04-4C12-8B81-63B794C4143C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4061CAE2-439C-4259-B044-B1E1D4FD4CCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4061CAE2-439C-4259-B044-B1E1D4FD4CCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4061CAE2-439C-4259-B044-B1E1D4FD4CCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4061CAE2-439C-4259-B044-B1E1D4FD4CCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
