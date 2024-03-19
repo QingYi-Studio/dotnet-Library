@@ -13,6 +13,31 @@
     <RepositoryUrl>https://github.com/QingYi-Studio/dotnet-Library</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Description>A C# Library that can get some local info about the server.</Description>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageTags>Server;Local;Host;IP;Port</PackageTags>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="readme.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+  </ItemGroup>
 
 </Project>
