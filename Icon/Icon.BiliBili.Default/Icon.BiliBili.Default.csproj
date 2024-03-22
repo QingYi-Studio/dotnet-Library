@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Icon.BiliBili.Default</Title>
+    <Version>1.0.0</Version>
+    <Authors>QingYi-Studio</Authors>
+    <Description>A package to use some BiliBili meme.</Description>
+    <Copyright>AGPL-3.0</Copyright>
+    <PackageProjectUrl>https://github.com/QingYi-Studio/dotnet-Library</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/QingYi-Studio/dotnet-Library</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Meme;BiliBili;Icon</PackageTags>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="2024\14year.png" />
+    <None Remove="2024\2024.png" />
+    <None Remove="2024\dragon-year.png" />
+    <None Remove="Icon1.ico" />
+    <None Remove="readme.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="2024\14year.png" />
+    <EmbeddedResource Include="2024\2024.png" />
+    <EmbeddedResource Include="2024\dragon-year.png" />
+    <EmbeddedResource Include="Icon1.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </Page>
+  </ItemGroup>
+
+</Project>
