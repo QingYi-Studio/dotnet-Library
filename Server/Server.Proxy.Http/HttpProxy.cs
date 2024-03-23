@@ -1,25 +1,20 @@
-﻿using System;
-using System.IO;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
 
 namespace Server.Proxy.Http
 {
     public class HttpProxy
     {
         private int port;
-        private string username;
-        private string password;
         private bool useIPv6;
+        private bool outputDetails;
 
-        public HttpProxy(int port, string? username = null, string? password = null, bool useIPv6 = false)
+        public HttpProxy(int port = 8080, bool useIPv6 = false, bool outputDetails = false)
         {
             this.port = port;
-            this.username = username!;
-            this.password = password!;
             this.useIPv6 = useIPv6;
+            this.outputDetails = outputDetails;
         }
 
         public void Start()
@@ -39,35 +34,54 @@ namespace Server.Proxy.Http
             while (true)
             {
                 TcpClient client = listener.AcceptTcpClient();
-                HandleClient(client);
+                Thread clientThread = new(() => HandleClient(client));
+                clientThread.Start();
             }
         }
 
         private void HandleClient(TcpClient client)
         {
-            NetworkStream clientStream = client.GetStream();
-            byte[] buffer = new byte[4096];
-            int bytesRead;
+            IPAddress localIpAddress = GetLocalIpAddress();
 
-            while ((bytesRead = clientStream.Read(buffer, 0, buffer.Length)) > 0)
+            using (TcpClient localServer = new(localIpAddress.ToString(), 8080)) // 假设中转到本机的 8080 端口
             {
-                // 在这里可以处理客户端发送过来的数据，并根据HTTP/HTTPS协议进行转发
-                targetServerStream.Write(buffer, 0, bytesRead);
+                NetworkStream clientStream = client.GetStream();
+                NetworkStream localServerStream = localServer.GetStream();
+
+                try
+                {
+                    byte[] buffer = new byte[4096];
+                    int bytesRead;
+                    while ((bytesRead = clientStream.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        localServerStream.Write(buffer, 0, bytesRead);
+                        if (outputDetails)
+                        {
+                            Console.WriteLine($"Sent {bytesRead} bytes to the server: {Encoding.UTF8.GetString(buffer, 0, bytesRead)}");
+                        }
+                    }
+
+                    // 省略部分代码
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred: {ex.Message}");
+                }
             }
 
             client.Close();
-
         }
 
         private IPAddress GetLocalIpAddress()
         {
+            IPAddress[] addresses = Dns.GetHostAddresses(Dns.GetHostName());
             if (useIPv6)
             {
-                return Dns.GetHostAddresses(Dns.GetHostName()).FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetworkV6)!;
+                return addresses.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetworkV6) ?? IPAddress.IPv6Loopback;
             }
             else
             {
-                return Dns.GetHostAddresses(Dns.GetHostName()).FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork)!;
+                return addresses.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork) ?? IPAddress.Loopback;
             }
         }
     }
