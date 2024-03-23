@@ -1,4 +1,3 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34701.34
@@ -12,9 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.LocalServer", "Server.LocalServer\Server.LocalServer.csproj", "{79EF43D9-C462-484F-88F4-862499C56735}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.ShareProxy", "Tools.ShareProxy\Tools.ShareProxy.csproj", "{3D515285-D521-47DF-AAA4-74791FE67447}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tools.ShareProxy", "Tools.ShareProxy\Tools.ShareProxy.csproj", "{3D515285-D521-47DF-AAA4-74791FE67447}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Server.Hotspot", "Server.Hotspot\Server.Hotspot.vbproj", "{8B409895-67E6-465D-B55F-DC0D24768494}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "Server.Hotspot", "Server.Hotspot\Server.Hotspot.vbproj", "{8B409895-67E6-465D-B55F-DC0D24768494}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.Proxy.Http", "Server.Proxy.Http\Server.Proxy.Http.csproj", "{6736EA2D-C85D-495A-BD53-74EB95DAD526}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.GetLocalIP", "Server.GetLocalIP\Server.GetLocalIP.csproj", "{5BA14227-9676-44B2-85F6-828605CD3B57}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +41,14 @@ Global
 		{8B409895-67E6-465D-B55F-DC0D24768494}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B409895-67E6-465D-B55F-DC0D24768494}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B409895-67E6-465D-B55F-DC0D24768494}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6736EA2D-C85D-495A-BD53-74EB95DAD526}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6736EA2D-C85D-495A-BD53-74EB95DAD526}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6736EA2D-C85D-495A-BD53-74EB95DAD526}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6736EA2D-C85D-495A-BD53-74EB95DAD526}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BA14227-9676-44B2-85F6-828605CD3B57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BA14227-9676-44B2-85F6-828605CD3B57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BA14227-9676-44B2-85F6-828605CD3B57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BA14227-9676-44B2-85F6-828605CD3B57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
