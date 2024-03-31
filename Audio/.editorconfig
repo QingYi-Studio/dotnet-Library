@@ -1,0 +1,7 @@
+﻿[*.cs]
+
+# IDE0039: 使用本地函数
+dotnet_diagnostic.IDE0039.severity = none
+
+# IDE0052: 删除未读的私有成员
+dotnet_diagnostic.IDE0052.severity = none

@@ -1,4 +1,4 @@
-# C# Library
+# .NET Library
 
 ## Tools
 
@@ -20,7 +20,7 @@ A C# library that can open a local server easily.
 
 You can use it to test you website, such as static html file.
 
-### [Tools.LogRecord](https://www.nuget.org/packages/Tools.LogRecord)
+### [Tools.LogRecord](https://www.nuget.org/packages/Tools.LogRecord) **[Deprecate]**
 
 A library made by Qing-Yi Studio to make it easier to record logs or record the output.
 
@@ -44,8 +44,28 @@ A C# library for easier encryption.
 
 A C# library for easier decryption.
 
+### [Tools.ExternalAppOpen](https://www.nuget.org/packages/Tools.ExternalAppOpen)
+
+A small library for opening files using external applications.
+
 ## WPF
 
 ### [WPF.MultiLanguage](https://www.nuget.org/packages/WPF.MultiLanguage/)
 
 This library simplifies dynamic updates to WPF interface by reading JSON files and modifying control properties accordingly. It enhances flexibility and code reusability, enabling easy customization based on external data sources.
+
+## Color
+
+### [Color.Conversion](https://www.nuget.org/packages/Color.Conversion)
+
+ A C# library that can quickly convert multiple color types.
+
+## Server
+
+### [Server.GetLocalHost](https://www.nuget.org/packages/Server.GetLocalHost)
+
+A C# Library that can get some local info about the server.
+
+### [Server.LocalServer](https://www.nuget.org/packages/Server.LocalServer)
+
+A C# library that can open a local server easily.
