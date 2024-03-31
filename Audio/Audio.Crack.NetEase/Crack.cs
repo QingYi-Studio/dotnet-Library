@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Audio.Crack.NetEase
+﻿namespace Audio.Crack.NetEase
 {
     public class Crack
     {

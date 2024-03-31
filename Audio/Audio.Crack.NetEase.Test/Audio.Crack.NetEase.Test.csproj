@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Audio.Crack.NetEase.Auto\Audio.Crack.NetEase.Auto.csproj" />
     <ProjectReference Include="..\Audio.Crack.NetEase\Audio.Crack.NetEase.csproj" />
   </ItemGroup>
 
