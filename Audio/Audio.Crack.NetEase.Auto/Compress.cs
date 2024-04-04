@@ -1,7 +1,10 @@
 ﻿using System.IO.Compression;
+using ICSharpCode.SharpZipLib.Zip;
 using SevenZip;
 using SharpCompress.Archives;
 using SharpCompress.Archives.Rar;
+using SharpCompress.Common;
+using SharpCompress.Common.Zip;
 
 namespace Audio.Crack.NetEase.Auto
 {
@@ -13,8 +16,8 @@ namespace Audio.Crack.NetEase.Auto
             {
                 public static void CrackAndPack(string inputZipPath, string outputZipPath)
                 {
-                    using ZipArchive inputArchive = ZipFile.OpenRead(inputZipPath);
-                    using ZipArchive outputArchive = ZipFile.Open(outputZipPath, ZipArchiveMode.Create);
+                    using ZipArchive inputArchive = System.IO.Compression.ZipFile.OpenRead(inputZipPath);
+                    using ZipArchive outputArchive = System.IO.Compression.ZipFile.Open(outputZipPath, ZipArchiveMode.Create);
                     foreach (ZipArchiveEntry entry in inputArchive.Entries)
                     {
                         if (entry.FullName.EndsWith(".ncm", System.StringComparison.OrdinalIgnoreCase))
@@ -38,8 +41,8 @@ namespace Audio.Crack.NetEase.Auto
             {
                 public static async Task CrackAndPackAsync(string inputZipPath, string outputZipPath)
                 {
-                    using ZipArchive inputArchive = ZipFile.OpenRead(inputZipPath);
-                    using ZipArchive outputArchive = ZipFile.Open(outputZipPath, ZipArchiveMode.Create);
+                    using ZipArchive inputArchive = System.IO.Compression.ZipFile.OpenRead(inputZipPath);
+                    using ZipArchive outputArchive = System.IO.Compression.ZipFile.Open(outputZipPath, ZipArchiveMode.Create);
                     List<Task> crackingTasks = [];
 
                     foreach (ZipArchiveEntry entry in inputArchive.Entries)
@@ -79,7 +82,7 @@ namespace Audio.Crack.NetEase.Auto
                 public static void CrackAndPack(string inputRarPath, string outputZipPath)
                 {
                     using var archive = RarArchive.Open(inputRarPath);
-                    using ZipArchive outputArchive = ZipFile.Open(outputZipPath, ZipArchiveMode.Create);
+                    using ZipArchive outputArchive = System.IO.Compression.ZipFile.Open(outputZipPath, ZipArchiveMode.Create);
                     foreach (var entry in archive.Entries)
                     {
                         if (entry.Key.EndsWith(".ncm", StringComparison.OrdinalIgnoreCase))
@@ -104,7 +107,7 @@ namespace Audio.Crack.NetEase.Auto
                 public static async Task CrackAndPackAsync(string inputRarPath, string outputZipPath)
                 {
                     using var archive = RarArchive.Open(inputRarPath);
-                    using ZipArchive outputArchive = ZipFile.Open(outputZipPath, ZipArchiveMode.Create);
+                    using ZipArchive outputArchive = System.IO.Compression.ZipFile.Open(outputZipPath, ZipArchiveMode.Create);
                     List<Task> crackingTasks = [];
 
                     foreach (var entry in archive.Entries)
@@ -144,7 +147,7 @@ namespace Audio.Crack.NetEase.Auto
                 public static void CrackAndPack(string input7zPath, string outputZipPath)
                 {
                     using SevenZipExtractor extractor = new(input7zPath);
-                    using ZipArchive outputArchive = ZipFile.Open(outputZipPath, ZipArchiveMode.Create);
+                    using ZipArchive outputArchive = System.IO.Compression.ZipFile.Open(outputZipPath, ZipArchiveMode.Create);
                     foreach (var entry in extractor.ArchiveFileData)
                     {
                         if (entry.FileName.EndsWith(".ncm", StringComparison.OrdinalIgnoreCase))
@@ -172,7 +175,7 @@ namespace Audio.Crack.NetEase.Auto
                 public static async Task CrackAndPackAsync(string input7zPath, string outputZipPath)
                 {
                     using SevenZipExtractor extractor = new(input7zPath);
-                    using ZipArchive outputArchive = ZipFile.Open(outputZipPath, ZipArchiveMode.Create);
+                    using ZipArchive outputArchive = System.IO.Compression.ZipFile.Open(outputZipPath, ZipArchiveMode.Create);
                     List<Task> crackingTasks = [];
 
                     foreach (var entry in extractor.ArchiveFileData)
@@ -297,7 +300,7 @@ namespace Audio.Crack.NetEase.Auto
             {
                 var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
                 Directory.CreateDirectory(tempDir);
-                ZipFile.ExtractToDirectory(tarFilePath, tempDir);
+                System.IO.Compression.ZipFile.ExtractToDirectory(tarFilePath, tempDir);
                 return tempDir;
             }
 
@@ -362,7 +365,7 @@ namespace Audio.Crack.NetEase.Auto
             private static void CreateZip(string zipFileName, IEnumerable<string> files)
             {
                 // 创建新的 .zip 文件
-                using ZipArchive archive = ZipFile.Open(zipFileName, ZipArchiveMode.Create);
+                using ZipArchive archive = System.IO.Compression.ZipFile.Open(zipFileName, ZipArchiveMode.Create);
                 // 将所有文件添加到 .zip 文件中
                 foreach (string filePath in files)
                 {
@@ -393,6 +396,276 @@ namespace Audio.Crack.NetEase.Auto
                         }
                     }
                 }
+
+                return tempDirectory;
+            }
+        }
+
+        public class BZip
+        {
+            public static void SyncCrackAndZip(string bzFilePath, string exportFileName)
+            {
+                string tempDirectory = ExtractBz(bzFilePath);
+                string[] ncmFiles = Directory.GetFiles(tempDirectory, "*.ncm", SearchOption.AllDirectories);
+
+                foreach (string ncmFile in ncmFiles)
+                {
+                    Crack.CrackAudio(ncmFile);
+                }
+
+                CreateZip(exportFileName, ncmFiles);
+                Directory.Delete(tempDirectory, true);
+            }
+
+            public static async Task AsyncCrackAndZip(string bzFilePath, string exportFileName)
+            {
+                string tempDirectory = ExtractBz(bzFilePath);
+                string[] ncmFiles = Directory.GetFiles(tempDirectory, "*.ncm", SearchOption.AllDirectories);
+
+                await Task.WhenAll(ncmFiles.Select(async ncmFile =>
+                {
+                    await Task.Run(() => Crack.CrackAudio(ncmFile));
+                }));
+
+                CreateZip(exportFileName, ncmFiles);
+                Directory.Delete(tempDirectory, true);
+            }
+
+            private static void CreateZip(string zipFileName, IEnumerable<string> files)
+            {
+                using ZipArchive archive = System.IO.Compression.ZipFile.Open(zipFileName, ZipArchiveMode.Create);
+                foreach (string filePath in files)
+                {
+                    archive.CreateEntryFromFile(filePath, Path.GetFileName(filePath));
+                }
+            }
+
+            private static string ExtractBz(string bzFilePath)
+            {
+                string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+                Directory.CreateDirectory(tempDirectory);
+
+                using (var stream = File.OpenRead(bzFilePath))
+                {
+                    using var archive = ArchiveFactory.Open(stream);
+                    foreach (var entry in archive.Entries)
+                    {
+                        if (!entry.IsDirectory)
+                        {
+                            entry.WriteToDirectory(tempDirectory, new ExtractionOptions() { ExtractFullPath = true, Overwrite = true });
+                        }
+                    }
+                }
+
+                return tempDirectory;
+            }
+        }
+
+        public class BZip2
+        {
+            public static void SyncCrackAndZip(string bz2FilePath, string exportFileName)
+            {
+                string tempDirectory = ExtractBz2(bz2FilePath);
+                string[] ncmFiles = Directory.GetFiles(tempDirectory, "*.ncm", SearchOption.AllDirectories);
+
+                foreach (string ncmFile in ncmFiles)
+                {
+                    Crack.CrackAudio(ncmFile);
+                }
+
+                CreateZip(exportFileName, ncmFiles);
+                Directory.Delete(tempDirectory, true);
+            }
+
+            public static async Task AsyncCrackAndZip(string bz2FilePath, string exportFileName)
+            {
+                string tempDirectory = ExtractBz2(bz2FilePath);
+                string[] ncmFiles = Directory.GetFiles(tempDirectory, "*.ncm", SearchOption.AllDirectories);
+
+                await Task.WhenAll(ncmFiles.Select(async ncmFile =>
+                {
+                    await Task.Run(() => Crack.CrackAudio(ncmFile));
+                }));
+
+                CreateZip(exportFileName, ncmFiles);
+                Directory.Delete(tempDirectory, true);
+            }
+
+            private static void CreateZip(string zipFileName, IEnumerable<string> files)
+            {
+                using ZipArchive archive = System.IO.Compression.ZipFile.Open(zipFileName, ZipArchiveMode.Create);
+                foreach (string filePath in files)
+                {
+                    archive.CreateEntryFromFile(filePath, Path.GetFileName(filePath));
+                }
+            }
+
+            private static string ExtractBz2(string bz2FilePath)
+            {
+                string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+                Directory.CreateDirectory(tempDirectory);
+
+                using (var stream = File.OpenRead(bz2FilePath))
+                {
+                    using var archive = ArchiveFactory.Open(stream);
+                    foreach (var entry in archive.Entries)
+                    {
+                        if (!entry.IsDirectory)
+                        {
+                            entry.WriteToDirectory(tempDirectory, new ExtractionOptions() { ExtractFullPath = true, Overwrite = true });
+                        }
+                    }
+                }
+
+                return tempDirectory;
+            }
+        }
+
+        public class TarBZip2
+        {
+            public static void SyncCrackAndZip(string tarBz2FilePath, string exportFileName)
+            {
+                string tempDirectory = ExtractTarBz2(tarBz2FilePath);
+                string[] ncmFiles = Directory.GetFiles(tempDirectory, "*.ncm", SearchOption.AllDirectories);
+
+                foreach (string ncmFile in ncmFiles)
+                {
+                    Crack.CrackAudio(ncmFile);
+                }
+
+                CreateZip(exportFileName, ncmFiles);
+                Directory.Delete(tempDirectory, true);
+            }
+
+            public static async Task AsyncCrackAndZip(string tarBz2FilePath, string exportFileName)
+            {
+                string tempDirectory = ExtractTarBz2(tarBz2FilePath);
+                string[] ncmFiles = Directory.GetFiles(tempDirectory, "*.ncm", SearchOption.AllDirectories);
+
+                await Task.WhenAll(ncmFiles.Select(async ncmFile =>
+                {
+                    await Task.Run(() => Crack.CrackAudio(ncmFile));
+                }));
+
+                CreateZip(exportFileName, ncmFiles);
+                Directory.Delete(tempDirectory, true);
+            }
+
+            private static void CreateZip(string zipFileName, IEnumerable<string> files)
+            {
+                using ZipArchive archive = System.IO.Compression.ZipFile.Open(zipFileName, ZipArchiveMode.Create);
+                foreach (string filePath in files)
+                {
+                    archive.CreateEntryFromFile(filePath, Path.GetFileName(filePath));
+                }
+            }
+
+            private static string ExtractTarBz2(string tarBz2FilePath)
+            {
+                string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+                Directory.CreateDirectory(tempDirectory);
+
+                using (Stream stream = File.OpenRead(tarBz2FilePath))
+                using (var archive = ArchiveFactory.Open(stream))
+                {
+                    foreach (var entry in archive.Entries)
+                    {
+                        if (!entry.IsDirectory)
+                        {
+                            entry.WriteToDirectory(tempDirectory, new ExtractionOptions { ExtractFullPath = true, Overwrite = true });
+                        }
+                    }
+                }
+
+                return tempDirectory;
+            }
+        }
+
+        public class Z
+        {
+            public static void SyncCrackAndZip(string zFilePath, string exportFileName)
+            {
+                string tempDirectory = ExtractZip(zFilePath);
+                string[] ncmFiles = Directory.GetFiles(tempDirectory, "*.ncm", SearchOption.AllDirectories);
+
+                foreach (string ncmFile in ncmFiles)
+                {
+                    Crack.CrackAudio(ncmFile);
+                }
+
+                CreateZip(exportFileName, ncmFiles);
+                Directory.Delete(tempDirectory, true);
+            }
+
+            public static async Task AsyncCrackAndZip(string zFilePath, string exportFileName)
+            {
+                string tempDirectory = ExtractZip(zFilePath);
+                string[] ncmFiles = Directory.GetFiles(tempDirectory, "*.ncm", SearchOption.AllDirectories);
+
+                await Task.WhenAll(ncmFiles.Select(async ncmFile =>
+                {
+                    await Task.Run(() => Crack.CrackAudio(ncmFile));
+                }));
+
+                CreateZip(exportFileName, ncmFiles);
+                Directory.Delete(tempDirectory, true);
+            }
+
+            private static void CreateZip(string zipFileName, IEnumerable<string> files)
+            {
+                using ZipOutputStream zipStream = new(File.Create(zipFileName));
+                byte[] buffer = new byte[4096];
+
+                foreach (string filePath in files)
+                {
+                    ICSharpCode.SharpZipLib.Zip.ZipEntry entry = new(Path.GetFileName(filePath));
+                    zipStream.PutNextEntry(entry);
+
+                    using (FileStream fileStream = File.OpenRead(filePath))
+                    {
+                        int bytesRead;
+                        while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) > 0)
+                        {
+                            zipStream.Write(buffer, 0, bytesRead);
+                        }
+                    }
+
+                    zipStream.CloseEntry();
+                }
+            }
+
+            private static string ExtractZip(string zipFilePath)
+            {
+                string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+                Directory.CreateDirectory(tempDirectory);
+
+                using (ICSharpCode.SharpZipLib.Zip.ZipFile zipFile = new(zipFilePath))
+                {
+                    foreach (ICSharpCode.SharpZipLib.Zip.ZipEntry entry in zipFile)
+                    {
+                        if (!entry.IsFile)
+                        {
+                            continue;
+                        }
+
+                        string entryFileName = Path.GetFileName(entry.Name);
+                        if (entryFileName.Length == 0)
+                        {
+                            continue;
+                        }
+
+                        string fullZipToPath = Path.Combine(tempDirectory, entryFileName);
+                        using FileStream streamWriter = File.Create(fullZipToPath);
+                        byte[] buffer = new byte[4096];
+                        using Stream inputStream = zipFile.GetInputStream(entry);
+                        int bytesRead;
+                        while ((bytesRead = inputStream.Read(buffer, 0, buffer.Length)) > 0)
+                        {
+                            streamWriter.Write(buffer, 0, bytesRead);
+                        }
+                    }
+                }
+
 
                 return tempDirectory;
             }
