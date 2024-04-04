@@ -100,9 +100,14 @@ static void compress()
         Compress.Tar.AsyncCrackAndCompress(tarFilePath, exportFileName).Wait();
     }
 
-    static void tar_gzip()
+    static async Task tar_gzip()
     {
+        string tarFilePath = "your_targz_file.tar.gz";
+        string exportFileName = "exported.zip";
 
+        Compress.TarGz.SyncCrackAndZip(tarFilePath, exportFileName);
+
+        await Compress.TarGz.AsyncCrackAndZip(tarFilePath, exportFileName);
     }
 
     static void bzip()

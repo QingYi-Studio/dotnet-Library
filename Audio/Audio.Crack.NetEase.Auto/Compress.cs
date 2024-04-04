@@ -314,5 +314,88 @@ namespace Audio.Crack.NetEase.Auto
                 }
             }
         }
+
+        public class TarGz
+        {
+            public static void SyncCrackAndZip(string tarGzFilePath, string exportFileName)
+            {
+                // 提取 .tar.gz 文件到临时目录
+                string tempDirectory = ExtractTarGz(tarGzFilePath);
+
+                // 获取所有 .ncm 文件路径
+                string[] ncmFiles = Directory.GetFiles(tempDirectory, "*.ncm", SearchOption.AllDirectories);
+
+                // 遍历所有 .ncm 文件并逐个破解
+                foreach (string ncmFile in ncmFiles)
+                {
+                    Crack.CrackAudio(ncmFile);
+                }
+
+                // 打包为 .zip 文件
+                CreateZip(exportFileName, ncmFiles);
+
+                // 清理临时目录
+                Directory.Delete(tempDirectory, true);
+            }
+
+            public static async Task AsyncCrackAndZip(string tarGzFilePath, string exportFileName)
+            {
+                // 提取 .tar.gz 文件到临时目录
+                string tempDirectory = ExtractTarGz(tarGzFilePath);
+
+                // 获取所有 .ncm 文件路径
+                string[] ncmFiles = Directory.GetFiles(tempDirectory, "*.ncm", SearchOption.AllDirectories);
+
+                // 异步破解并等待所有任务完成
+                await Task.WhenAll(Array.ConvertAll(ncmFiles, async ncmFile =>
+                {
+                    await Task.Run(() => Crack.CrackAudio(ncmFile));
+                }));
+
+                // 打包为 .zip 文件
+                CreateZip(exportFileName, ncmFiles);
+
+                // 清理临时目录
+                Directory.Delete(tempDirectory, true);
+            }
+
+            private static void CreateZip(string zipFileName, IEnumerable<string> files)
+            {
+                // 创建新的 .zip 文件
+                using ZipArchive archive = ZipFile.Open(zipFileName, ZipArchiveMode.Create);
+                // 将所有文件添加到 .zip 文件中
+                foreach (string filePath in files)
+                {
+                    archive.CreateEntryFromFile(filePath, Path.GetFileName(filePath));
+                }
+            }
+
+            private static string ExtractTarGz(string tarGzFilePath)
+            {
+                // 创建临时目录
+                string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+                Directory.CreateDirectory(tempDirectory);
+
+                // 解压 .tar.gz 文件到临时目录
+                using (FileStream fileStream = File.OpenRead(tarGzFilePath))
+                {
+                    using GZipStream gzipStream = new(fileStream, System.IO.Compression.CompressionMode.Decompress);
+                    using var tarArchive = SharpCompress.Archives.Tar.TarArchive.Open(gzipStream);
+                    foreach (var entry in tarArchive.Entries)
+                    {
+                        if (!entry.IsDirectory)
+                        {
+                            entry.WriteToDirectory(tempDirectory, new SharpCompress.Common.ExtractionOptions()
+                            {
+                                ExtractFullPath = true,
+                                Overwrite = true
+                            });
+                        }
+                    }
+                }
+
+                return tempDirectory;
+            }
+        }
     }
 }

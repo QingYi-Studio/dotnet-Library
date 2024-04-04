@@ -126,3 +126,14 @@ Compress.Tar.SyncCrackAndCompress(tarFilePath, exportFileName);
 // Async
 Compress.Tar.AsyncCrackAndCompress(tarFilePath, exportFileName).Wait();
 ```
+
+#### TarGz
+
+```c#
+string tarFilePath = "your_targz_file.tar.gz";
+string exportFileName = "exported.zip";
+
+Compress.TarGz.SyncCrackAndZip(tarFilePath, exportFileName);
+
+await Compress.TarGz.AsyncCrackAndZip(tarFilePath, exportFileName);
+```
