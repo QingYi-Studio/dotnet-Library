@@ -1,4 +1,4 @@
-﻿using Audio.Crack.NetEase.Auto;
+using Audio.Crack.NetEase.Auto;
 
 SingleFile.Crack_("input.ncm");
 

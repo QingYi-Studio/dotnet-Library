@@ -1,4 +1,4 @@
-﻿using System.IO.Compression;
+using System.IO.Compression;
 using ICSharpCode.SharpZipLib.Zip;
 using SevenZip;
 using SharpCompress.Archives;
