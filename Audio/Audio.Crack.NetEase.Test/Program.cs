@@ -1,4 +1,4 @@
-﻿using Audio.Crack.NetEase.Auto;
+using Audio.Crack.NetEase.Auto;
 
 SingleFile.Crack_("input.ncm");
 
@@ -100,28 +100,53 @@ static void compress()
         Compress.Tar.AsyncCrackAndCompress(tarFilePath, exportFileName).Wait();
     }
 
-    static void tar_gzip()
+    static async Task tar_gzip()
     {
+        string tarFilePath = "your_targz_file.tar.gz";
+        string exportFileName = "exported.zip";
 
+        Compress.TarGz.SyncCrackAndZip(tarFilePath, exportFileName);
+
+        await Compress.TarGz.AsyncCrackAndZip(tarFilePath, exportFileName);
     }
 
-    static void bzip()
+    static async void bzip()
     {
+        string bzFilePath = "path/to/your/file.bz";
+        string exportFileName = "path/to/exported/file.zip";
 
+        Compress.BZip.SyncCrackAndZip(bzFilePath, exportFileName);
+
+        await Compress.BZip.AsyncCrackAndZip(bzFilePath, exportFileName);
     }
 
-    static void bzip2()
+    static async void bzip2()
     {
+        string bz2FilePath = "path/to/your/file.bz2";
+        string exportFileName = "path/to/exported/file.zip";
 
+        Compress.BZip2.SyncCrackAndZip(bz2FilePath, exportFileName);
+
+        await Compress.BZip2.AsyncCrackAndZip(bz2FilePath, exportFileName);
     }
 
-    static void tar_bzip2()
+    static async void tar_bzip2()
     {
+        string tarBz2FilePath = "path/to/your/file.tar.bz2";
+        string exportFileName = "path/to/exported/file.zip";
 
+        Compress.TarBZip2.SyncCrackAndZip(tarBz2FilePath, exportFileName);
+
+        await Compress.TarBZip2.AsyncCrackAndZip(tarBz2FilePath, exportFileName);
     }
 
-    static void z()
+    static async void z()
     {
+        string zFilePath = "path/to/your/file.z";
+        string exportFileName = "path/to/exported/file.zip";
 
+        Compress.Z.SyncCrackAndZip(zFilePath, exportFileName);
+
+        await Compress.Z.AsyncCrackAndZip(zFilePath, exportFileName);
     }
 }

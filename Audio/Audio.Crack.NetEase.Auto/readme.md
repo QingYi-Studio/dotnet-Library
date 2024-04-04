@@ -126,3 +126,47 @@ Compress.Tar.SyncCrackAndCompress(tarFilePath, exportFileName);
 // Async
 Compress.Tar.AsyncCrackAndCompress(tarFilePath, exportFileName).Wait();
 ```
+
+#### TarGz
+
+```c#
+string tarFilePath = "your_targz_file.tar.gz";
+string exportFileName = "exported.zip";
+
+Compress.TarGz.SyncCrackAndZip(tarFilePath, exportFileName);
+
+await Compress.TarGz.AsyncCrackAndZip(tarFilePath, exportFileName);
+```
+
+#### BZip
+
+```c#
+string bzFilePath = "path/to/your/file.bz";
+string exportFileName = "path/to/exported/file.zip";
+
+Compress.BZip.SyncCrackAndZip(bzFilePath, exportFileName);
+
+await Compress.BZip.AsyncCrackAndZip(bzFilePath, exportFileName);
+```
+
+#### BZip2
+
+```c#
+string bz2FilePath = "path/to/your/file.bz2";
+string exportFileName = "path/to/exported/file.zip";
+
+Compress.BZip2.SyncCrackAndZip(bz2FilePath, exportFileName);
+
+await Compress.BZip2.AsyncCrackAndZip(bz2FilePath, exportFileName);
+```
+
+#### TarBZip2
+
+```c#
+string tarBz2FilePath = "path/to/your/file.tar.bz2";
+string exportFileName = "path/to/exported/file.zip";
+
+Compress.TarBZip2.SyncCrackAndZip(tarBz2FilePath, exportFileName);
+
+await Compress.TarBZip2.AsyncCrackAndZip(tarBz2FilePath, exportFileName);
+```
