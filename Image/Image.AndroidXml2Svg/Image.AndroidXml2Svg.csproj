@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Image.AndroidXmlToSvg</Title>
+    <Authors>QingYi-Studio</Authors>
+    <Description>A simple Nuget package can convert Android Xml image files to SVG.</Description>
+    <Copyright>AGPL-3.0</Copyright>
+    <PackageProjectUrl>https://github.com/QingYi-Studio/dotnet-Library</PackageProjectUrl>
+    <PackageIcon>favicon.png</PackageIcon>
+    <RepositoryUrl>https://github.com/QingYi-Studio/dotnet-Library</RepositoryUrl>
+    <RepositoryType>https://github.com/QingYi-Studio/dotnet-Library</RepositoryType>
+    <PackageTags>Android;XML;Convert;SVG</PackageTags>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="favicon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="favicon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
