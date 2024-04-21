@@ -60,6 +60,12 @@ Tools.Delete的异步版本。
 
 一个用于快速在不同颜色格式转换的类库。
 
+## Picture
+
+### [Picture.AXmlToSvg](https://www.nuget.org/packages/Picture.AXmlToSvg/)
+
+一个简单的Nuget包可以将Android Xml图像文件转换为SVG。
+
 ## Server
 
 ### [Server.GetLocalHost](https://www.nuget.org/packages/Server.GetLocalHost)
@@ -71,3 +77,15 @@ Tools.Delete的异步版本。
 一个可以很轻松地打开本地服务器的类库。
 
 你可以用它来测试你的网站，比如静态HTML文件。
+
+### [Server.Hotspot](https://www.nuget.org/packages/Server.Hotspot)
+
+打开和关闭热点。(仅适用于Windows)
+
+### [Server.GetLocalIP](https://www.nuget.org/packages/Server.GetLocalIP)
+
+一个获取本地IP的包。
+
+### [Server.Proxy.Http](https://www.nuget.org/packages/Server.Proxy.Http)
+
+一个打开Http服务器的简单包。(不是HTTPS!!!)

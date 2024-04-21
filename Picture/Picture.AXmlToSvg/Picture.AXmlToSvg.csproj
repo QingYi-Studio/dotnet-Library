@@ -1,24 +1,24 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Title>Audio.Crack.NetEase.Auto</Title>
+    <Title>Picture.AXmlToSvg</Title>
+    <Version>1.0.0</Version>
     <Authors>QingYi-Studio</Authors>
+    <Description>A simple Nuget package can convert Android Xml image files to SVG.</Description>
     <Copyright>AGPL-3.0</Copyright>
-    <PackageIcon>favicon.png</PackageIcon>
-    <RepositoryUrl>https://github.com/QingYi-Studio/dotnet-Library</RepositoryUrl>
     <PackageProjectUrl>https://github.com/QingYi-Studio/dotnet-Library</PackageProjectUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>Audio;Crack;NetEase;VIP</PackageTags>
-    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <RepositoryUrl>https://github.com/QingYi-Studio/dotnet-Library</RepositoryUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <ApplicationIcon>favicon.ico</ApplicationIcon>
-    <Description>A simple package that can crack the NetEase VIP audio easily.</Description>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageIcon>favicon.png</PackageIcon>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <Version>1.1.0</Version>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Android;XML;Convert;SVG</PackageTags>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,21 +26,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="readme.md" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Audio.Crack.NetEase" Version="1.1.0" />
-    <PackageReference Include="SevenZipSharp.Interop" Version="19.1.0" />
-    <PackageReference Include="SharpCompress" Version="0.36.0" />
-    <PackageReference Include="SharpZipLib" Version="1.4.2" />
   </ItemGroup>
 
   <ItemGroup>
