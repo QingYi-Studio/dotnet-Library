@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Image.AndroidXml2Svg
+namespace Image.AXmlToSvg
 {
     internal class Convert
     {

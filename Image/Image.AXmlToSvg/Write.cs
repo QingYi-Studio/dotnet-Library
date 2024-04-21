@@ -1,4 +1,4 @@
-﻿namespace Image.AndroidXml2Svg
+﻿namespace Image.AXmlToSvg
 {
     internal class Write
     {

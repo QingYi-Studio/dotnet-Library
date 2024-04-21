@@ -1,4 +1,4 @@
-﻿# Image.AndroidXml2Svg
+﻿# Image.AXmlToSvg
 
 A simple Nuget package can convert Android Xml image files to SVG.
 
