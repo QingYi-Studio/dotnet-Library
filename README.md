@@ -60,6 +60,12 @@ This library simplifies dynamic updates to WPF interface by reading JSON files a
 
  A C# library that can quickly convert multiple color types.
 
+## Picture
+
+### [Picture.AXmlToSvg](https://www.nuget.org/packages/Picture.AXmlToSvg/)
+
+A simple Nuget package can convert Android Xml image files to SVG.
+
 ## Server
 
 ### [Server.GetLocalHost](https://www.nuget.org/packages/Server.GetLocalHost)
@@ -69,3 +75,15 @@ A C# Library that can get some local info about the server.
 ### [Server.LocalServer](https://www.nuget.org/packages/Server.LocalServer)
 
 A C# library that can open a local server easily.
+
+### [Server.Hotspot](https://www.nuget.org/packages/Server.Hotspot)
+
+Open and close Hotspot.(Only for Windows)
+
+### [Server.GetLocalIP](https://www.nuget.org/packages/Server.GetLocalIP)
+
+A package to get local IP.
+
+### [Server.Proxy.Http](https://www.nuget.org/packages/Server.Proxy.Http)
+
+A simple package to open a http server.(NOT HTTPS!!!)
