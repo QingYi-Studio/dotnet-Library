@@ -86,7 +86,7 @@ namespace Image.AndroidXml2Svg
                 xmlContent = xmlContent.Replace("android:strokeWidth", "stroke-width");
 
                 // 7. 修改android:viewportHeight和android:viewportWidth为viewBox
-                xmlContent = Regex.Replace(xmlContent, @"android:viewportHeight\s*=\s*""(\d+)""\s*android:viewportWidth\s*=\s*""(\d+)""", "viewBox=\"0 0 $2 $1\"");
+                xmlContent = Regex.Replace(xmlContent, @"android:viewportWidth\s*=\s*""(\d+(\.\d+)?)""\s*android:viewportHeight\s*=\s*""(\d+(\.\d+)?)""", "viewBox=\"0 0 $1 $3\"");
 
                 // 8. 替换android:strokeAlpha为stroke-opacity
                 xmlContent = xmlContent.Replace("android:strokeAlpha", "stroke-opacity");
