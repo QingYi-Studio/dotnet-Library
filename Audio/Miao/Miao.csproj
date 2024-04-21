@@ -10,14 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Audio.Crack.NetEase.Auto\Audio.Crack.NetEase.Auto.csproj" />
-    <ProjectReference Include="..\Audio.Crack.NetEase\Audio.Crack.NetEase.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="input.ncm">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\Audio.Convert\Audio.Convert.csproj" />
   </ItemGroup>
 
 </Project>
