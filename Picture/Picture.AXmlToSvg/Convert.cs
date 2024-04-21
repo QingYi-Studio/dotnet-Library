@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Image.AXmlToSvg
+namespace Picture.AXmlToSvg
 {
     internal class Convert
     {

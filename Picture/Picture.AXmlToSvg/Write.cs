@@ -1,4 +1,4 @@
-﻿namespace Image.AXmlToSvg
+﻿namespace Picture.AXmlToSvg
 {
     internal class Write
     {
