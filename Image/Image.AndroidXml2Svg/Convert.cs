@@ -6,42 +6,55 @@ namespace Image.AndroidXml2Svg
 {
     public class Convert
     {
-        public static void ConvertXmlToSvg(string xmlFilePath)
+        public static void ConvertSync(string filePath)
         {
             try
             {
-                // 读取XML文件
-                XmlDocument xmlDoc = new();
-                xmlDoc.Load(xmlFilePath);
+                // 1. 读取xml文件内容
+                string xmlContent = File.ReadAllText(filePath);
 
-                // 替换标记和属性
-                string svgContent = xmlDoc.InnerXml;
-                svgContent = Regex.Replace(svgContent, "<vector", "<svg", RegexOptions.IgnoreCase);
-                svgContent = Regex.Replace(svgContent, "xmlns:android=\"http://schemas.android.com/apk/res/android\"", "xmlns=\"http://www.w3.org/2000/svg\"", RegexOptions.IgnoreCase);
-                svgContent = Regex.Replace(svgContent, "android:pathData", "d", RegexOptions.IgnoreCase);
-                svgContent = Regex.Replace(svgContent, "android:fillColor", "fill", RegexOptions.IgnoreCase);
-                svgContent = Regex.Replace(svgContent, "android:strokeColor", "stroke", RegexOptions.IgnoreCase);
-                svgContent = Regex.Replace(svgContent, "android:strokeWidth", "stroke-width", RegexOptions.IgnoreCase);
-                svgContent = Regex.Replace(svgContent, "android:viewportHeight", "viewBox", RegexOptions.IgnoreCase);
-                svgContent = Regex.Replace(svgContent, "android:viewportWidth", "viewBox", RegexOptions.IgnoreCase);
-                svgContent = Regex.Replace(svgContent, "android:strokeAlpha", "stroke-opacity", RegexOptions.IgnoreCase);
-                svgContent = Regex.Replace(svgContent, "android:fillAlpha", "fill-opacity", RegexOptions.IgnoreCase);
-                svgContent = Regex.Replace(svgContent, "android:width", "width", RegexOptions.IgnoreCase);
-                svgContent = Regex.Replace(svgContent, "android:height", "height", RegexOptions.IgnoreCase);
-                svgContent = Regex.Replace(svgContent, "vector>", "svg>", RegexOptions.IgnoreCase);
+                // 2. 替换<vector>为<svg>
+                xmlContent = xmlContent.Replace("<vector", "<svg");
 
-                // 添加 viewBox 属性
-                svgContent = Regex.Replace(svgContent, "viewBox=\"([^\"]*)\"", "viewBox=\"$1 0 0 $1\"", RegexOptions.IgnoreCase);
+                // 3. 替换android:pathData为d
+                xmlContent = xmlContent.Replace("android:pathData", "d");
 
-                // 将修改后的内容写入新的SVG文件
-                string svgFilePath = Path.ChangeExtension(xmlFilePath, ".svg");
-                File.WriteAllText(svgFilePath, svgContent, Encoding.UTF8);
+                // 4. 替换android:fillColor为fill
+                xmlContent = xmlContent.Replace("android:fillColor", "fill");
 
-                Console.WriteLine("Conversion successful. SVG file saved at: " + svgFilePath);
+                // 5. 替换android:strokeColor为stroke
+                xmlContent = xmlContent.Replace("android:strokeColor", "stroke");
+
+                // 6. 替换android:strokeWidth为stroke-width
+                xmlContent = xmlContent.Replace("android:strokeWidth", "stroke-width");
+
+                // 7. 修改android:viewportHeight和android:viewportWidth为viewBox
+                xmlContent = Regex.Replace(xmlContent, @"android:viewportHeight\s*=\s*""(\d+)""\s*android:viewportWidth\s*=\s*""(\d+)""", "viewBox=\"0 0 $2 $1\"");
+
+                // 8. 替换android:strokeAlpha为stroke-opacity
+                xmlContent = xmlContent.Replace("android:strokeAlpha", "stroke-opacity");
+
+                // 9. 替换android:fillAlpha为fill-opacity
+                xmlContent = xmlContent.Replace("android:fillAlpha", "fill-opacity");
+
+                // 10. 替换android:width和android:height为width和height
+                xmlContent = xmlContent.Replace("android:width", "width")
+                xmlContent = xmlContent.Replace("android:height", "height");
+
+                // 11. 替换xmlns:android为xmlns
+                xmlContent = xmlContent.Replace("xmlns:android=\"http://schemas.android.com/apk/res/android\"", "xmlns=\"http://www.w3.org/2000/svg\"");
+
+                // 12. 替换vector>为svg>
+                xmlContent = xmlContent.Replace("vector>", "svg>");
+
+                // 保存修改后的内容
+                File.WriteAllText(filePath, xmlContent, Encoding.UTF8);
+
+                Console.WriteLine("Conversion completed successfully.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error occurred: " + ex.Message);
+                Console.WriteLine($"Error during conversion: {ex.Message}");
             }
         }
     }
