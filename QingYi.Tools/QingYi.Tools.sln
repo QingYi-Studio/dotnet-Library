@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QingYi.Tools.Shell", "QingYi.Tools.Shell\QingYi.Tools.Shell.csproj", "{D4EE17E1-D130-49C8-8CA7-66995136E34C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QingYi.Tools.Shell", "QingYi.Tools.Shell\QingYi.Tools.Shell.csproj", "{D4EE17E1-D130-49C8-8CA7-66995136E34C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QingYi.Tools.Download", "QingYi.Tools.Download\QingYi.Tools.Download.csproj", "{49BF3E01-1677-4C0D-A4F8-5B997BB575EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{D4EE17E1-D130-49C8-8CA7-66995136E34C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4EE17E1-D130-49C8-8CA7-66995136E34C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4EE17E1-D130-49C8-8CA7-66995136E34C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49BF3E01-1677-4C0D-A4F8-5B997BB575EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49BF3E01-1677-4C0D-A4F8-5B997BB575EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49BF3E01-1677-4C0D-A4F8-5B997BB575EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49BF3E01-1677-4C0D-A4F8-5B997BB575EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
