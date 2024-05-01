@@ -1,8 +1,8 @@
 ﻿namespace QingYi.Tools.Download.Default.Core
 {
-    public class SingleFile
+    internal class SingleFile
     {
-        internal static void Download(string url, string destinationPath)
+        public static void Download(string url, string destinationPath)
         {
             using var client = new HttpClient();
             try
@@ -26,7 +26,7 @@
             }
         }
 
-        internal static async Task DownloadAsync(string url, string destinationPath)
+        public static async Task DownloadAsync(string url, string destinationPath)
         {
             using var client = new HttpClient();
             try
