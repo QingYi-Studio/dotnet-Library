@@ -14,16 +14,6 @@ A subcomponent of the Tools.Shell module that uses DataFlow to read Shell output
 
  Run Tools.Shell asynchronously.
 
-### [Tools.LocalServer](https://www.nuget.org/packages/Tools.LocalServer/)
-
-A C# library that can open a local server easily.
-
-You can use it to test you website, such as static html file.
-
-### [Tools.LogRecord](https://www.nuget.org/packages/Tools.LogRecord) **[Deprecate]**
-
-A library made by Qing-Yi Studio to make it easier to record logs or record the output.
-
 ### [Tools.Delete](https://www.nuget.org/packages/Tools.Delete/)
 
 A simple package optimizes natively deleted code to make it easier to use.
@@ -34,7 +24,11 @@ An asynchronous version of the Tools.Delete package that allows for asynchronous
 
 ### [Tools.HTTP](https://www.nuget.org/packages/Tools.HTTP/)
 
-A library that contains most of the basic HTTP/HTTPS communication.
+A library that contains most of the basic HTTP/HTTPS communication.\
+
+### [Tools.LogRecord](https://www.nuget.org/packages/Tools.LogRecord)
+
+A library made by Qing-Yi Studio to make it easier to record logs or record the output.
 
 ### [Tools.Encrypt](https://www.nuget.org/packages/Tools.Encrypt)
 
@@ -80,10 +74,20 @@ A C# library that can open a local server easily.
 
 Open and close Hotspot.(Only for Windows)
 
-### [Server.GetLocalIP](https://www.nuget.org/packages/Server.GetLocalIP)
-
-A package to get local IP.
-
 ### [Server.Proxy.Http](https://www.nuget.org/packages/Server.Proxy.Http)
 
 A simple package to open a http server.(NOT HTTPS!!!)
+
+## ***Deprecate***
+
+### [Tools.LocalServer](https://www.nuget.org/packages/Tools.LocalServer/)
+
+A C# library that can open a local server easily.
+
+You can use it to test you website, such as static html file.
+
+Replace with: [Server.LocalServer](https://www.nuget.org/packages/Server.LocalServer)
+
+### [Server.GetLocalIP](https://www.nuget.org/packages/Server.GetLocalIP)
+
+A package to get local IP.

@@ -12,13 +12,7 @@ Tools.Shell的子库，使用DataFlow读取输出。
 
 #### [Tools.Shell.Async](https://www.nuget.org/packages/Tools.Shell.Async)
 
-异步运行Tools.Sh
-
-### [Tools.LocalServer](https://www.nuget.org/packages/Tools.LocalServer/) **[不再使用]**
-
-一个C#库，可以很轻松地打开本地服务器。
-
-你可以用它来测试你的网站，比如静态html文件。
+异步运行Tools.Shell
 
 ### [Tools.LogRecord](https://www.nuget.org/packages/Tools.LogRecord)
 
@@ -82,10 +76,20 @@ Tools.Delete的异步版本。
 
 打开和关闭热点。(仅适用于Windows)
 
-### [Server.GetLocalIP](https://www.nuget.org/packages/Server.GetLocalIP)
-
-一个获取本地IP的包。
-
 ### [Server.Proxy.Http](https://www.nuget.org/packages/Server.Proxy.Http)
 
 一个打开Http服务器的简单包。(不是HTTPS!!!)
+
+## 不再使用
+
+### [Tools.LocalServer](https://www.nuget.org/packages/Tools.LocalServer/)
+
+一个C#库，可以很轻松地打开本地服务器。
+
+你可以用它来测试你的网站，比如静态html文件。
+
+替代: [Server.LocalServer](https://www.nuget.org/packages/Server.LocalServer)
+
+### [Server.GetLocalIP](https://www.nuget.org/packages/Server.GetLocalIP)
+
+一个获取本地IP的包。
