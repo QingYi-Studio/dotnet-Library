@@ -65,5 +65,67 @@ namespace QingYi.Core.Web
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Fast Test<br></br>
+        /// 快速测试是否可连接
+        /// </summary>
+        /// <param name="url">Formatted links|格式化过的链接</param>
+        /// <returns>Success is 1 and failure is 0|成功为1失败为0</returns>
+        public static int FastTest(string url)
+        {
+            try
+            {
+                using HttpClient client = new();
+                HttpResponseMessage response = client.GetAsync(url).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // 如果响应成功，则返回1
+                    return 1;
+                }
+                else
+                {
+                    // 如果响应失败，则返回0
+                    return 0;
+                }
+            }
+            catch (Exception)
+            {
+                // 请求异常，返回0
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// Fast Test Async<br></br>
+        /// 快速测试是否可连接（异步）
+        /// </summary>
+        /// <param name="url">Formatted links|格式化过的链接</param>
+        /// <returns>Success is 1 and failure is 0|成功为1失败为0</returns>
+        public static async Task<int> FastTestAsync(string url)
+        {
+            using HttpClient client = new();
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // 请求成功，返回1
+                    return 1;
+                }
+                else
+                {
+                    // 请求失败，返回0
+                    return 0;
+                }
+            }
+            catch (HttpRequestException)
+            {
+                // 请求异常，返回0
+                return 0;
+            }
+        }
     }
 }
