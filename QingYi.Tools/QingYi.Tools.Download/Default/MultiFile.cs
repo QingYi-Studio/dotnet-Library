@@ -27,7 +27,7 @@
             List<Task> downloadTasks = [];
 
             // 使用信号量控制同时下载的数量
-            using SemaphoreSlim semaphore = new SemaphoreSlim(maxConcurrentDownloads);
+            using SemaphoreSlim semaphore = new(maxConcurrentDownloads);
             foreach (string url in fileUrls)
             {
                 await semaphore.WaitAsync();
