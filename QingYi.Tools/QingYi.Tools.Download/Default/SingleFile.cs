@@ -1,4 +1,4 @@
-﻿namespace QingYi.Tools.Download.Default.Core
+﻿namespace QingYi.Tools.Download.Default
 {
     internal class SingleFile
     {

@@ -1,5 +1,4 @@
-﻿using QingYi.Tools.Download;
-using QingYi.Tools.Download.Default.Core;
+﻿using QingYi.Tools.Download.Default;
 
 namespace QingYi.Tools.Download
 {
@@ -83,6 +82,11 @@ namespace QingYi.Tools.Download
                     await MultiFile.DownloadAsync(fileUrls, exportFolder, maxConcurrentDownloads);
                 }
             }
+        }
+
+        public class MultithreadDownload
+        {
+
         }
     }
 }
