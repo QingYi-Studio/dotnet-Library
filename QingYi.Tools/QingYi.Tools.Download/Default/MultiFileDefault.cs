@@ -1,6 +1,6 @@
 ﻿namespace QingYi.Tools.Download.Default
 {
-    internal class MultiFile
+    internal class MultiFileDefault
     {
         public static void Download(string[] fileUrls, string exportFolder)
         {

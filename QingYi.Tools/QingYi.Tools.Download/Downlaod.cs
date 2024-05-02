@@ -1,4 +1,5 @@
 ﻿using QingYi.Tools.Download.Default;
+using QingYi.Tools.Download.Multithread;
 
 namespace QingYi.Tools.Download
 {
@@ -17,11 +18,11 @@ namespace QingYi.Tools.Download
                 if (destinationPath == null)
                 {
                     CreateRootFolder.CreateFolder();
-                    SingleFile.Download(url, "download");
+                    SingleFileDefault.Download(url, "download");
                 }
                 else
                 {
-                    SingleFile.Download(url, destinationPath);
+                    SingleFileDefault.Download(url, destinationPath);
                 }
             }
 
@@ -36,11 +37,11 @@ namespace QingYi.Tools.Download
                 if (destinationPath == null)
                 {
                     CreateRootFolder.CreateFolder();
-                    await SingleFile.DownloadAsync(url, "download");
+                    await SingleFileDefault.DownloadAsync(url, "download");
                 }
                 else
                 {
-                    await SingleFile.DownloadAsync(url, destinationPath);
+                    await SingleFileDefault.DownloadAsync(url, destinationPath);
                 }
             }
 
@@ -55,11 +56,11 @@ namespace QingYi.Tools.Download
                 if (exportFolder == null)
                 {
                     CreateRootFolder.CreateFolder();
-                    MultiFile.Download(fileUrls, "download");
+                    MultiFileDefault.Download(fileUrls, "download");
                 }
                 else
                 {
-                    MultiFile.Download(fileUrls, exportFolder);
+                    MultiFileDefault.Download(fileUrls, exportFolder);
                 }
             }
 
@@ -75,18 +76,44 @@ namespace QingYi.Tools.Download
                 if (exportFolder == null)
                 {
                     CreateRootFolder.CreateFolder();
-                    await MultiFile.DownloadAsync(fileUrls, "download", maxConcurrentDownloads);
+                    await MultiFileDefault.DownloadAsync(fileUrls, "download", maxConcurrentDownloads);
                 }
                 else
                 {
-                    await MultiFile.DownloadAsync(fileUrls, exportFolder, maxConcurrentDownloads);
+                    await MultiFileDefault.DownloadAsync(fileUrls, exportFolder, maxConcurrentDownloads);
                 }
             }
         }
 
         public class MultithreadDownload
         {
+            /// <summary>
+            /// Single file multi-threaded blocking download<br></br>
+            /// 单文件多线程阻塞式下载
+            /// </summary>
+            /// <param name="url">File link|文件链接</param>
+            /// <param name="outputPath">Output path|输出路径</param>
+            /// <param name="thread">Thread number|线程数</param>
+            public static void SingleFileDownload(string url, string? outputPath, int thread = 16)
+            {
+                outputPath ??= "download";
+                CreateRootFolder.CreateFolder();
+                SingleFileMultithread singleFile = new(url, outputPath);
+                singleFile.SetNumThreads(thread);
+                singleFile.Download();
+            }
 
+            public static async Task SingleFileDownloadAsync(string fileUrl, string? outputPath, int? threadCount)
+            {
+                outputPath ??= "download";
+                CreateRootFolder.CreateFolder();
+
+                // 创建 SingleFileMultiThreadAsync 实例
+                var downloader = new SingleFileMultiThreadAsync(threadCount ?? 16); // 如果线程数为空则默认16
+
+                // 下载文件
+                await downloader.DownloadFileAsync(fileUrl, outputPath);
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace QingYi.Tools.Download.Default
 {
-    internal class SingleFile
+    internal class SingleFileDefault
     {
         public static void Download(string url, string destinationPath)
         {
