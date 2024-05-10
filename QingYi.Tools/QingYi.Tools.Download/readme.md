@@ -45,4 +45,31 @@ catch (OperationCanceledException)
 }
 ```
 
+## Multi Thread
 
+### Single File
+
+```
+// Create a MultiThreadedDownloader instance|创建 MultiThreadedDownloader 实例
+var downloader = new SingleThread.SIngleFile();
+
+// Set download link|设置下载链接
+downloader.SetUrl("https://example.com/bigfile.zip");
+
+// Set save path|设置保存路径
+downloader.SetDestinationPath("C:/Downloads/bigfile.zip");
+
+// Set thread number|设置线程数（可选）
+downloader.SetNumThreads(4); // 如果不设置，默认为8
+
+// Start download|开始下载
+await downloader.StartDownloadAsync();
+
+// Get download progress|获取下载进度
+double progress = downloader.GetDownloadProgress();
+Console.WriteLine($"Download Progress: {progress}%");
+
+// Get download speed|获取下载速度
+double speed = downloader1.GetDownloadSpeed(DownloadSpeedUnit.MBps);
+Console.WriteLine($"Download Speed: {speed} MB/s");
+```
