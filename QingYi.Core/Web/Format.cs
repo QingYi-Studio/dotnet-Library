@@ -1,5 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using System;
 
 namespace QingYi.Core.Web
 {
