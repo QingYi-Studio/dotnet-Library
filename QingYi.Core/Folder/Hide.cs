@@ -1,4 +1,4 @@
-﻿namespace QingYi.Core.Folder
+namespace QingYi.Core.Folder
 {
     public class Hide
     {

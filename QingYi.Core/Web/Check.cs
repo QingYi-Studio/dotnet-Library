@@ -1,4 +1,4 @@
-﻿namespace QingYi.Core.Web
+namespace QingYi.Core.Web
 {
     public class Check
     {
