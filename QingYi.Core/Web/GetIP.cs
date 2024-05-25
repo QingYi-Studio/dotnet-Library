@@ -1,5 +1,3 @@
-﻿using System.Net;
-
 namespace QingYi.Core.Web
 {
     public class GetIP

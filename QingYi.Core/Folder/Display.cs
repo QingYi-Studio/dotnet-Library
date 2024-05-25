@@ -1,5 +1,3 @@
-﻿using SIO = System.IO;
-
 namespace QingYi.Core.Folder
 {
     public class Display
@@ -18,7 +16,7 @@ namespace QingYi.Core.Folder
             try
             {
                 // 设置文件夹属性为显示即清除文件夹的隐藏属性
-                SIO.File.SetAttributes(folderPath, SIO.File.GetAttributes(folderPath) & ~FileAttributes.Hidden);
+                File.SetAttributes(folderPath, File.GetAttributes(folderPath) & ~FileAttributes.Hidden);
             }
             catch (Exception ex)
             {

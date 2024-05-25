@@ -1,5 +1,3 @@
-﻿using System;
-
 namespace QingYi.Core.Web
 {
     public class Check
