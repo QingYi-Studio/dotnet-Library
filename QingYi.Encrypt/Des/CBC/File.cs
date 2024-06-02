@@ -1,15 +1,15 @@
-﻿namespace QingYi.Encrypt.Des.ECB
+﻿namespace QingYi.Encrypt.Des.CBC
 {
     internal class File
     {
         private const int BufferSize = 64 * 1024; // 64KB buffer size for file processing
 
-        // Encrypts a file using DES encryption with ECB mode
+        // Encrypts a file using DES encryption with CBC mode
         public static void Encrypt(string inputFile, string outputFile, byte[] key)
         {
             using DES des = DES.Create() ?? throw new NotSupportedException("DES algorithm is not supported on this platform.");
             des.Key = key;
-            des.Mode = CipherMode.ECB;
+            des.Mode = CipherMode.CBC;
 
             using FileStream inputStream = new(inputFile, FileMode.Open);
             using FileStream outputStream = new(outputFile, FileMode.Create);
@@ -23,12 +23,12 @@
             }
         }
 
-        // Decrypts a file using DES encryption with ECB mode
+        // Decrypts a file using DES encryption with CBC mode
         public static void Decrypt(string inputFile, string outputFile, byte[] key)
         {
             using DES des = DES.Create() ?? throw new NotSupportedException("DES algorithm is not supported on this platform.");
             des.Key = key;
-            des.Mode = CipherMode.ECB;
+            des.Mode = CipherMode.CBC;
 
             using FileStream inputStream = new(inputFile, FileMode.Open);
             using FileStream outputStream = new(outputFile, FileMode.Create);

@@ -7,8 +7,9 @@ namespace QingYi.Encrypt
         static void DesTest()
         {
             string key = "1234";
-            DesEncrypt des = new(key);
+            DesEncrypt des = new DesEncrypt(key, Mode.ECB);
             des.TextEncrypt("1234");
+
         }
     }
 }
