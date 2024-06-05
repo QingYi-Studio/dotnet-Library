@@ -1,4 +1,6 @@
-﻿namespace QingYi.Core.Temp
+﻿using System.IO;
+
+namespace QingYi.Core.Temp
 {
     public class CreateFolder
     {
@@ -12,7 +14,8 @@
         /// </param>
         public static void Create(string newFolderName)
         {
-            Folder.Create.CreateFolder(newFolderName, GetTempFolder.Get());
+            string name = Path.Combine(GetTempFolder.Get(), newFolderName);
+            Directory.CreateDirectory(name);
         }
     }
 }
