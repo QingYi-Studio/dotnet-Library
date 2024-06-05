@@ -1,4 +1,6 @@
-﻿namespace QingYi.Core.Temp
+﻿using System.IO;
+
+namespace QingYi.Core.Temp
 {
     public class GetTempFolder
     {
