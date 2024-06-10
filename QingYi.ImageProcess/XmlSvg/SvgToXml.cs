@@ -9,82 +9,50 @@ namespace QingYi.ImageProcess.XmlSvg
         public string InputFilePath { get; set; }
         public string OutputFilePath { get; set; }
         public string InputContent { get; set; }
-        public string OutputContent { get; private set; }
+        public string OutputContent { get; set; }
 
         public string Convert()
         {
-            if (!string.IsNullOrEmpty(InputFilePath))
-            {
-                InputContent = File.ReadAllText(InputFilePath);
-            }
-
-            if (string.IsNullOrEmpty(InputContent))
-            {
-                throw new InvalidOperationException("Input content is empty.");
-            }
-
-            string xmlContent = ReplaceSvgTags(InputContent);
-            if (!string.IsNullOrEmpty(OutputFilePath))
-            {
-                File.WriteAllText(OutputFilePath, xmlContent);
-            }
-            else
-            {
-                OutputContent = xmlContent;
-            }
-
-            return xmlContent;
+            string content = ReadContent();
+            content = TransformContent(content);
+            WriteContent(content);
+            return content;
         }
 
-        private string ReplaceSvgTags(string svgContent)
+        private string ReadContent()
         {
-            string xmlContent = svgContent;
+            // Read from file path if provided, otherwise from InputContent
+            return !string.IsNullOrEmpty(InputFilePath) ? File.ReadAllText(InputFilePath) : InputContent;
+        }
 
-            // 替换 <svg xmlns="http://www.w3.org/2000/svg" 为 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlContent = xmlContent.Replace("<svg xmlns=\"http://www.w3.org/2000/svg\"", "<vector xmlns:android=\"http://schemas.android.com/apk/res/android\"");
+        private void WriteContent(string content)
+        {
+            // Write to file path if provided, otherwise to OutputContent
+            if (!string.IsNullOrEmpty(OutputFilePath))
+                File.WriteAllText(OutputFilePath, content);
+            else
+                OutputContent = content;
+        }
 
-            // 替换 </svg> 为 </vector>
-            xmlContent = xmlContent.Replace("</svg>", "</vector>");
+        private string TransformContent(string content)
+        {
+            content = Regex.Replace(content, @"<svg xmlns=""http://www.w3.org/2000/svg""", @"<vector xmlns:android=""http://schemas.android.com/apk/res/android""");
+            content = Regex.Replace(content, @"</svg>", @"</vector>");
+            content = Regex.Replace(content, @"width", @"android:width");
+            content = Regex.Replace(content, @"height", @"android:height");
+            content = Regex.Replace(content, @" d=", @" android:pathData=");
+            content = Regex.Replace(content, @" fill=""", @" android:fillColor=""");
+            content = Regex.Replace(content, @"viewBox=""0 0 24 24""", @"android:viewportHeight=""24"" android:viewportWidth=""24""");
+            content = Regex.Replace(content, @" stroke=""", @" android:strokeColor=""");
+            content = Regex.Replace(content, @" stroke-width=", @" android:strokeWidth=");
+            content = Regex.Replace(content, @" stroke-opacity=", @" android:strokeAlpha=");
+            content = Regex.Replace(content, @" fill-opacity=", @" android:fillAlpha=");
 
-            // 替换 width 为 android:width
-            xmlContent = xmlContent.Replace("width", "android:width");
+            // Adding XML header if not present
+            if (!content.StartsWith("<?xml version=\"1.0\" encoding=\"utf-8\"?>"))
+                content = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + Environment.NewLine + content;
 
-            // 替换 height 为 android:height
-            xmlContent = xmlContent.Replace("height", "android:height");
-
-            // 替换 d 为 android:pathData
-            xmlContent = xmlContent.Replace("d", "android:pathData");
-
-            // 替换 fill 为 android:fillColor
-            xmlContent = xmlContent.Replace("fill", "android:fillColor");
-
-            // 替换 viewBox="0 0 24 24" 为 android:viewportHeight="24" android:viewportWidth="24"
-            xmlContent = Regex.Replace(xmlContent, @"viewBox=""([\d\s.]+)""", m =>
-            {
-                string[] values = m.Groups[1].Value.Split(new char[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-                if (values.Length == 4)
-                {
-                    return $"android:viewportHeight=\"{values[3]}\" android:viewportWidth=\"{values[2]}\"";
-                }
-                else
-                {
-                    return m.Value;
-                }
-            });
-
-            // 替换 stroke 为 android:strokeColor
-            xmlContent = xmlContent.Replace("stroke", "android:strokeColor");
-
-            // 替换 stroke-width 为 android:strokeWidth
-            xmlContent = xmlContent.Replace("stroke-width", "android:strokeWidth");
-
-            // 替换 stroke-opacity 为 android:strokeAlpha
-            xmlContent = xmlContent.Replace("stroke-opacity", "android:strokeAlpha");
-
-            // 替换 fill-opacity 为 android:fillAlpha
-            xmlContent = xmlContent.Replace("fill-opacity", "android:fillAlpha");
-
-            return xmlContent;
+            return content;
         }
     }
 }
