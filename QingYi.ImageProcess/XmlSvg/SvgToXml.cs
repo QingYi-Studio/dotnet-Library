@@ -10,6 +10,7 @@ namespace QingYi.ImageProcess.XmlSvg
         public string OutputFilePath { get; set; }
         public string InputContent { get; set; }
         public string OutputContent { get; set; }
+        public bool IncludeXmlDeclaration { get; set; } = false;  // 默认为false，控制是否添加XML头部声明
 
         public string Convert()
         {
@@ -48,8 +49,8 @@ namespace QingYi.ImageProcess.XmlSvg
             content = Regex.Replace(content, @" stroke-opacity=", @" android:strokeAlpha=");
             content = Regex.Replace(content, @" fill-opacity=", @" android:fillAlpha=");
 
-            // Adding XML header if not present
-            if (!content.StartsWith("<?xml version=\"1.0\" encoding=\"utf-8\"?>"))
+            // Optionally adding XML header based on the IncludeXmlDeclaration property
+            if (IncludeXmlDeclaration && !content.StartsWith("<?xml version=\"1.0\" encoding=\"utf-8\"?>"))
                 content = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + Environment.NewLine + content;
 
             return content;
