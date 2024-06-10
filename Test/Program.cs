@@ -1,8 +1,8 @@
 ﻿using QingYi.ImageProcess.XmlSvg;
 
-XmlToSvg xmlToSvg = new()
+SvgToXml svg = new()
 {
-    InputFilePath = "ic_launcher_foreground.xml",
-    OutputFilePath = "output.svg"
+    InputFilePath = "output.svg",
+    OutputFilePath = "reo.xml"
 };
-xmlToSvg.Convert();
+Console.WriteLine(svg.Convert());
