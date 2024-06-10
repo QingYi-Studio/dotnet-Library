@@ -41,13 +41,13 @@ namespace QingYi.ImageProcess.XmlSvg
             content = Regex.Replace(content, @"</svg>", @"</vector>");
             content = Regex.Replace(content, @"width", @"android:width");
             content = Regex.Replace(content, @"height", @"android:height");
-            content = Regex.Replace(content, @" d=", @" android:pathData=");
-            content = Regex.Replace(content, @" fill=""", @" android:fillColor=""");
+            content = Regex.Replace(content, @"d=", @"android:pathData=");
+            content = Regex.Replace(content, @"fill=""", @" android:fillColor=""");
             content = Regex.Replace(content, @"viewBox=""0 0 24 24""", @"android:viewportHeight=""24"" android:viewportWidth=""24""");
-            content = Regex.Replace(content, @" stroke=""", @" android:strokeColor=""");
-            content = Regex.Replace(content, @" stroke-width=", @" android:strokeWidth=");
-            content = Regex.Replace(content, @" stroke-opacity=", @" android:strokeAlpha=");
-            content = Regex.Replace(content, @" fill-opacity=", @" android:fillAlpha=");
+            content = Regex.Replace(content, @"stroke=""", @"android:strokeColor=""");
+            content = Regex.Replace(content, @"stroke-width=", @"android:strokeWidth=");
+            content = Regex.Replace(content, @"stroke-opacity=", @"android:strokeAlpha=");
+            content = Regex.Replace(content, @"fill-opacity=", @"android:fillAlpha=");
 
             // Optionally adding XML header based on the IncludeXmlDeclaration property
             if (IncludeXmlDeclaration && !content.StartsWith("<?xml version=\"1.0\" encoding=\"utf-8\"?>"))
