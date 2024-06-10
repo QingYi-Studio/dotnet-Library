@@ -42,8 +42,14 @@ namespace QingYi.ImageProcess.XmlSvg
             content = Regex.Replace(content, @"width", @"android:width");
             content = Regex.Replace(content, @"height", @"android:height");
             content = Regex.Replace(content, @"d=", @"android:pathData=");
-            content = Regex.Replace(content, @"fill=""", @" android:fillColor=""");
-            content = Regex.Replace(content, @"viewBox=""0 0 24 24""", @"android:viewportHeight=""24"" android:viewportWidth=""24""");
+            content = Regex.Replace(content, @"fill=""", @"android:fillColor=""");
+
+            // Regex to extract and transform viewBox values dynamically
+            content = Regex.Replace(content, @"viewBox=""(\d+) (\d+) (\d+) (\d+)""", m =>
+            {
+                return $"android:viewportWidth=\"{m.Groups[3].Value}\" android:viewportHeight=\"{m.Groups[4].Value}\"";
+            });
+
             content = Regex.Replace(content, @"stroke=""", @"android:strokeColor=""");
             content = Regex.Replace(content, @"stroke-width=", @"android:strokeWidth=");
             content = Regex.Replace(content, @"stroke-opacity=", @"android:strokeAlpha=");
