@@ -1,0 +1,7 @@
+﻿[*.{cs,vb}]
+
+# IDE0060: 删除未使用的参数
+dotnet_diagnostic.IDE0060.severity = none
+
+# IDE0059: 不需要赋值
+dotnet_diagnostic.IDE0059.severity = none
