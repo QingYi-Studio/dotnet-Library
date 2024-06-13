@@ -45,7 +45,7 @@ namespace QingYi.Cryption.Des.CBC
             }
         }
 
-        public string DecryptString()
+        public string Decrypt()
         {
             using (DESCryptoServiceProvider des = new DESCryptoServiceProvider())
             {
