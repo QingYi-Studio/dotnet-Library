@@ -16,6 +16,10 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "QingYi.AXML.ChunkUtil", "Ch
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QingYi.AXML.XmlResourceParser", "XmlResourceParser\QingYi.AXML.XmlResourceParser.csproj", "{2D422CD2-60B5-4325-8E35-798F5C34BE1E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Util", "Util", "{59198DF6-7B57-45AA-9479-49BB2BA582B0}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "QingYi.AXML.TypedValue", "TypedValue\QingYi.AXML.TypedValue.fsproj", "{066FC92A-6188-4B60-BC06-A3FFF1B5B29B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +50,10 @@ Global
 		{2D422CD2-60B5-4325-8E35-798F5C34BE1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D422CD2-60B5-4325-8E35-798F5C34BE1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D422CD2-60B5-4325-8E35-798F5C34BE1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{066FC92A-6188-4B60-BC06-A3FFF1B5B29B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{066FC92A-6188-4B60-BC06-A3FFF1B5B29B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{066FC92A-6188-4B60-BC06-A3FFF1B5B29B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{066FC92A-6188-4B60-BC06-A3FFF1B5B29B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,6 +64,7 @@ Global
 		{D3F0BA2B-3358-43C7-AF12-331ADBDDA92B} = {BC481FBA-DFE6-48CC-86E5-F9FD1513BF26}
 		{21699D9F-23F2-4285-AEFC-832EEE8EC1FF} = {BC481FBA-DFE6-48CC-86E5-F9FD1513BF26}
 		{2D422CD2-60B5-4325-8E35-798F5C34BE1E} = {BC481FBA-DFE6-48CC-86E5-F9FD1513BF26}
+		{066FC92A-6188-4B60-BC06-A3FFF1B5B29B} = {59198DF6-7B57-45AA-9479-49BB2BA582B0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {95A198AD-C659-4B25-B061-84543C016633}
