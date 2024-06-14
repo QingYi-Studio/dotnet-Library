@@ -23,4 +23,9 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ChunkUtil\QingYi.AXML.ChunkUtil.fsproj" />
+    <ProjectReference Include="..\IntReader\QingYi.AXML.IntReader.csproj" />
+  </ItemGroup>
+
 </Project>
