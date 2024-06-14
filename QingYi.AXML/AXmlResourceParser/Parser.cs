@@ -20,6 +20,12 @@ namespace QingYi.AXML.ResourceParser
  */
     public class Parser
     {
+        // data
+
+        /*
+         * All values are essentially indices, e.g. m_name is
+         * an index of name in m_strings.
+         */
         private IntReader.IntReader m_reader;
         private bool m_operational = false;
         private StringBlock.StringBlock m_strings;
@@ -98,189 +104,9 @@ namespace QingYi.AXML.ResourceParser
         }
 
         // iteration
-        public int Next()
-        {
-            if (m_reader == null)
-            {
-                throw new XmlPullParserException("Parser is not opened.", this, null);
-            }
 
-            try
-            {
-                DoNext();
-                return m_event;
-            }
-            catch (IOException e)
-            {
-                close();
-                throw e;
-            }
-        }
+        // attributes
 
-        public int NextToken()
-        {
-            return Next();
-        }
-
-        public int nextTag()
-        {
-            int eventType = Next();
-            if (eventType == TEXT && isWhitespace())
-            {
-                eventType = Next();
-            }
-            if (eventType != START_TAG && eventType != END_TAG)
-            {
-                throw new XmlPullParserException("Expected start or end tag.", this, null);
-            }
-            return eventType;
-        }
-
-        public string NextText()
-        {
-            if (getEventType() != START_TAG)
-            {
-                throw new XmlPullParserException("Parser must be on START_TAG to read next text.", this, null);
-            }
-
-            int eventType = Next();
-            if (eventType == TEXT)
-            {
-                string result = GetText();
-                eventType = Next();
-                if (eventType != END_TAG)
-                {
-                    throw new XmlPullParserException("Event TEXT must be immediately followed by END_TAG.", this, null);
-                }
-                return result;
-            }
-            else if (eventType == END_TAG)
-            {
-                return "";
-            }
-            else
-            {
-                throw new XmlPullParserException("Parser must be on START_TAG or TEXT to read text.", this, null);
-            }
-        }
-
-        public void Require(int type, string _namespace, string name)
-        {
-            if (type != GetEventType() ||
-                (_namespace != null && _namespace != GetNamespace()) ||
-                (name != null && name != GetName()))
-            {
-                throw new XmlPullParserException(TYPES[type] + " is expected.", this, null);
-            }
-        }
-
-        public int GetDepth()
-        {
-            return m_namespaces.GetDepth() - 1;
-        }
-
-        public int GetEventType()
-        {
-            return m_event;
-        }
-
-        public int GetLineNumber()
-        {
-            return m_lineNumber;
-        }
-
-        public string GetName()
-        {
-            if (m_name == -1 || (m_event != START_TAG && m_event != END_TAG))
-            {
-                return null;
-            }
-            return m_strings.getString(m_name);
-        }
-
-        public string getText()
-        {
-            if (m_name == -1 || m_event != TEXT)
-            {
-                return null;
-            }
-            return m_strings.getString(m_name);
-        }
-
-        public char[] getTextCharacters(int[] holderForStartAndLength)
-        {
-            string text = getText();
-            if (text == null)
-            {
-                return null;
-            }
-            holderForStartAndLength[0] = 0;
-            holderForStartAndLength[1] = text.Length;
-            char[] chars = new char[text.Length];
-            text.CopyTo(0, chars, 0, text.Length);
-            return chars;
-        }
-
-        public string getNamespace()
-        {
-            return m_strings.getString(m_namespaceUri);
-        }
-
-        public string getPrefix()
-        {
-            int prefix = m_namespaces.findPrefix(m_namespaceUri);
-            return m_strings.getString(prefix);
-        }
-
-        public string getPositionDescription()
-        {
-            return "XML line #" + getLineNumber();
-        }
-
-        public int getNamespaceCount(int depth)
-        {
-            return m_namespaces.getAccumulatedCount(depth);
-        }
-
-        public string getNamespacePrefix(int pos)
-        {
-            int prefix = m_namespaces.getPrefix(pos);
-            return m_strings.getString(prefix);
-        }
-
-        public string getNamespaceUri(int pos)
-        {
-            int uri = m_namespaces.getUri(pos);
-            return m_strings.getString(uri);
-        }
-
-        private void close()
-        {
-            if (!m_operational)
-            {
-                return;
-            }
-            m_operational = false;
-            m_reader.close();
-            m_reader = null;
-            m_strings = null;
-            m_namespaceUri = 0; // Reset namespace URI
-            m_namespaces.reset();
-            ResetEventInfo();
-        }
-
-        private void doNext()
-        {
-            // Implementation of doNext() method
-            // This should include parsing logic to advance through XML events
-            // m_event should be updated accordingly
-        }
-
-        private bool isWhitespace()
-        {
-            // Implementation of isWhitespace() method
-            // Check if current text content is whitespace
-            return false; // Placeholder, implement as needed
-        }
+        // dummies
     }
 }
