@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QingYi.AXML", "AXML\QingYi.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Content", "Content", "{BC481FBA-DFE6-48CC-86E5-F9FD1513BF26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QingYi.AXML.ResourceParser", "AXmlResourceParser\QingYi.AXML.ResourceParser.csproj", "{5E724073-9DEF-407B-B5D9-9D274F1198CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QingYi.AXML.ResourceParser", "AXmlResourceParser\QingYi.AXML.ResourceParser.csproj", "{5E724073-9DEF-407B-B5D9-9D274F1198CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QingYi.AXML.IntReader", "IntReader\QingYi.AXML.IntReader.csproj", "{0FF869E1-AB4D-4B22-8847-4C5975106492}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QingYi.AXML.IntReader", "IntReader\QingYi.AXML.IntReader.csproj", "{0FF869E1-AB4D-4B22-8847-4C5975106492}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "QingYi.AXML.StringBlock", "StringBlock\QingYi.AXML.StringBlock.vbproj", "{D3F0BA2B-3358-43C7-AF12-331ADBDDA92B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{0FF869E1-AB4D-4B22-8847-4C5975106492}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FF869E1-AB4D-4B22-8847-4C5975106492}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FF869E1-AB4D-4B22-8847-4C5975106492}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3F0BA2B-3358-43C7-AF12-331ADBDDA92B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3F0BA2B-3358-43C7-AF12-331ADBDDA92B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3F0BA2B-3358-43C7-AF12-331ADBDDA92B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3F0BA2B-3358-43C7-AF12-331ADBDDA92B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,6 +42,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{5E724073-9DEF-407B-B5D9-9D274F1198CD} = {BC481FBA-DFE6-48CC-86E5-F9FD1513BF26}
 		{0FF869E1-AB4D-4B22-8847-4C5975106492} = {BC481FBA-DFE6-48CC-86E5-F9FD1513BF26}
+		{D3F0BA2B-3358-43C7-AF12-331ADBDDA92B} = {BC481FBA-DFE6-48CC-86E5-F9FD1513BF26}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {95A198AD-C659-4B25-B061-84543C016633}
