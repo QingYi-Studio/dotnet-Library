@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AXmlResourceParser
+﻿namespace AXmlResourceParser
 {
     public class Parser
     {
