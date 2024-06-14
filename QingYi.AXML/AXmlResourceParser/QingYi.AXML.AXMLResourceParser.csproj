@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IntReader\QingYi.AXML.IntReader.csproj" />
+    <ProjectReference Include="..\StringBlock\QingYi.AXML.StringBlock.vbproj" />
   </ItemGroup>
 
 </Project>

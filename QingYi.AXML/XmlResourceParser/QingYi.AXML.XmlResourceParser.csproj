@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>QingYi.AXML.XmlResourceParser</Title>
+    <Authors>QingYi-Studio</Authors>
+    <Description>One of the libraries of the AXML project</Description>
+    <Copyright>AGPL-3.0</Copyright>
+    <PackageProjectUrl>https://github.com/QingYi-Studio/dotnet-Library</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/QingYi-Studio/dotnet-Library</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Android;Xml;Parser</PackageTags>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
