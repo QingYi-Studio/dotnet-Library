@@ -1,5 +1,4 @@
-﻿
-namespace QingYi.AXML.Android.util
+﻿namespace QingYi.AXML.Android.Util
 {
     public class TypedValue
     {
