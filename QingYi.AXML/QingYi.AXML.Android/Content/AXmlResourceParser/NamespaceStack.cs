@@ -2,6 +2,7 @@
 
 namespace QingYi.AXML.Android.Content
 {
+    // implementation
     internal class NamespaceStack
     {
         private int[] m_data;
