@@ -7,9 +7,9 @@ namespace QingYi.AXML.Android.XmlPull.V1
      *
      * author <a href="http://www.extreme.indiana.edu/~aslom/">Aleksander Slominski</a>
      */
-    public class XmlPullParserException : Exception
+    public class XmlPullParserException : System.Exception
     {
-        protected Exception detail;
+        protected System.Exception detail;
         protected int row = -1;
         protected int column = -1;
 
@@ -17,7 +17,7 @@ namespace QingYi.AXML.Android.XmlPull.V1
         {
         }
 
-        public XmlPullParserException(string message, XmlPullParser parser, Exception chain)
+        public XmlPullParserException(string message, XmlPullParser parser, System.Exception chain)
             : base($"{(message == null ? "" : message + " ")}"
                    + $"{(parser == null ? "" : $"(position:{parser.GetPositionDescription()}) ")}"
                    + $"{(chain == null ? "" : $"caused by: {chain}")}")
@@ -30,7 +30,7 @@ namespace QingYi.AXML.Android.XmlPull.V1
             detail = chain;
         }
 
-        public Exception Detail => detail;
+        public System.Exception Detail => detail;
 
         public int Row => row;
 
