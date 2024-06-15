@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System;
 using QingYi.AXML.Android.Util;
+using QingYi.AXML.Android.XmlPull.V1;
 
 namespace QingYi.AXML.Android.Content
 {
@@ -33,6 +34,7 @@ namespace QingYi.AXML.Android.Content
         private StringBlock m_strings;
         private int[] m_resourceIDs;
         private readonly NamespaceStack m_namespaces = new NamespaceStack();
+        private IXmlPullParser m_parser;
 
         private bool m_decreaseDepth;
 
@@ -121,7 +123,7 @@ namespace QingYi.AXML.Android.Content
                 m_operational = true;
             }
 
-            if (m_event == END_DOCUMENT)
+            if (m_event == m_parser.END_DOCUMENT)
             {
                 return;
             }
@@ -138,16 +140,16 @@ namespace QingYi.AXML.Android.Content
                 }
 
                 // Fake END_DOCUMENT event.
-                if (@event == END_TAG &&
+                if (@event == m_parser.END_TAG &&
                     m_namespaces.GetDepth() == 1 &&
                     m_namespaces.GetCurrentCount() == 0)
                 {
-                    m_event = END_DOCUMENT;
+                    m_event = m_parser.END_DOCUMENT;
                     break;
                 }
 
                 int chunkType;
-                if (@event == START_DOCUMENT)
+                if (@event == m_parser.START_DOCUMENT)
                 {
                     // Fake event, see CHUNK_XML_START_TAG handler.
                     chunkType = CHUNK_XML_START_TAG;
@@ -228,7 +230,7 @@ namespace QingYi.AXML.Android.Content
                         i += ATTRIBUTE_LENGHT;
                     }
                     m_namespaces.IncreaseDepth();
-                    m_event = START_TAG;
+                    m_event = m_parser.START_TAG;
                     break;
                 }
 
@@ -236,7 +238,7 @@ namespace QingYi.AXML.Android.Content
                 {
                     m_namespaceUri = m_reader.ReadInt();
                     m_name = m_reader.ReadInt();
-                    m_event = END_TAG;
+                    m_event = m_parser.END_TAG;
                     m_decreaseDepth = true;
                     break;
                 }
@@ -246,14 +248,14 @@ namespace QingYi.AXML.Android.Content
                 m_reader.SkipInt();
                 /*?*/
                 m_reader.SkipInt();
-                m_event = TEXT;
+                m_event = m_parser.TEXT;
                 break;
             }
         }
 
         private int GetAttributeOffset(int index)
         {
-            if (m_event != START_TAG)
+            if (m_event != m_parser.START_TAG)
             {
                 throw new IndexOutOfRangeException("Current event is not START_TAG.");
             }
@@ -410,7 +412,7 @@ namespace QingYi.AXML.Android.Content
 
         public int GetAttributeCount()
         {
-            if (m_event != START_TAG)
+            if (m_event != m_parser.START_TAG)
             {
                 return -1;
             }
@@ -641,11 +643,11 @@ namespace QingYi.AXML.Android.Content
         public int NextTag()
         {
             int eventType = Next();
-            if (eventType == TEXT && IsWhitespace())
+            if (eventType == m_parser.TEXT && IsWhitespace())
             {
                 eventType = Next();
             }
-            if (eventType != START_TAG && eventType != END_TAG)
+            if (eventType != m_parser.START_TAG && eventType != m_parser.END_TAG)
             {
                 throw new XmlPullParserException("Expected start or end tag.", this, null);
             }
@@ -654,22 +656,22 @@ namespace QingYi.AXML.Android.Content
 
         public string NextText()
         {
-            if (GetEventType() != START_TAG)
+            if (GetEventType() != m_parser.START_TAG)
             {
                 throw new XmlPullParserException("Parser must be on START_TAG to read next text.", this, null);
             }
             int eventType = Next();
-            if (eventType == TEXT)
+            if (eventType == m_parser.TEXT)
             {
                 string result = GetText();
                 eventType = Next();
-                if (eventType != END_TAG)
+                if (eventType != m_parser.END_TAG)
                 {
                     throw new XmlPullParserException("Event TEXT must be immediately followed by END_TAG.", this, null);
                 }
                 return result;
             }
-            else if (eventType == END_TAG)
+            else if (eventType == m_parser.END_TAG)
             {
                 return "";
             }
@@ -685,7 +687,7 @@ namespace QingYi.AXML.Android.Content
                 (@namespace != null && @namespace != GetNamespace()) ||
                 (name != null && name != GetName()))
             {
-                throw new XmlPullParserException(TYPES[type] + " is expected.", this, null);
+                throw new XmlPullParserException(m_parser.TYPES[type] + " is expected.", this, null);
             }
         }
 
@@ -706,7 +708,7 @@ namespace QingYi.AXML.Android.Content
 
         public string GetName()
         {
-            if (m_name == -1 || (m_event != START_TAG && m_event != END_TAG))
+            if (m_name == -1 || (m_event != m_parser.START_TAG && m_event != m_parser.END_TAG))
             {
                 return null;
             }
@@ -715,7 +717,7 @@ namespace QingYi.AXML.Android.Content
 
         public string GetText()
         {
-            if (m_name == -1 || m_event != TEXT)
+            if (m_name == -1 || m_event != m_parser.TEXT)
             {
                 return null;
             }
