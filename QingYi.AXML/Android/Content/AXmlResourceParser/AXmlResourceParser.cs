@@ -34,7 +34,7 @@ namespace QingYi.AXML.Android.Content
         private StringBlock m_strings;
         private int[] m_resourceIDs;
         private readonly NamespaceStack m_namespaces = new NamespaceStack();
-        private IXmlPullParser m_parser;
+        private XmlPullParser m_parser;
 
         private bool m_decreaseDepth;
 
