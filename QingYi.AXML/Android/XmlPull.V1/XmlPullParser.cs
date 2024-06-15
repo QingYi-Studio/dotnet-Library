@@ -1,6 +1,7 @@
 ﻿using QingYi.AXML.Android.Content;
 using QingYi.AXML.Exception.V1;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace QingYi.AXML.Android.XmlPull.V1
 {
@@ -375,10 +376,7 @@ namespace QingYi.AXML.Android.XmlPull.V1
          * @exception XmlPullParserException If the feature is not supported or can not be set
          * @exception IllegalArgumentException If string with the feature name is null
          */
-        public void SetFeature(string name, bool state)
-        {
-            throw new XmlPullParserException(E_NOT_SUPPORTED);
-        }
+        public void SetFeature(string name, bool state) => throw new XmlPullParserException(E_NOT_SUPPORTED);
 
         /**
          * Returns the current value of the given feature.
@@ -389,10 +387,7 @@ namespace QingYi.AXML.Android.XmlPull.V1
          * @return The value of the feature.
          * @exception IllegalArgumentException if string the feature name is null
          */
-        public bool GetFeature(string name)
-        {
-            return false;
-        }
+        public bool GetFeature(string name) { return false; }
 
         /**
          * Set the value of a property.
@@ -402,10 +397,7 @@ namespace QingYi.AXML.Android.XmlPull.V1
          * @exception XmlPullParserException If the property is not supported or can not be set
          * @exception IllegalArgumentException If string with the property name is null
          */
-        public void SetProperty(string name, object value)
-        {
-            throw new XmlPullParserException(E_NOT_SUPPORTED);
-        }
+        public void SetProperty(string name, object value) => throw new XmlPullParserException(E_NOT_SUPPORTED);
 
         /**
          * Look up the value of a property.
@@ -417,10 +409,7 @@ namespace QingYi.AXML.Android.XmlPull.V1
          * @param name The name of property to be retrieved.
          * @return The value of named property.
          */
-        public object GetProperty(string name)
-        {
-            return null;
-        }
+        public object GetProperty(string name) {  return null; }
 
         /**
          * Set the input source for parser to the given reader and
@@ -431,10 +420,7 @@ namespace QingYi.AXML.Android.XmlPull.V1
          * allowing the parser to free internal resources
          * such as parsing buffers.
          */
-        public void SetInput(TextReader input)
-        {
-            throw new XmlPullParserException(E_NOT_SUPPORTED);
-        }
+        public void SetInput(TextReader input) => throw new XmlPullParserException(E_NOT_SUPPORTED);
 
         /**
          * Sets the input stream the parser is going to process.
@@ -454,10 +440,7 @@ namespace QingYi.AXML.Android.XmlPull.V1
          *
          * @param inputEncoding if not null it MUST be used as encoding for inputStream
          */
-        public void SetInput(Stream inputStream, string inputEncoding)
-        {
-            throw new XmlPullParserException(E_NOT_SUPPORTED);
-        }
+        public void SetInput(Stream inputStream, string inputEncoding) => throw new XmlPullParserException(E_NOT_SUPPORTED);
 
         /**
          * Returns the input encoding if known, null otherwise.
@@ -471,10 +454,7 @@ namespace QingYi.AXML.Android.XmlPull.V1
          * After first call to next if XML declaration was present this method
          * will return encoding declared.
          */
-        public string GetInputEncoding()
-        {
-            return null;
-        }
+        public string GetInputEncoding() { return null; }
 
         /**
          * Set new value for entity replacement text as defined in
