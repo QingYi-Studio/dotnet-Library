@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace QingYi.AXML.Android.content
+namespace QingYi.AXML.Android.Content
 {
     public class StringBlock
     {

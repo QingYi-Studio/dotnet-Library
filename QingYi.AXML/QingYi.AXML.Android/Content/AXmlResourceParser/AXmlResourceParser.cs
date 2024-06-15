@@ -1,6 +1,4 @@
-﻿using QingYi.AXML.Android.content;
-
-namespace QingYi.AXML.Android.Content
+﻿namespace QingYi.AXML.Android.Content
 {
     public class AXmlResourceParser
     {

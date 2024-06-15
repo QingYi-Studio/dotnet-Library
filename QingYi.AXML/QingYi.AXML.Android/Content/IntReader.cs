@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System;
 
-namespace QingYi.AXML.Android.content
+namespace QingYi.AXML.Android.Content
 {
     /**
      *
