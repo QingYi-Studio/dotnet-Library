@@ -1,7 +1,8 @@
 ﻿using QingYi.AXML.Android.Content;
+using QingYi.AXML.Android.Util;
 using QingYi.AXML.Exception.V1;
 using System.IO;
-using System.Runtime.CompilerServices;
+using System.Xml;
 
 namespace QingYi.AXML.Android.XmlPull.V1
 {
@@ -52,7 +53,11 @@ namespace QingYi.AXML.Android.XmlPull.V1
 
         string GetNamespace(string prefix);
 
+        int GetDepth();
+
         string GetPositionDescription();
+
+        int GetLineNumber();
 
         int GetColumnNumber();
 
@@ -60,7 +65,7 @@ namespace QingYi.AXML.Android.XmlPull.V1
 
         string GetText();
 
-        char[] GetTextCharacters(out int start);
+        char[] GetTextCharacters(int[] holderForStartAndLength);
 
         string GetNamespace();
 
@@ -101,9 +106,7 @@ namespace QingYi.AXML.Android.XmlPull.V1
 
     public class XmlPullParser : IXmlPullParser
     {
-        private readonly string E_NOT_SUPPORTED = "Method is not supported.";
-        private readonly NamespaceStack m_namespaces = new NamespaceStack();
-        private StringBlock m_strings;
+        private readonly AXmlResourceParser parser = new AXmlResourceParser();
 
         /** This constant represents the default namespace (empty string "") */
         public string NO_NAMESPACE { get; } = "";
@@ -292,7 +295,7 @@ namespace QingYi.AXML.Android.XmlPull.V1
          * to limitations of the Java language.
          */
         public string[] TYPES { get; } = {
-        "START_DOCUMENT",
+            "START_DOCUMENT",
             "END_DOCUMENT",
             "START_TAG",
             "END_TAG",
@@ -376,7 +379,7 @@ namespace QingYi.AXML.Android.XmlPull.V1
          * @exception XmlPullParserException If the feature is not supported or can not be set
          * @exception IllegalArgumentException If string with the feature name is null
          */
-        public void SetFeature(string name, bool state) => throw new XmlPullParserException(E_NOT_SUPPORTED);
+        public void SetFeature(string name, bool state) => throw new XmlPullParserException(AXmlResourceParser.E_NOT_SUPPORTED);
 
         /**
          * Returns the current value of the given feature.
@@ -397,7 +400,7 @@ namespace QingYi.AXML.Android.XmlPull.V1
          * @exception XmlPullParserException If the property is not supported or can not be set
          * @exception IllegalArgumentException If string with the property name is null
          */
-        public void SetProperty(string name, object value) => throw new XmlPullParserException(E_NOT_SUPPORTED);
+        public void SetProperty(string name, object value) => throw new XmlPullParserException(AXmlResourceParser.E_NOT_SUPPORTED);
 
         /**
          * Look up the value of a property.
@@ -420,7 +423,7 @@ namespace QingYi.AXML.Android.XmlPull.V1
          * allowing the parser to free internal resources
          * such as parsing buffers.
          */
-        public void SetInput(TextReader input) => throw new XmlPullParserException(E_NOT_SUPPORTED);
+        public void SetInput(TextReader input) => throw new XmlPullParserException(AXmlResourceParser.E_NOT_SUPPORTED);
 
         /**
          * Sets the input stream the parser is going to process.
@@ -440,7 +443,7 @@ namespace QingYi.AXML.Android.XmlPull.V1
          *
          * @param inputEncoding if not null it MUST be used as encoding for inputStream
          */
-        public void SetInput(Stream inputStream, string inputEncoding) => throw new XmlPullParserException(E_NOT_SUPPORTED);
+        public void SetInput(Stream inputStream, string inputEncoding) => throw new XmlPullParserException(AXmlResourceParser.E_NOT_SUPPORTED);
 
         /**
          * Returns the input encoding if known, null otherwise.
@@ -487,7 +490,7 @@ namespace QingYi.AXML.Android.XmlPull.V1
          * @see #FEATURE_PROCESS_DOCDECL
          * @see #FEATURE_VALIDATION
          */
-        public void DefineEntityReplacementText(string entityName, string replacementText) => throw new XmlPullParserException(E_NOT_SUPPORTED);
+        public void DefineEntityReplacementText(string entityName, string replacementText) => throw new XmlPullParserException(AXmlResourceParser.E_NOT_SUPPORTED);
 
         /**
          * Returns the numbers of elements in the namespace stack for the given
@@ -515,7 +518,7 @@ namespace QingYi.AXML.Android.XmlPull.V1
          */
         public int GetNamespaceCount(int depth)
         {
-            return m_namespaces.GetAccumulatedCount(depth);
+            return parser.m_namespaces.GetAccumulatedCount(depth);
         }
 
         /**
@@ -530,8 +533,8 @@ namespace QingYi.AXML.Android.XmlPull.V1
          */
         public string GetNamespacePrefix(int pos)
         {
-            int prefix = m_namespaces.GetPrefix(pos);
-            return m_strings.GetString(prefix);
+            int prefix = parser.m_namespaces.GetPrefix(pos);
+            return parser.m_strings.GetString(prefix);
         }
 
         /**
@@ -543,8 +546,8 @@ namespace QingYi.AXML.Android.XmlPull.V1
          */
         public string GetNamespaceUri(int pos)
         {
-            int uri = m_namespaces.GetUri(pos);
-            return m_strings.GetString(uri);
+            int uri = parser.m_namespaces.GetUri(pos);
+            return parser.m_strings.GetString(uri);
         }
 
         /**
@@ -579,52 +582,648 @@ namespace QingYi.AXML.Android.XmlPull.V1
          * @see #getNamespacePrefix
          * @see #getNamespaceUri
          */
-        public string GetNamespace(string prefix) => throw new RuntimeException(E_NOT_SUPPORTED);
+        public string GetNamespace(string prefix) => throw new RuntimeException(AXmlResourceParser.E_NOT_SUPPORTED);
 
-        public string GetPositionDescription();
+        // --------------------------------------------------------------------------
+        // miscellaneous reporting methods
 
-        public int GetColumnNumber();
+        /**
+         * Returns the current depth of the element.
+         * Outside the root element, the depth is 0. The
+         * depth is incremented by 1 when a start tag is reached.
+         * The depth is decremented AFTER the end tag
+         * event was observed.
+         *
+         * <pre>
+         * &lt;!-- outside --&gt;     0
+         * &lt;root>                  1
+         *   sometext                 1
+         *     &lt;foobar&gt;         2
+         *     &lt;/foobar&gt;        2
+         * &lt;/root&gt;              1
+         * &lt;!-- outside --&gt;     0
+         * </pre>
+         */
+        public int GetDepth() { return parser.m_namespaces.GetDepth() - 1; }
 
-        public bool IsWhitespace();
+        /**
+         * Returns a short text describing the current parser state, including
+         * the position, a
+         * description of the current event and the data source if known.
+         * This method is especially useful to provide meaningful
+         * error messages and for debugging purposes.
+         */
+        public string GetPositionDescription() { return "XML line #" + GetLineNumber(); }
 
-        public string GetText();
+        /**
+         * Returns the current line number, starting from 1.
+         * When the parser does not know the current line number
+         * or can not determine it,  -1 is returned (e.g. for WBXML).
+         *
+         * @return current line number or -1 if unknown.
+         */
+        public int GetLineNumber() { return parser.m_lineNumber; }
 
-        public char[] GetTextCharacters(out int start);
+        /**
+         * Returns the current column number, starting from 0.
+         * When the parser does not know the current column number
+         * or can not determine it,  -1 is returned (e.g. for WBXML).
+         *
+         * @return current column number or -1 if unknown.
+         */
+        public int GetColumnNumber() { return -1; }
 
-        public string GetNamespace();
+        // --------------------------------------------------------------------------
+        // TEXT related methods
 
-        public string GetName();
+        /**
+         * Checks whether the current TEXT event contains only whitespace
+         * characters.
+         * For IGNORABLE_WHITESPACE, this is always true.
+         * For TEXT and CDSECT, false is returned when the current event text
+         * contains at least one non-white space character. For any other
+         * event type an exception is thrown.
+         *
+         * <p><b>Please note:</b> non-validating parsers are not
+         * able to distinguish whitespace and ignorable whitespace,
+         * except from whitespace outside the root element. Ignorable
+         * whitespace is reported as separate event, which is exposed
+         * via nextToken only.
+         *
+         */
+        public bool IsWhitespace() {  return false; }
 
-        public string GetPrefix();
+        /**
+         * Returns the text content of the current event as String.
+         * The value returned depends on current event type,
+         * for example for TEXT event it is element content
+         * (this is typical case when next() is used).
+         *
+         * See description of nextToken() for detailed description of
+         * possible returned values for different types of events.
+         *
+         * <p><strong>NOTE:</strong> in case of ENTITY_REF, this method returns
+         * the entity replacement text (or null if not available). This is
+         * the only case where
+         * getText() and getTextCharacters() return different values.
+         *
+         * @see #getEventType
+         * @see #next
+         * @see #nextToken
+         */
+        public string GetText()
+        {
+            if (parser.m_name == -1 || parser.m_event != TEXT)
+            {
+                return null;
+            }
+            return parser.m_strings.GetString(parser.m_name);
+        }
 
-        public bool IsEmptyElementTag();
 
-        public int GetAttributeCount();
+        /**
+         * Returns the buffer that contains the text of the current event,
+         * as well as the start offset and length relevant for the current
+         * event. See getText(), next() and nextToken() for description of possible returned values.
+         *
+         * <p><strong>Please note:</strong> this buffer must not
+         * be modified and its content MAY change after a call to
+         * next() or nextToken(). This method will always return the
+         * same value as getText(), except for ENTITY_REF. In the case
+         * of ENTITY ref, getText() returns the replacement text and
+         * this method returns the actual input buffer containing the
+         * entity name.
+         * If getText() returns null, this method returns null as well and
+         * the values returned in the holder array MUST be -1 (both start
+         * and length).
+         *
+         * @see #getText
+         * @see #next
+         * @see #nextToken
+         *
+         * @param holderForStartAndLength Must hold an 2-element int array
+         * into which the start offset and length values will be written.
+         * @return char buffer that contains the text of the current event
+         *  (null if the current event has no text associated).
+         */
+        public char[] GetTextCharacters(int[] holderForStartAndLength)
+        {
+            string text = GetText();
 
-        public string GetAttributeNamespace(int index);
+            if (text == null)
+            {
+                return null;
+            }
 
-        public string GetAttributeName(int index);
+            holderForStartAndLength[0] = 0;
+            holderForStartAndLength[1] = text.Length;
+            char[] chars = new char[text.Length];
+            text.CopyTo(0, chars, 0, text.Length);
 
-        public string GetAttributePrefix(int index);
+            return chars;
+        }
 
-        public string GetAttributeType(int index);
+        // --------------------------------------------------------------------------
+        // START_TAG / END_TAG shared methods
 
-        public bool IsAttributeDefault(int index);
+        /**
+         * Returns the namespace URI of the current element.
+         * The default namespace is represented
+         * as empty string.
+         * If namespaces are not enabled, an empty String ("") is always returned.
+         * The current event must be START_TAG or END_TAG; otherwise,
+         * null is returned.
+         */
+        public string GetNamespace() { return parser.m_strings.GetString(parser.m_namespaceUri); }
 
-        public string GetAttributeValue(int index);
+        /**
+         * For START_TAG or END_TAG events, the (local) name of the current
+         * element is returned when namespaces are enabled. When namespace
+         * processing is disabled, the raw name is returned.
+         * For ENTITY_REF events, the entity name is returned.
+         * If the current event is not START_TAG, END_TAG, or ENTITY_REF,
+         * null is returned.
+         * <p><b>Please note:</b> To reconstruct the raw element name
+         *  when namespaces are enabled and the prefix is not null,
+         * you will need to  add the prefix and a colon to localName..
+         *
+         */
+        public string GetName()
+        {
+            if (parser.m_name == -1 || (parser.m_event != START_TAG && parser.m_event != END_TAG))
+            {
+                return null;
+            }
+            return parser.m_strings.GetString(parser.m_name);
 
-        public string GetAttributeValue(string namespaceUri, string name);
+        }
 
-        public int GetEventType();
+        /**
+         * Returns the prefix of the current element.
+         * If the element is in the default namespace (has no prefix),
+         * null is returned.
+         * If namespaces are not enabled, or the current event
+         * is not  START_TAG or END_TAG, null is returned.
+         */
+        public string GetPrefix()
+        {
+            int prefix = parser.m_namespaces.FindPrefix(parser.m_namespaceUri);
+            return parser.m_strings.GetString(prefix);
+        }
 
-        public int Next();
+        /**
+         * Returns true if the current event is START_TAG and the tag
+         * is degenerated
+         * (e.g. &lt;foobar/&gt;).
+         * <p><b>NOTE:</b> if the parser is not on START_TAG, an exception
+         * will be thrown.
+         */
+        public bool IsEmptyElementTag() { return false; }
 
-        public int NextToken();
+        // --------------------------------------------------------------------------
+        // START_TAG Attributes retrieval methods
 
-        public void Require(int type, string namespaceUri, string name);
+        /**
+         * Returns the number of attributes of the current start tag, or
+         * -1 if the current event type is not START_TAG
+         *
+         * @see #getAttributeNamespace
+         * @see #getAttributeName
+         * @see #getAttributePrefix
+         * @see #getAttributeValue
+         */
+        public int GetAttributeCount()
+        {
+            if (parser.m_event != START_TAG)
+            {
+                return -1;
+            }
+            return parser.m_attributes.Length / AXmlResourceParser.ATTRIBUTE_LENGHT;
+        }
 
-        public string NextText();
+        /**
+         * Returns the namespace URI of the attribute
+         * with the given index (starts from 0).
+         * Returns an empty string ("") if namespaces are not enabled
+         * or the attribute has no namespace.
+         * Throws an IndexOutOfBoundsException if the index is out of range
+         * or the current event type is not START_TAG.
+         *
+         * <p><strong>NOTE:</strong> if FEATURE_REPORT_NAMESPACE_ATTRIBUTES is set
+         * then namespace attributes (xmlns:ns='...') must be reported
+         * with namespace
+         * <a href="http://www.w3.org/2000/xmlns/">http://www.w3.org/2000/xmlns/</a>
+         * (visit this URL for description!).
+         * The default namespace attribute (xmlns="...") will be reported with empty namespace.
+         * <p><strong>NOTE:</strong>The xml prefix is bound as defined in
+         * <a href="http://www.w3.org/TR/REC-xml-names/#ns-using">Namespaces in XML</a>
+         * specification to "http://www.w3.org/XML/1998/namespace".
+         *
+         * @param index based index of attribute
+         * @return attribute namespace,
+         *   empty string ("") is returned  if namesapces processing is not enabled or
+         *   namespaces processing is enabled but attribute has no namespace (it has no prefix).
+         */
+        public string GetAttributeNamespace(int index)
+        {
+            int offset = parser.GetAttributeOffset(index);
+            int namespaceIndex = parser.m_attributes[offset + AXmlResourceParser.ATTRIBUTE_IX_NAMESPACE_URI];
 
-        public int NextTag();
+            if (namespaceIndex == -1)
+            {
+                return "";
+            }
+
+            return parser.m_strings.GetString(namespaceIndex);
+        }
+
+        /**
+         * Returns the local name of the specified attribute
+         * if namespaces are enabled or just attribute name if namespaces are disabled.
+         * Throws an IndexOutOfBoundsException if the index is out of range
+         * or current event type is not START_TAG.
+         *
+         * @param index based index of attribute
+         * @return attribute name (null is never returned)
+         */
+        public string GetAttributeName(int index)
+        {
+            int offset = parser.GetAttributeOffset(index);
+            int nameIndex = parser.m_attributes[offset + AXmlResourceParser.ATTRIBUTE_IX_NAME];
+
+            if (nameIndex == -1)
+            {
+                return "";
+            }
+
+            return parser.m_strings.GetString(nameIndex);
+        }
+
+        /**
+         * Returns the prefix of the specified attribute
+         * Returns null if the element has no prefix.
+         * If namespaces are disabled it will always return null.
+         * Throws an IndexOutOfBoundsException if the index is out of range
+         * or current event type is not START_TAG.
+         *
+         * @param index based index of attribute
+         * @return attribute prefix or null if namespaces processing is not enabled.
+         */
+        public string GetAttributePrefix(int index)
+        {
+            int offset = parser.GetAttributeOffset(index);
+            int uri = parser.m_attributes[offset + AXmlResourceParser.ATTRIBUTE_IX_NAMESPACE_URI];
+            int prefixIndex = parser.m_namespaces.FindPrefix(uri);
+
+            if (prefixIndex == -1)
+            {
+                return "";
+            }
+
+            return parser.m_strings.GetString(prefixIndex);
+        }
+
+        /**
+         * Returns the type of the specified attribute
+         * If parser is non-validating it MUST return CDATA.
+         *
+         * @param index based index of attribute
+         * @return attribute type (null is never returned)
+         */
+        public string GetAttributeType(int index) { return "CDATA"; }
+
+        /**
+         * Returns if the specified attribute was not in input was declared in XML.
+         * If parser is non-validating it MUST always return false.
+         * This information is part of XML infoset:
+         *
+         * @param index based index of attribute
+         * @return false if attribute was in input
+         */
+        public bool IsAttributeDefault(int index) { return false; }
+
+        /**
+         * Returns the given attributes value.
+         * Throws an IndexOutOfBoundsException if the index is out of range
+         * or current event type is not START_TAG.
+         *
+         * <p><strong>NOTE:</strong> attribute value must be normalized
+         * (including entity replacement text if PROCESS_DOCDECL is false) as described in
+         * <a href="http://www.w3.org/TR/REC-xml#AVNormalize">XML 1.0 section
+         * 3.3.3 Attribute-Value Normalization</a>
+         *
+         * @see #defineEntityReplacementText
+         *
+         * @param index based index of attribute
+         * @return value of attribute (null is never returned)
+         */
+        public string GetAttributeValue(int index)
+        {
+            int offset = parser.GetAttributeOffset(index);
+            int valueType = parser.m_attributes[offset + AXmlResourceParser.ATTRIBUTE_IX_VALUE_TYPE];
+
+            if (valueType == TypedValue.TYPE_STRING)
+            {
+                int valueString = parser.m_attributes[offset + AXmlResourceParser.ATTRIBUTE_IX_VALUE_STRING];
+                return parser.m_strings.GetString(valueString);
+            }
+
+            return ""; // TypedValue.CoerceToString(valueType, valueData);
+        }
+
+        /**
+         * Returns the attributes value identified by namespace URI and namespace localName.
+         * If namespaces are disabled namespace must be null.
+         * If current event type is not START_TAG then IndexOutOfBoundsException will be thrown.
+         *
+         * <p><strong>NOTE:</strong> attribute value must be normalized
+         * (including entity replacement text if PROCESS_DOCDECL is false) as described in
+         * <a href="http://www.w3.org/TR/REC-xml#AVNormalize">XML 1.0 section
+         * 3.3.3 Attribute-Value Normalization</a>
+         *
+         * @see #defineEntityReplacementText
+         *
+         * @param namespace Namespace of the attribute if namespaces are enabled otherwise must be null
+         * @param name If namespaces enabled local name of attribute otherwise just attribute name
+         * @return value of attribute or null if attribute with given name does not exist
+         */
+        public string GetAttributeValue(string namespaceUri, string attribute)
+        {
+            int index = parser.FindAttribute(namespaceUri, attribute);
+            if (index == -1)
+            {
+                return null;
+            }
+            return GetAttributeValue(index);
+        }
+
+        // --------------------------------------------------------------------------
+        // actual parsing methods
+
+        /**
+         * Returns the type of the current event (START_TAG, END_TAG, TEXT, etc.)
+         *
+         * @see #next()
+         * @see #nextToken()
+         */
+        public int GetEventType() { return parser.m_event; }
+
+        /**
+         * Get next parsing event - element content wil be coalesced and only one
+         * TEXT event must be returned for whole element content
+         * (comments and processing instructions will be ignored and emtity references
+         * must be expanded or exception mus be thrown if entity reerence can not be exapnded).
+         * If element content is empty (content is "") then no TEXT event will be reported.
+         *
+         * <p><b>NOTE:</b> empty element (such as &lt;tag/>) will be reported
+         *  with  two separate events: START_TAG, END_TAG - it must be so to preserve
+         *   parsing equivalency of empty element to &lt;tag>&lt;/tag>.
+         *  (see isEmptyElementTag ())
+         *
+         * @see #isEmptyElementTag
+         * @see #START_TAG
+         * @see #TEXT
+         * @see #END_TAG
+         * @see #END_DOCUMENT
+         */
+        public int Next()
+        {
+            if (parser.m_reader == null)
+            {
+                throw new XmlPullParserException("Parser is not opened.", this, null);
+            }
+
+            try
+            {
+                parser.DoNext();
+                return parser.m_event;
+            }
+            catch (IOException)
+            {
+                parser.Close();
+                throw;
+            }
+        }
+
+        /**
+         * This method works similarly to next() but will expose
+         * additional event types (COMMENT, CDSECT, DOCDECL, ENTITY_REF, PROCESSING_INSTRUCTION, or
+         * IGNORABLE_WHITESPACE) if they are available in input.
+         *
+         * <p>If special feature
+         * <a href="http://xmlpull.org/v1/doc/features.html#xml-roundtrip">FEATURE_XML_ROUNDTRIP</a>
+         * (identified by URI: http://xmlpull.org/v1/doc/features.html#xml-roundtrip)
+         * is enabled it is possible to do XML document round trip ie. reproduce
+         * exectly on output the XML input using getText():
+         * returned content is always unnormalized (exactly as in input).
+         * Otherwise returned content is end-of-line normalized as described
+         * <a href="http://www.w3.org/TR/REC-xml#sec-line-ends">XML 1.0 End-of-Line Handling</a>
+         * and. Also when this feature is enabled exact content of START_TAG, END_TAG,
+         * DOCDECL and PROCESSING_INSTRUCTION is available.
+         *
+         * <p>Here is the list of tokens that can be  returned from nextToken()
+         * and what getText() and getTextCharacters() returns:<dl>
+         * <dt>START_DOCUMENT<dd>null
+         * <dt>END_DOCUMENT<dd>null
+         * <dt>START_TAG<dd>null unless FEATURE_XML_ROUNDTRIP
+         *   enabled and then returns XML tag, ex: &lt;tag attr='val'>
+         * <dt>END_TAG<dd>null unless FEATURE_XML_ROUNDTRIP
+         *  id enabled and then returns XML tag, ex: &lt;/tag>
+         * <dt>TEXT<dd>return element content.
+         *  <br>Note: that element content may be delivered in multiple consecutive TEXT events.
+         * <dt>IGNORABLE_WHITESPACE<dd>return characters that are determined to be ignorable white
+         * space. If the FEATURE_XML_ROUNDTRIP is enabled all whitespace content outside root
+         * element will always reported as IGNORABLE_WHITESPACE otherise rteporting is optional.
+         *  <br>Note: that element content may be delevered in multiple consecutive IGNORABLE_WHITESPACE events.
+         * <dt>CDSECT<dd>
+         * return text <em>inside</em> CDATA
+         *  (ex. 'fo&lt;o' from &lt;!CDATA[fo&lt;o]]>)
+         * <dt>PROCESSING_INSTRUCTION<dd>
+         *  if FEATURE_XML_ROUNDTRIP is true
+         *  return exact PI content ex: 'pi foo' from &lt;?pi foo?>
+         *  otherwise it may be exact PI content or concatenation of PI target,
+         * space and data so for example for
+         *   &lt;?target    data?> string &quot;target data&quot; may
+         *       be returned if FEATURE_XML_ROUNDTRIP is false.
+         * <dt>COMMENT<dd>return comment content ex. 'foo bar' from &lt;!--foo bar-->
+         * <dt>ENTITY_REF<dd>getText() MUST return entity replacement text if PROCESS_DOCDECL is false
+         * otherwise getText() MAY return null,
+         * additionally getTextCharacters() MUST return entity name
+         * (for example 'entity_name' for &amp;entity_name;).
+         * <br><b>NOTE:</b> this is the only place where value returned from getText() and
+         *   getTextCharacters() <b>are different</b>
+         * <br><b>NOTE:</b> it is user responsibility to resolve entity reference
+         *    if PROCESS_DOCDECL is false and there is no entity replacement text set in
+         *    defineEntityReplacementText() method (getText() will be null)
+         * <br><b>NOTE:</b> character entities (ex. &amp;#32;) and standard entities such as
+         *  &amp;amp; &amp;lt; &amp;gt; &amp;quot; &amp;apos; are reported as well
+         *  and are <b>not</b> reported as TEXT tokens but as ENTITY_REF tokens!
+         *  This requirement is added to allow to do roundtrip of XML documents!
+         * <dt>DOCDECL<dd>
+         * if FEATURE_XML_ROUNDTRIP is true or PROCESS_DOCDECL is false
+         * then return what is inside of DOCDECL for example it returns:<pre>
+         * &quot; titlepage SYSTEM "http://www.foo.bar/dtds/typo.dtd"
+         * [&lt;!ENTITY % active.links "INCLUDE">]&quot;</pre>
+         * <p>for input document that contained:<pre>
+         * &lt;!DOCTYPE titlepage SYSTEM "http://www.foo.bar/dtds/typo.dtd"
+         * [&lt;!ENTITY % active.links "INCLUDE">]></pre>
+         * otherwise if FEATURE_XML_ROUNDTRIP is false and PROCESS_DOCDECL is true
+         *    then what is returned is undefined (it may be even null)
+         * </dd>
+         * </dl>
+         *
+         * <p><strong>NOTE:</strong> there is no gurantee that there will only one TEXT or
+         * IGNORABLE_WHITESPACE event from nextToken() as parser may chose to deliver element content in
+         * multiple tokens (dividing element content into chunks)
+         *
+         * <p><strong>NOTE:</strong> whether returned text of token is end-of-line normalized
+         *  is depending on FEATURE_XML_ROUNDTRIP.
+         *
+         * <p><strong>NOTE:</strong> XMLDecl (&lt;?xml ...?&gt;) is not reported but its content
+         * is available through optional properties (see class description above).
+         *
+         * @see #next
+         * @see #START_TAG
+         * @see #TEXT
+         * @see #END_TAG
+         * @see #END_DOCUMENT
+         * @see #COMMENT
+         * @see #DOCDECL
+         * @see #PROCESSING_INSTRUCTION
+         * @see #ENTITY_REF
+         * @see #IGNORABLE_WHITESPACE
+         */
+        public int NextToken() { return parser.Next(); }
+
+        //-----------------------------------------------------------------------------
+        // utility methods to mak XML parsing easier ...
+
+        /**
+         * Test if the current event is of the given type and if the
+         * namespace and name do match. null will match any namespace
+         * and any name. If the test is not passed, an exception is
+         * thrown. The exception text indicates the parser position,
+         * the expected event and the current event that is not meeting the
+         * requirement.
+         *
+         * <p>Essentially it does this
+         * <pre>
+         *  if (type != getEventType()
+         *  || (namespace != null &amp;&amp;  !namespace.equals( getNamespace () ) )
+         *  || (name != null &amp;&amp;  !name.equals( getName() ) ) )
+         *     throw new XmlPullParserException( "expected "+ TYPES[ type ]+getPositionDescription());
+         * </pre>
+         */
+        public void Require(int type, string namespaceUri, string name)
+        {
+            if (type != GetEventType() ||
+                (namespaceUri != null && namespaceUri != GetNamespace()) ||
+                (name != null && name != GetName()))
+            {
+                throw new XmlPullParserException(TYPES[type] + " is expected.", this, null);
+            }
+        }
+
+        /**
+         * If current event is START_TAG then if next element is TEXT then element content is returned
+         * or if next event is END_TAG then empty string is returned, otherwise exception is thrown.
+         * After calling this function successfully parser will be positioned on END_TAG.
+         *
+         * <p>The motivation for this function is to allow to parse consistently both
+         * empty elements and elements that has non empty content, for example for input: <ol>
+         * <li>&lt;tag&gt;foo&lt;/tag&gt;
+         * <li>&lt;tag&gt;&lt;/tag&gt; (which is equivalent to &lt;tag/&gt;
+         * both input can be parsed with the same code:
+         * <pre>
+         *   p.nextTag()
+         *   p.requireEvent(p.START_TAG, "", "tag");
+         *   String content = p.nextText();
+         *   p.requireEvent(p.END_TAG, "", "tag");
+         * </pre>
+         * This function together with nextTag make it very easy to parse XML that has
+         * no mixed content.
+         *
+         *
+         * <p>Essentially it does this
+         * <pre>
+         *  if(getEventType() != START_TAG) {
+         *     throw new XmlPullParserException(
+         *       "parser must be on START_TAG to read next text", this, null);
+         *  }
+         *  int eventType = next();
+         *  if(eventType == TEXT) {
+         *     String result = getText();
+         *     eventType = next();
+         *     if(eventType != END_TAG) {
+         *       throw new XmlPullParserException(
+         *          "event TEXT it must be immediately followed by END_TAG", this, null);
+         *      }
+         *      return result;
+         *  } else if(eventType == END_TAG) {
+         *     return "";
+         *  } else {
+         *     throw new XmlPullParserException(
+         *       "parser must be on START_TAG or TEXT to read text", this, null);
+         *  }
+         * </pre>
+         */
+        public string NextText()
+        {
+            if (GetEventType() != START_TAG)
+            {
+                throw new XmlPullParserException("Parser must be on START_TAG to read next text.", this, null);
+            }
+
+            int eventType = Next();
+            if (eventType == TEXT)
+            {
+                string result = GetText();
+                eventType = Next();
+                if (eventType != END_TAG)
+                {
+                    throw new XmlPullParserException("Event TEXT must be immediately followed by END_TAG.", this, null);
+                }
+                return result;
+            }
+            else if (eventType == END_TAG)
+            {
+                return "";
+            }
+            else
+            {
+                throw new XmlPullParserException("Parser must be on START_TAG or TEXT to read text.", this, null);
+            }
+        }
+
+        /**
+         * Call next() and return event if it is START_TAG or END_TAG
+         * otherwise throw an exception.
+         * It will skip whitespace TEXT before actual tag if any.
+         *
+         * <p>essentially it does this
+         * <pre>
+         *   int eventType = next();
+         *   if(eventType == TEXT &amp;&amp;  isWhitespace()) {   // skip whitespace
+         *      eventType = next();
+         *   }
+         *   if (eventType != START_TAG &amp;&amp;  eventType != END_TAG) {
+         *      throw new XmlPullParserException("expected start or end tag", this, null);
+         *   }
+         *   return eventType;
+         * </pre>
+         */
+        public int NextTag()
+        {
+            int eventType = Next();
+            if (eventType == TEXT && IsWhitespace())
+            {
+                eventType = Next();
+            }
+            if (eventType != START_TAG && eventType != END_TAG)
+            {
+                throw new XmlPullParserException("Expected start or end tag.", this, null);
+            }
+            return eventType;
+        }
     }
 }
