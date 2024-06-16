@@ -57,5 +57,27 @@ namespace QingYi.AXML.Android.XmlPull.V1
          * Protected constructor to be called by factory implementations.
          */
         protected XmlPullParserFactory() { }
+
+        /**
+         * Set the features to be set when XML Pull Parser is created by this factory.
+         * <p><b>NOTE:</b> factory features are not used for XML Serializer.
+         *
+         * @param name string with URI identifying feature
+         * @param state if true feature will be set; if false will be ignored
+         */
+        public void SetFeature(string name, bool state)
+        {
+            features[name] = state;
+        }
+
+        /**
+         * Return the current value of the feature with given name.
+         * <p><b>NOTE:</b> factory features are not used for XML Serializer.
+         *
+         * @param name The name of feature to be retrieved.
+         * @return The value of named feature.
+         *     Unknown features are <string>always</strong> returned as false
+         */
+
     }
 }
