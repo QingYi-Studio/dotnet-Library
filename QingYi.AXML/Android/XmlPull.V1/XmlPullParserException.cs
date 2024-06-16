@@ -44,7 +44,7 @@ namespace QingYi.AXML.Android.XmlPull.V1
             }
             else
             {
-                return $"{base.ToString()}; nested exception is:\n\t{detail.ToString()}";
+                return $"{base.ToString()}; nested exception is:\n\t{detail}";
             }
         }
 
