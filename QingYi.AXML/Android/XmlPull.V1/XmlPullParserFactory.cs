@@ -30,6 +30,8 @@ namespace QingYi.AXML.Android.XmlPull.V1
      */
     public class XmlPullParserFactory
     {
+        XmlPullParser xmlPullParser = new XmlPullParser();
+
         /** used as default class to server as context class in newInstance() */
         private static readonly Type referenceContextClass;
 
@@ -65,10 +67,7 @@ namespace QingYi.AXML.Android.XmlPull.V1
          * @param name string with URI identifying feature
          * @param state if true feature will be set; if false will be ignored
          */
-        public void SetFeature(string name, bool state)
-        {
-            features[name] = state;
-        }
+        public void SetFeature(string name, bool state) => features[name] = state;
 
         /**
          * Return the current value of the feature with given name.
@@ -88,5 +87,25 @@ namespace QingYi.AXML.Android.XmlPull.V1
             }
             return result;
         }
+
+        /**
+         * Specifies that the parser produced by this factory will provide
+         * support for XML namespaces.
+         * By default the value of this is set to false.
+         *
+         * @param awareness true if the parser produced by this code
+         *    will provide support for XML namespaces;  false otherwise.
+         */
+        public void SetNamespaceAware(bool awareness) => features[xmlPullParser.FEATURE_PROCESS_NAMESPACES] = awareness;
+
+        /**
+         * Indicates whether or not the factory is configured to produce
+         * parsers which are namespace aware
+         * (it simply set feature XmlPullParser.FEATURE_PROCESS_NAMESPACES to true or false).
+         *
+         * @return  true if the factory is configured to produce parsers
+         *    which are namespace aware; false otherwise.
+         */
+        public bool IsNamespaceAware() { return GetFeature(xmlPullParser.FEATURE_PROCESS_NAMESPACES); }
     }
 }
