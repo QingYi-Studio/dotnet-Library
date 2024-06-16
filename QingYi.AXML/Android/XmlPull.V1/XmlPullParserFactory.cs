@@ -78,6 +78,15 @@ namespace QingYi.AXML.Android.XmlPull.V1
          * @return The value of named feature.
          *     Unknown features are <string>always</strong> returned as false
          */
-
+        public bool GetFeature(string name)
+        {
+            bool result = false;
+            if (features.ContainsKey(name))
+            {
+                bool? value = features[name] as bool?;
+                result = value ?? false;
+            }
+            return result;
+        }
     }
 }
