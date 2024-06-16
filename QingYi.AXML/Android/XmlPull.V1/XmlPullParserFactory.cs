@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -225,6 +226,129 @@ namespace QingYi.AXML.Android.XmlPull.V1
             }
 
             throw new XmlPullParserException("Could not create serializer: " + issues);
+        }
+
+        /**
+         * Create a new instance of a PullParserFactory that can be used
+         * to create XML pull parsers (see class description for more
+         * details).
+         *
+         * @return a new instance of a PullParserFactory, as returned by newInstance (null, null); 
+         */
+        public static XmlPullParserFactory NewInstance()
+        {
+            return NewInstance(null, null);
+        }
+
+        public static XmlPullParserFactory NewInstance(string classNames, Type context)
+        {
+            if (context == null)
+            {
+                // NOTE: make sure context uses the same class loader as API classes
+                // this is the best we can do without having access to context classloader in J2ME
+                // if API is in the same classloader as implementation then this will work
+                context = referenceContextClass;
+            }
+
+            string classNamesLocation = null;
+
+            if (string.IsNullOrEmpty(classNames) || classNames.Equals("DEFAULT", StringComparison.OrdinalIgnoreCase))
+            {
+                try
+                {
+                    using (Stream isStream = context.GetResourceAsStream(RESOURCE_NAME))
+                    {
+                        if (isStream == null)
+                        {
+                            throw new XmlPullParserException("resource not found: " + RESOURCE_NAME + " make sure that parser implementing XmlPull API is available");
+                        }
+
+                        StringBuilder sb = new StringBuilder();
+
+                        while (true)
+                        {
+                            int ch = isStream.ReadByte();
+                            if (ch < 0) break;
+                            else if (ch > ' ')
+                                sb.Append((char)ch);
+                        }
+
+                        classNames = sb.ToString();
+                    }
+
+                    classNamesLocation = $"resource {RESOURCE_NAME} that contained '{classNames}'";
+                }
+                catch (System.Exception e)
+                {
+                    throw new XmlPullParserException(null, null, e);
+                }
+            }
+            else
+            {
+                classNamesLocation = $"parameter classNames to NewInstance() that contained '{classNames}'";
+            }
+
+            XmlPullParserFactory factory = null;
+            List<Type> parserClasses = new List<Type>();
+            List<Type> serializerClasses = new List<Type>();
+            int pos = 0;
+
+            while (pos < classNames.Length)
+            {
+                int cut = classNames.IndexOf(',', pos);
+
+                if (cut == -1) cut = classNames.Length;
+                string name = classNames.Substring(pos, cut - pos);
+
+                Type candidate = null;
+                object instance = null;
+                try
+                {
+                    candidate = Type.GetType(name);
+                    // necessary because of J2ME .class issue
+                    instance = Activator.CreateInstance(candidate);
+                }
+                catch (System.Exception) { }
+
+                if (candidate != null)
+                {
+                    bool recognized = false;
+                    if (instance is XmlPullParser)
+                    {
+                        parserClasses.Add(candidate);
+                        recognized = true;
+                    }
+                    if (instance is XmlSerializer)
+                    {
+                        serializerClasses.Add(candidate);
+                        recognized = true;
+                    }
+                    if (instance is XmlPullParserFactory)
+                    {
+                        if (factory == null)
+                        {
+                            factory = (XmlPullParserFactory)instance;
+                        }
+                        recognized = true;
+                    }
+                    if (!recognized)
+                    {
+                        throw new XmlPullParserException($"incompatible class: {name}");
+                    }
+                }
+                pos = cut + 1;
+            }
+
+            if (factory == null)
+            {
+                factory = new XmlPullParserFactory();
+            }
+
+            factory.parserClasses = parserClasses;
+            factory.serializerClasses = serializerClasses;
+            factory.classNamesLocation = classNamesLocation;
+
+            return factory;
         }
     }
 }
