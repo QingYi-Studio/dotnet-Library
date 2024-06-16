@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace QingYi.AXML.Android.XmlPull.V1
 {
@@ -150,6 +151,11 @@ namespace QingYi.AXML.Android.XmlPull.V1
                 {
                     XmlPullParser pp = (XmlPullParser)Activator.CreateInstance(ppClass);
 
+                    // Java commented-out code:
+                    // if( ! features.isEmpty() ) {
+                    // Enumeration keys = features.keys();
+                    // while(keys.hasMoreElements()) {
+
                     foreach (object key in features.Keys)
                     {
                         string featureKey = (string)key;
@@ -168,6 +174,57 @@ namespace QingYi.AXML.Android.XmlPull.V1
             }
 
             throw new XmlPullParserException("Could not create parser: " + issues);
+        }
+
+        /**
+         * Creates a new instance of a XML Serializer.
+         *
+         * <p><b>NOTE:</b> factory features are not used for XML Serializer.
+         *
+         * @return A new instance of a XML Serializer.
+         * @throws XmlPullParserException if a parser cannot be created which satisfies the
+         * requested configuration.
+         */
+        public XmlSerializer NewSerializer()
+        {
+            if (serializerClasses == null)
+            {
+                throw new XmlPullParserException(
+                    "Factory initialization incomplete - has not tried " + classNamesLocation);
+            }
+            if (serializerClasses.Count == 0)
+            {
+                throw new XmlPullParserException(
+                    "No valid serializer classes found in " + classNamesLocation);
+            }
+
+            StringBuilder issues = new StringBuilder();
+
+            for (int i = 0; i < serializerClasses.Count; i++)
+            {
+                Type ppClass = serializerClasses[i];
+                try
+                {
+                    XmlSerializer ser = (XmlSerializer)Activator.CreateInstance(ppClass);
+
+                    // Java commented-out code:
+                    // for (Enumeration e = features.keys (); e.hasMoreElements ();) {
+                    //     String key = (String) e.nextElement();
+                    //     Boolean value = (Boolean) features.get(key);
+                    //     if(value != null && value.booleanValue()) {
+                    //         ser.setFeature(key, true);
+                    //     }
+                    // }
+
+                    return ser;
+                }
+                catch (System.Exception ex)
+                {
+                    issues.Append(ppClass.FullName + ": " + ex.ToString() + "; ");
+                }
+            }
+
+            throw new XmlPullParserException("Could not create serializer: " + issues);
         }
     }
 }
