@@ -185,7 +185,7 @@ namespace QingYi.AXML.Android.XmlPull.V1
          * @throws XmlPullParserException if a parser cannot be created which satisfies the
          * requested configuration.
          */
-        public XmlSerializer NewSerializer()
+        public IXmlSerializer NewSerializer()
         {
             if (serializerClasses == null)
             {
@@ -216,7 +216,7 @@ namespace QingYi.AXML.Android.XmlPull.V1
                     //     }
                     // }
 
-                    return ser;
+                    return (IXmlSerializer)ser;
                 }
                 catch (System.Exception ex)
                 {
