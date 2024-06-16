@@ -126,5 +126,48 @@ namespace QingYi.AXML.Android.XmlPull.V1
          * which validate the XML content during parse; false otherwise.
          */
         public bool IsValidating() { return GetFeature(xmlPullParser.FEATURE_VALIDATION); }
+
+        /**
+         * Creates a new instance of a XML Pull Parser
+         * using the currently configured factory features.
+         *
+         * @return A new instance of a XML Pull Parser.
+         * @throws XmlPullParserException if a parser cannot be created which satisfies the
+         * requested configuration.
+         */
+        public XmlPullParser NewPullParser()
+        {
+            if (parserClasses == null) throw new XmlPullParserException("Factory initialization was incomplete - has not tried " + classNamesLocation);
+
+            if (parserClasses.Count == 0) throw new XmlPullParserException("No valid parser classes found in " + classNamesLocation);
+
+            StringBuilder issues = new StringBuilder();
+
+            for (int i = 0; i < parserClasses.Count; i++)
+            {
+                Type ppClass = parserClasses[i];
+                try
+                {
+                    XmlPullParser pp = (XmlPullParser)Activator.CreateInstance(ppClass);
+
+                    foreach (object key in features.Keys)
+                    {
+                        string featureKey = (string)key;
+                        bool? value = (bool?)features[key];
+                        if (value != null && value.Value)
+                        {
+                            pp.SetFeature(featureKey, true);
+                        }
+                    }
+                    return pp;
+                }
+                catch (System.Exception ex)
+                {
+                    issues.Append(ppClass.FullName + ": " + ex.ToString() + "; ");
+                }
+            }
+
+            throw new XmlPullParserException("Could not create parser: " + issues);
+        }
     }
 }
