@@ -107,5 +107,24 @@ namespace QingYi.AXML.Android.XmlPull.V1
          *    which are namespace aware; false otherwise.
          */
         public bool IsNamespaceAware() { return GetFeature(xmlPullParser.FEATURE_PROCESS_NAMESPACES); }
+
+        /**
+         * Specifies that the parser produced by this factory will be validating
+         * (it simply set feature XmlPullParser.FEATURE_VALIDATION to true or false).
+         *
+         * By default the value of this is set to false.
+         *
+         * @param validating - if true the parsers created by this factory  must be validating.
+         */
+        public void SetValidating(bool validating) => features[xmlPullParser.FEATURE_VALIDATION] = validating;
+
+        /**
+         * Indicates whether or not the factory is configured to produce parsers
+         * which validate the XML content during parse.
+         *
+         * @return   true if the factory is configured to produce parsers
+         * which validate the XML content during parse; false otherwise.
+         */
+        public bool IsValidating() { return GetFeature(xmlPullParser.FEATURE_VALIDATION); }
     }
 }
