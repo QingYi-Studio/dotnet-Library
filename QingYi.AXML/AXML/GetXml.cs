@@ -1,6 +1,9 @@
 ﻿using QingYi.AXML.Android.Content;
 using QingYi.AXML.Android.Util;
+using QingYi.AXML.Android.XmlPull.V1;
 using System;
+using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace AXML
@@ -8,20 +11,101 @@ namespace AXML
     public class GetXml
     {
         private readonly bool addXmlHead = true;
-        private readonly string inputFilePath;
-        private readonly string outputFilePath;
 
-        public GetXml(bool addXmlHead, string inputFilePath, string outputFilePath)
+        public GetXml(bool addXmlHead)
         {
             this.addXmlHead = addXmlHead;
-            this.inputFilePath = inputFilePath;
-            this.outputFilePath = outputFilePath;
         }
 
-        public async Task<string> GetAsync()
+        public Task<string> GetAsync(string[] arguments)
         {
-            // TODO
-            return null;
+            AXmlResourceParser parser = new AXmlResourceParser();
+            XmlPullParser xmlPullParser = new XmlPullParser();
+            StringBuilder output = new StringBuilder(); // 用于存储输出的字符串
+            try
+            {
+                using (FileStream fileStream = new FileStream(arguments[0], FileMode.Open))
+                {
+                    parser.Open(fileStream);
+                    StringBuilder indent = new StringBuilder(10);
+                    const string indentStep = "\t";
+
+                    while (true)
+                    {
+                        int type = parser.Next();
+                        if (type == xmlPullParser.END_DOCUMENT)
+                        {
+                            break;
+                        }
+
+                        if (type == xmlPullParser.START_DOCUMENT)
+                        {
+                            if (addXmlHead == true)
+                            {
+                                output.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+                            }
+                        }
+                        else if (type == xmlPullParser.START_TAG)
+                        {
+                            if (parser.GetEventType() == xmlPullParser.START_TAG)
+                            {
+                                string name = parser.GetName();
+                                if (name != null)
+                                {
+                                    output.Append($"{indent}<{GetNamespacePrefix(parser.GetPrefix())}{name}");
+
+                                    indent.Append(indentStep);
+                                }
+                                else
+                                {
+                                    output.AppendLine("Element name is null");
+                                }
+                            }
+                            else
+                            {
+                                output.AppendLine("Parser is null or not positioned on a start tag");
+                            }
+
+                            int namespaceCountBefore = parser.GetNamespaceCount(parser.GetDepth() - 1);
+                            int namespaceCount = parser.GetNamespaceCount(parser.GetDepth());
+
+                            for (int i = namespaceCountBefore; i != namespaceCount; ++i)
+                            {
+                                output.AppendLine($"{indent}xmlns:{parser.GetNamespacePrefix(i)}=\"{parser.GetNamespaceUri(i)}\"");
+                            }
+
+                            for (int i = 0; i != parser.GetAttributeCount(); ++i)
+                            {
+                                output.AppendLine($"{indent}{GetNamespacePrefix(parser.GetAttributePrefix(i))}{parser.GetAttributeName(i)}=\"{GetAttributeValue(parser, i)}\"");
+                            }
+
+                            output.AppendLine($"{indent}>");
+                        }
+                        else if (type == xmlPullParser.END_TAG)
+                        {
+                            indent.Length -= indentStep.Length;
+                            output.AppendLine($"{indent}</{GetNamespacePrefix(parser.GetPrefix())}{parser.GetName()}>");
+                        }
+                        else if (type == xmlPullParser.TEXT)
+                        {
+                            output.AppendLine($"{indent}{parser.GetText()}");
+                        }
+                    }
+                }
+
+                // 打印或者返回输出的字符串
+                Console.WriteLine(output.ToString());
+                // 或者直接返回 output.ToString()，取决于你的需求
+
+                return Task.FromResult(output.ToString());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+
+                return Task.FromResult(e.ToString());
+            }
+
         }
 
         private static string GetNamespacePrefix(string prefix)
@@ -90,6 +174,7 @@ namespace AXML
             return "";
         }
 
+        // 由于原软件使用控制台运行，故使用Log输出(即C#中的WriteLine)，但是现在改成了类库，保留这个不删，但是不做使用
         private static void Log(string format, params object[] arguments)
         {
             Console.WriteLine(format, arguments);
