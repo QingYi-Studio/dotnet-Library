@@ -98,7 +98,7 @@ namespace AXML
         /////////////////////////////////// ILLEGAL STUFF, DONT LOOK :)
         public static float ComplexToFloat(int complex)
         {
-            return ((float)(complex & 0xFFFFFF00)) * RadixMults[(complex >> 4) & 3];
+            return (complex & 0xFFFFFF00) * RadixMults[(complex >> 4) & 3];
         }
 
         private static readonly float[] RadixMults = {
