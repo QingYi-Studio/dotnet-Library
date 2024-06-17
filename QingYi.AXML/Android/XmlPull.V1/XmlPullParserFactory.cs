@@ -245,9 +245,9 @@ namespace QingYi.AXML.Android.XmlPull.V1
             if (context == null)
             {
                 // NOTE: make sure context uses the same class loader as API classes
-                // this is the best we can do without having access to context classloader in J2ME
-                // if API is in the same classloader as implementation then this will work
-                context = referenceContextClass;
+                //       this is the best we can do without having access to context classloader in J2ME
+                //       if API is in the same classloader as implementation then this will work
+                context = typeof(XmlPullParserFactory).Assembly.GetType("Your.Reference.Context.Class");
             }
 
             string classNamesLocation = null;
@@ -256,27 +256,21 @@ namespace QingYi.AXML.Android.XmlPull.V1
             {
                 try
                 {
-                    using (Stream isStream = context.GetResourceAsStream(RESOURCE_NAME))
+                    using (Stream stream = context.Assembly.GetManifestResourceStream("Your.Resource.Name"))
                     {
-                        if (isStream == null)
-                        {
-                            throw new XmlPullParserException("resource not found: " + RESOURCE_NAME + " make sure that parser implementing XmlPull API is available");
-                        }
+                        if (stream == null)
+                            throw new XmlPullParserException($"resource not found: Your.Resource.Name make sure that parser implementing XmlPull API is available");
 
                         StringBuilder sb = new StringBuilder();
-
-                        while (true)
+                        int ch;
+                        while ((ch = stream.ReadByte()) != -1)
                         {
-                            int ch = isStream.ReadByte();
-                            if (ch < 0) break;
-                            else if (ch > ' ')
+                            if (ch > ' ')
                                 sb.Append((char)ch);
                         }
-
                         classNames = sb.ToString();
                     }
-
-                    classNamesLocation = $"resource {RESOURCE_NAME} that contained '{classNames}'";
+                    classNamesLocation = $"resource Your.Resource.Name that contained '{classNames}'";
                 }
                 catch (System.Exception e)
                 {
@@ -285,7 +279,7 @@ namespace QingYi.AXML.Android.XmlPull.V1
             }
             else
             {
-                classNamesLocation = $"parameter classNames to NewInstance() that contained '{classNames}'";
+                classNamesLocation = $"parameter classNames to newInstance() that contained '{classNames}'";
             }
 
             XmlPullParserFactory factory = null;
@@ -313,17 +307,17 @@ namespace QingYi.AXML.Android.XmlPull.V1
                 if (candidate != null)
                 {
                     bool recognized = false;
-                    if (instance is XmlPullParser)
+                    if (typeof(XmlPullParser).IsAssignableFrom(candidate))
                     {
                         parserClasses.Add(candidate);
                         recognized = true;
                     }
-                    if (instance is XmlSerializer)
+                    if (typeof(XmlSerializer).IsAssignableFrom(candidate))
                     {
                         serializerClasses.Add(candidate);
                         recognized = true;
                     }
-                    if (instance is XmlPullParserFactory)
+                    if (typeof(XmlPullParserFactory).IsAssignableFrom(candidate))
                     {
                         if (factory == null)
                         {
@@ -343,11 +337,9 @@ namespace QingYi.AXML.Android.XmlPull.V1
             {
                 factory = new XmlPullParserFactory();
             }
-
             factory.parserClasses = parserClasses;
             factory.serializerClasses = serializerClasses;
             factory.classNamesLocation = classNamesLocation;
-
             return factory;
         }
     }
