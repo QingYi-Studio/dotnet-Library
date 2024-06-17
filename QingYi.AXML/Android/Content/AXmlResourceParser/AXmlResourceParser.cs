@@ -28,43 +28,43 @@ namespace QingYi.AXML.Android.Content
          * an index of name in m_strings.
          */
 
-        private IntReader m_reader;
-        private bool m_operational = false;
+        internal IntReader m_reader;
+        internal bool m_operational = false;
 
-        private StringBlock m_strings;
-        private int[] m_resourceIDs;
-        private readonly NamespaceStack m_namespaces = new NamespaceStack();
-        private XmlPullParser m_parser;
+        internal StringBlock m_strings;
+        internal int[] m_resourceIDs;
+        internal readonly NamespaceStack m_namespaces = new NamespaceStack();
+        internal XmlPullParser m_parser;
 
-        private bool m_decreaseDepth;
+        internal bool m_decreaseDepth;
 
-        private int m_event;
-        private int m_lineNumber;
-        private int m_name;
-        private int m_namespaceUri;
-        private int[] m_attributes;
-        private int m_idAttribute;
-        private int m_classAttribute;
-        private int m_styleAttribute;
+        internal int m_event;
+        internal int m_lineNumber;
+        internal int m_name;
+        internal int m_namespaceUri;
+        internal int[] m_attributes;
+        internal int m_idAttribute;
+        internal int m_classAttribute;
+        internal int m_styleAttribute;
 
-        private static readonly string E_NOT_SUPPORTED = "Method is not supported.";
+        internal static readonly string E_NOT_SUPPORTED = "Method is not supported.";
 
-        private static readonly int ATTRIBUTE_IX_NAMESPACE_URI = 0;
-        private static readonly int ATTRIBUTE_IX_NAME = 1;
-        private static readonly int ATTRIBUTE_IX_VALUE_STRING = 2;
-        private static readonly int ATTRIBUTE_IX_VALUE_TYPE = 3;
-        private static readonly int ATTRIBUTE_IX_VALUE_DATA = 4;
-        private static readonly int ATTRIBUTE_LENGTH = 5;
+        internal static readonly int ATTRIBUTE_IX_NAMESPACE_URI = 0;
+        internal static readonly int ATTRIBUTE_IX_NAME = 1;
+        internal static readonly int ATTRIBUTE_IX_VALUE_STRING = 2;
+        internal static readonly int ATTRIBUTE_IX_VALUE_TYPE = 3;
+        internal static readonly int ATTRIBUTE_IX_VALUE_DATA = 4;
+        internal static readonly int ATTRIBUTE_LENGHT = 5;
 
-        private static readonly int CHUNK_AXML_FILE = 0x00080003;
-        private static readonly int CHUNK_RESOURCEIDS = 0x00080180;
-        private static readonly int CHUNK_XML_FIRST = 0x00100100;
-        private static readonly int CHUNK_XML_START_NAMESPACE = 0x00100100;
-        private static readonly int CHUNK_XML_END_NAMESPACE = 0x00100101;
-        private static readonly int CHUNK_XML_START_TAG = 0x00100102;
-        private static readonly int CHUNK_XML_END_TAG = 0x00100103;
-        private static readonly int CHUNK_XML_TEXT = 0x00100104;
-        private static readonly int CHUNK_XML_LAST = 0x00100104;
+        internal static readonly int CHUNK_AXML_FILE = 0x00080003;
+        internal static readonly int CHUNK_RESOURCEIDS = 0x00080180;
+        internal static readonly int CHUNK_XML_FIRST = 0x00100100;
+        internal static readonly int CHUNK_XML_START_NAMESPACE = 0x00100100;
+        internal static readonly int CHUNK_XML_END_NAMESPACE = 0x00100101;
+        internal static readonly int CHUNK_XML_START_TAG = 0x00100102;
+        internal static readonly int CHUNK_XML_END_TAG = 0x00100103;
+        internal static readonly int CHUNK_XML_TEXT = 0x00100104;
+        internal static readonly int CHUNK_XML_LAST = 0x00100104;
 
         // initialize
         public AXmlResourceParser()
@@ -110,7 +110,7 @@ namespace QingYi.AXML.Android.Content
             m_styleAttribute = -1;
         }
 
-        private void DoNext()
+        internal void DoNext()
         {
             // Delayed initialization.
             if (m_strings == null)
@@ -178,7 +178,7 @@ namespace QingYi.AXML.Android.Content
                 // Fake START_DOCUMENT event.
                 if (chunkType == CHUNK_XML_START_TAG && @event == -1)
                 {
-                    m_event = START_DOCUMENT;
+                    m_event = m_parser.START_DOCUMENT;
                     break;
                 }
 
@@ -253,7 +253,7 @@ namespace QingYi.AXML.Android.Content
             }
         }
 
-        private int GetAttributeOffset(int index)
+        internal int GetAttributeOffset(int index)
         {
             if (m_event != m_parser.START_TAG)
             {
@@ -267,7 +267,7 @@ namespace QingYi.AXML.Android.Content
             return offset;
         }
 
-        private int FindAttribute(string @namespace, string attribute)
+        internal int FindAttribute(string @namespace, string attribute)
         {
             if (m_strings == null || attribute == null)
             {
@@ -392,7 +392,7 @@ namespace QingYi.AXML.Android.Content
 
             int offset = GetAttributeOffset(m_idAttribute);
             int valueType = m_attributes[offset + ATTRIBUTE_IX_VALUE_TYPE];
-            if (valueType != TypedValue_TYPE_REFERENCE)
+            if (valueType != TypedValue.TYPE_REFERENCE)
             {
                 return defaultValue;
             }
@@ -621,7 +621,7 @@ namespace QingYi.AXML.Android.Content
         {
             if (m_reader == null)
             {
-                throw new XmlPullParserException("Parser is not opened.", this, null);
+                throw new XmlPullParserException("Parser is not opened.", new XmlPullParser(), null);
             }
             try
             {
@@ -649,7 +649,7 @@ namespace QingYi.AXML.Android.Content
             }
             if (eventType != m_parser.START_TAG && eventType != m_parser.END_TAG)
             {
-                throw new XmlPullParserException("Expected start or end tag.", this, null);
+                throw new XmlPullParserException("Expected start or end tag.", new XmlPullParser(), null);
             }
             return eventType;
         }
@@ -658,7 +658,7 @@ namespace QingYi.AXML.Android.Content
         {
             if (GetEventType() != m_parser.START_TAG)
             {
-                throw new XmlPullParserException("Parser must be on START_TAG to read next text.", this, null);
+                throw new XmlPullParserException("Parser must be on START_TAG to read next text.", new XmlPullParser(), null);
             }
             int eventType = Next();
             if (eventType == m_parser.TEXT)
@@ -667,7 +667,7 @@ namespace QingYi.AXML.Android.Content
                 eventType = Next();
                 if (eventType != m_parser.END_TAG)
                 {
-                    throw new XmlPullParserException("Event TEXT must be immediately followed by END_TAG.", this, null);
+                    throw new XmlPullParserException("Event TEXT must be immediately followed by END_TAG.", new XmlPullParser(), null);
                 }
                 return result;
             }
@@ -677,7 +677,7 @@ namespace QingYi.AXML.Android.Content
             }
             else
             {
-                throw new XmlPullParserException("Parser must be on START_TAG or TEXT to read text.", this, null);
+                throw new XmlPullParserException("Parser must be on START_TAG or TEXT to read text.", new XmlPullParser(), null);
             }
         }
 
@@ -687,7 +687,7 @@ namespace QingYi.AXML.Android.Content
                 (@namespace != null && @namespace != GetNamespace()) ||
                 (name != null && name != GetName()))
             {
-                throw new XmlPullParserException(m_parser.TYPES[type] + " is expected.", this, null);
+                throw new XmlPullParserException(m_parser.TYPES[type] + " is expected.", new XmlPullParser(), null);
             }
         }
 
