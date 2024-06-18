@@ -43,7 +43,7 @@ namespace QingYi.Core.Web
                     }
                 }
 
-                throw new Exception($"无法获取 {url} 的IPv4地址");
+                throw new Exception($"Cannot get {url} IPV4 address");
             }
         }
 
@@ -97,7 +97,7 @@ namespace QingYi.Core.Web
                     }
                 }
 
-                throw new Exception($"无法获取 {url} 的IPv6地址");
+                throw new Exception($"Cannot get {url} IPV6 address");
             }
         }
 
