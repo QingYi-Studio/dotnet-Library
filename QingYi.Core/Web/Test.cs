@@ -1,40 +1,11 @@
-﻿using System.Net;
+﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace QingYi.Core.Web
 {
     public class Test
     {
-        /// <summary>
-        /// Sync Test<br></br>
-        /// 同步测试
-        /// </summary>
-        /// <param name="url">Url|网址</param>
-        /// <returns>Test result|测试结果</returns>
-        /// <exception cref="Exception"></exception>
-        public static double TestConnection(string url)
-        {
-            // 发送请求并记录延迟
-            DateTime startTime = DateTime.Now;
-
-            try
-            {
-                using HttpClient client = new();
-                HttpResponseMessage response = client.GetAsync("http://" + url).Result;
-                response.EnsureSuccessStatusCode(); // 确保成功响应
-
-                // 请求结束时间
-                DateTime endTime = DateTime.Now;
-
-                // 计算连接延迟
-                TimeSpan delay = endTime - startTime;
-                return delay.TotalMilliseconds;
-            }
-            catch (HttpRequestException ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
         /// <summary>
         /// Async Test<br></br>
         /// 异步测试
@@ -49,16 +20,18 @@ namespace QingYi.Core.Web
 
             try
             {
-                using HttpClient client = new();
-                HttpResponseMessage response = await client.GetAsync("http://" + url);
-                response.EnsureSuccessStatusCode(); // 确保成功响应
+                using (HttpClient client = new HttpClient())
+                {
+                    HttpResponseMessage response = await client.GetAsync("http://" + url);
+                    response.EnsureSuccessStatusCode(); // 确保成功响应
 
-                // 请求结束时间
-                DateTime endTime = DateTime.Now;
+                    // 请求结束时间
+                    DateTime endTime = DateTime.Now;
 
-                // 计算连接延迟
-                TimeSpan delay = endTime - startTime;
-                return delay.TotalMilliseconds;
+                    // 计算连接延迟
+                    TimeSpan delay = endTime - startTime;
+                    return delay.TotalMilliseconds;
+                }
             }
             catch (HttpRequestException ex)
             {
@@ -76,18 +49,20 @@ namespace QingYi.Core.Web
         {
             try
             {
-                using HttpClient client = new();
-                HttpResponseMessage response = client.GetAsync(url).Result;
+                using (HttpClient client = new HttpClient())
+                {
+                    HttpResponseMessage response = client.GetAsync(url).Result;
 
-                if (response.IsSuccessStatusCode)
-                {
-                    // 如果响应成功，则返回1
-                    return 1;
-                }
-                else
-                {
-                    // 如果响应失败，则返回0
-                    return 0;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // 如果响应成功，则返回1
+                        return 1;
+                    }
+                    else
+                    {
+                        // 如果响应失败，则返回0
+                        return 0;
+                    }
                 }
             }
             catch (Exception)
@@ -105,20 +80,22 @@ namespace QingYi.Core.Web
         /// <returns>Success is 1 and failure is 0|成功为1失败为0</returns>
         public static async Task<int> FastTestAsync(string url)
         {
-            using HttpClient client = new();
             try
             {
-                HttpResponseMessage response = await client.GetAsync(url);
+                using (HttpClient client = new HttpClient())
+                {
+                    HttpResponseMessage response = await client.GetAsync(url);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    // 请求成功，返回1
-                    return 1;
-                }
-                else
-                {
-                    // 请求失败，返回0
-                    return 0;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // 请求成功，返回1
+                        return 1;
+                    }
+                    else
+                    {
+                        // 请求失败，返回0
+                        return 0;
+                    }
                 }
             }
             catch (HttpRequestException)

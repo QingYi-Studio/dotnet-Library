@@ -13,20 +13,21 @@ namespace QingYi.Core.GetFileInfo
         public DateTime SelectedFileLastAccessTime { get; private set; }
         public DateTime SelectedFileLastWriteTime { get; private set; }
 
-        public (string, string, string, DateTime, DateTime, DateTime) SelectFile(string SelectedFilePath)
+        public Tuple<string, string, long, DateTime, DateTime, DateTime> SelectFile(string selectedFilePath)
         {
             try
             {
-                FileInfo fileInfo = new FileInfo(SelectedFilePath);
+                FileInfo fileInfo = new FileInfo(selectedFilePath);
 
-                SelectedFileName = fileInfo.Name;
-                SelectedFileExtension = fileInfo.Extension;
-                SelectedFileSize = fileInfo.Length;
-                SelectedFileCreationTime = fileInfo.CreationTime;
-                SelectedFileLastAccessTime = fileInfo.LastAccessTime;
-                SelectedFileLastWriteTime = fileInfo.LastWriteTime;
-
-                return (SelectedFileName, SelectedFileExtension, SelectedFileSize.ToString(), SelectedFileCreationTime, SelectedFileLastAccessTime, SelectedFileLastWriteTime);
+                SelectedFilePath = selectedFilePath;
+                return Tuple.Create(
+                    fileInfo.Name,
+                    fileInfo.Extension,
+                    fileInfo.Length,
+                    fileInfo.CreationTime,
+                    fileInfo.LastAccessTime,
+                    fileInfo.LastWriteTime
+                );
             }
             catch (Exception ex)
             {
