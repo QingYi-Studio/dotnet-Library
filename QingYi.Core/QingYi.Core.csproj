@@ -15,13 +15,22 @@
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageTags>QingYi;Core</PackageTags>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="icon.png" />
     <None Remove="readme.md" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="icon.ico" />
+    <Content Include="icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </Content>
     <Content Include="readme.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
