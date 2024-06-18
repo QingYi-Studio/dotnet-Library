@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System;
-
-namespace QingYi.Core.SH
+﻿namespace QingYi.Core.SH
 {
     public class File
     {
