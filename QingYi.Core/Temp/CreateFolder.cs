@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace QingYi.Core.Temp
+﻿namespace QingYi.Core.Temp
 {
     public class CreateFolder
     {
