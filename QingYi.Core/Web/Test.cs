@@ -1,4 +1,8 @@
-﻿namespace QingYi.Core.Web
+﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+namespace QingYi.Core.Web
 {
     public class Test
     {

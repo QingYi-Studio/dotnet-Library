@@ -2,13 +2,13 @@
 {
     public class FileSize
     {
-        public static string Get(string filePath)
+        public static long Get(string filePath)
         {
             Select select = new Select();
 
             var result = select.SelectFile(filePath);
 
-            string fileSize = result.Item3;
+            long fileSize = result.Item3;
 
             return fileSize;
         }

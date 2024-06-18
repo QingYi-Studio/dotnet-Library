@@ -1,4 +1,7 @@
-﻿namespace QingYi.Core.SH
+﻿using System;
+using System.IO;
+
+namespace QingYi.Core.SH
 {
     public class Folder
     {
