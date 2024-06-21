@@ -1,125 +1,153 @@
-﻿using System;
+using System;
 using System.Diagnostics;
-using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace QingYi.Core.Shell
 {
     public class Windows
     {
-        private readonly ProcessStartInfo _processInfo;
+        public event EventHandler<string> OutputReceived; // 定义输出接收事件
 
-        public Windows()
+        public bool CreateNoWindow { get; set; }
+        public string Command { get; set; }
+        public bool UseShellExecute { get; set; }
+        public bool RedirectStandardOutput { get; set; }
+
+        // 同步执行命令
+        public string ExecuteCommandSync()
         {
-            _processInfo = new ProcessStartInfo();
-        }
+            var output = new StringBuilder();
 
-        public string Command
-        {
-            get { return _processInfo.Arguments; }
-            set { _processInfo.Arguments = value; }
-        }
-
-        public bool CreateNoWindow
-        {
-            get { return _processInfo.CreateNoWindow; }
-            set { _processInfo.CreateNoWindow = value; }
-        }
-
-        public bool UseShellExecute
-        {
-            get { return _processInfo.UseShellExecute; }
-            set { _processInfo.UseShellExecute = value; }
-        }
-
-        public bool RedirectStandardOutput
-        {
-            get { return _processInfo.RedirectStandardOutput; }
-            set { _processInfo.RedirectStandardOutput = value; }
-        }
-
-        public string ExecuteCmdCommandSync()
-        {
-            _processInfo.FileName = "cmd.exe";
-            return ExecuteCommandSync();
-        }
-
-        public async Task<string> ExecuteCmdCommandAsync()
-        {
-            _processInfo.FileName = "cmd.exe";
-            return await ExecuteCommandAsync();
-        }
-
-        public string ExecutePowerShellCommandSync()
-        {
-            _processInfo.FileName = "powershell.exe";
-            return ExecuteCommandSync();
-        }
-
-        public async Task<string> ExecutePowerShellCommandAsync()
-        {
-            _processInfo.FileName = "powershell.exe";
-            return await ExecuteCommandAsync();
-        }
-
-        private string ExecuteCommandSync()
-        {
-            string output = "";
-
-            try
+            using (var process = new Process())
             {
-                _processInfo.RedirectStandardError = true;
-                using (Process process = Process.Start(_processInfo))
+                ConfigureProcess(process);
+
+                process.OutputDataReceived += (sender, args) =>
                 {
-                    if (process != null)
+                    if (!string.IsNullOrEmpty(args.Data))
                     {
-                        using (StreamReader reader = process.StandardOutput)
-                        {
-                            output = reader.ReadToEnd();
-                        }
+                        output.AppendLine(args.Data);
+                        OnOutputReceived(args.Data); // 触发事件，通知输出
                     }
-                    else
-                    {
-                        output = "Failed to start process.";
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                output = $"Error executing command: {ex.Message}";
-            }
+                };
 
-            return output;
+                process.ErrorDataReceived += (sender, args) =>
+                {
+                    if (!string.IsNullOrEmpty(args.Data))
+                    {
+                        output.AppendLine(args.Data);
+                        OnOutputReceived(args.Data); // 触发事件，通知输出
+                    }
+                };
+
+                process.Start();
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+
+                process.WaitForExit();
+
+                return output.ToString();
+            }
         }
 
-        private async Task<string> ExecuteCommandAsync()
+        // 异步执行命令
+        public async Task<string> ExecuteCommandAsync()
         {
-            string output = "";
+            var output = new StringBuilder();
 
-            try
+            using (var process = new Process())
             {
-                _processInfo.RedirectStandardError = true;
-                using (Process process = Process.Start(_processInfo))
+                ConfigureProcess(process);
+
+                var tcs = new TaskCompletionSource<bool>();
+
+                process.OutputDataReceived += (sender, args) =>
                 {
-                    if (process != null)
+                    if (!string.IsNullOrEmpty(args.Data))
                     {
-                        using (StreamReader reader = process.StandardOutput)
-                        {
-                            output = await reader.ReadToEndAsync();
-                        }
+                        output.AppendLine(args.Data);
+                        OnOutputReceived(args.Data); // 触发事件，通知输出
                     }
-                    else
-                    {
-                        output = "Failed to start process.";
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                output = $"Error executing command asynchronously: {ex.Message}";
-            }
+                };
 
-            return output;
+                process.ErrorDataReceived += (sender, args) =>
+                {
+                    if (!string.IsNullOrEmpty(args.Data))
+                    {
+                        output.AppendLine(args.Data);
+                        OnOutputReceived(args.Data); // 触发事件，通知输出
+                    }
+                };
+
+                process.Exited += (sender, args) =>
+                {
+                    tcs.TrySetResult(true);
+                };
+
+                process.Start();
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+
+                await tcs.Task; // 等待进程退出
+
+                return output.ToString();
+            }
+        }
+
+        private void ConfigureProcess(Process process)
+        {
+            process.StartInfo.FileName = UseShellExecute ? "cmd.exe" : "powershell.exe";
+            process.StartInfo.Arguments = UseShellExecute ? $"/c \"{Command}\"" : $"-Command \"{Command}\"";
+            process.StartInfo.CreateNoWindow = CreateNoWindow;
+            process.StartInfo.UseShellExecute = UseShellExecute;
+            process.StartInfo.RedirectStandardOutput = RedirectStandardOutput;
+            process.StartInfo.RedirectStandardError = RedirectStandardOutput; // 也重定向错误输出以捕获可能的错误信息
+            process.StartInfo.StandardOutputEncoding = Encoding.UTF8;
+            process.StartInfo.StandardErrorEncoding = Encoding.UTF8;
+        }
+
+        // 触发输出接收事件
+        protected virtual void OnOutputReceived(string output)
+        {
+            OutputReceived?.Invoke(this, output);
+        }
+    }
+
+    class WinUsage
+    {
+        static async Task Main(string[] args)
+        {
+            // 示例命令
+            string command = "echo Hello, World!";
+
+            // 创建 Windows 实例
+            var windows = new Windows();
+            windows.CreateNoWindow = true;
+            windows.Command = command;
+            windows.UseShellExecute = true; // 使用 true 表示使用 cmd.exe，false 表示使用 powershell.exe
+            windows.RedirectStandardOutput = true;
+
+            // 订阅输出接收事件
+            windows.OutputReceived += (sender, output) =>
+            {
+                Console.WriteLine($"Received: {output}"); // 这里可以处理实时输出的内容
+                                                          // 在这里将实时输出传递给主程序其他部分处理
+            };
+
+            // 同步执行命令
+            Console.WriteLine("Executing command synchronously:");
+            string syncOutput = windows.ExecuteCommandSync();
+            Console.WriteLine("Sync Output:");
+            Console.WriteLine(syncOutput);
+
+            Console.WriteLine();
+
+            // 异步执行命令
+            Console.WriteLine("Executing command asynchronously:");
+            string asyncOutput = await windows.ExecuteCommandAsync();
+            Console.WriteLine("Async Output:");
+            Console.WriteLine(asyncOutput);
         }
     }
 }
