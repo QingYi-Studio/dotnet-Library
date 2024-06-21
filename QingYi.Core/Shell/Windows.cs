@@ -9,10 +9,11 @@ namespace QingYi.Core.Shell
     {
         public event EventHandler<string> OutputReceived; // 定义输出接收事件
 
-        public bool CreateNoWindow { get; set; }
+        public bool CreateNoWindow { get; set; } = true;
         public string Command { get; set; }
-        public bool UseShellExecute { get; set; }
-        public bool RedirectStandardOutput { get; set; }
+        public bool UseShellExecute { get; set; } = false;
+        public bool RedirectStandardOutput { get; set; } = true;
+        public bool UsePowershell { get; set; } = false;
 
         // 同步执行命令
         public string ExecuteCommandSync()
@@ -97,7 +98,7 @@ namespace QingYi.Core.Shell
 
         private void ConfigureProcess(Process process)
         {
-            process.StartInfo.FileName = UseShellExecute ? "cmd.exe" : "powershell.exe";
+            process.StartInfo.FileName = UseShellExecute ? "powershell.exe" : "cmd.exe";
             process.StartInfo.Arguments = UseShellExecute ? $"/c \"{Command}\"" : $"-Command \"{Command}\"";
             process.StartInfo.CreateNoWindow = CreateNoWindow;
             process.StartInfo.UseShellExecute = UseShellExecute;
@@ -125,7 +126,7 @@ namespace QingYi.Core.Shell
             var windows = new Windows();
             windows.CreateNoWindow = true;
             windows.Command = command;
-            windows.UseShellExecute = true; // 使用 true 表示使用 cmd.exe，false 表示使用 powershell.exe
+            windows.UseShellExecute = false; // 使用 true 表示使用 cmd.exe，false 表示使用 powershell.exe
             windows.RedirectStandardOutput = true;
 
             // 订阅输出接收事件
