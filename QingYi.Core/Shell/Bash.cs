@@ -9,9 +9,9 @@ namespace QingYi.Core.Shell
     {
         public event EventHandler<string> OutputReceived;
 
-        public bool CreateNoWindow { get; set; }
+        public bool CreateNoWindow { get; set; } = true;
         public string Command { get; set; }
-        public bool UseShellExecute { get; set; }
+        public bool UseShellExecute { get; set; } = false;
         public bool RedirectStandardOutput { get; set; }
 
         public Bash()
