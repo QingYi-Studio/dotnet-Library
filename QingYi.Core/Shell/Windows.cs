@@ -14,6 +14,7 @@ namespace QingYi.Core.Shell
         public bool UseShellExecute { get; set; } = false;
         public bool RedirectStandardOutput { get; set; } = true;
         public bool UsePowershell { get; set; } = false;
+        public bool RunAsAdmin { get; set; } = false;
 
         // 同步执行命令
         public string ExecuteCommandSync()
@@ -98,14 +99,29 @@ namespace QingYi.Core.Shell
 
         private void ConfigureProcess(Process process)
         {
-            process.StartInfo.FileName = UseShellExecute ? "powershell.exe" : "cmd.exe";
-            process.StartInfo.Arguments = UseShellExecute ? $"/c \"{Command}\"" : $"-Command \"{Command}\"";
-            process.StartInfo.CreateNoWindow = CreateNoWindow;
-            process.StartInfo.UseShellExecute = UseShellExecute;
-            process.StartInfo.RedirectStandardOutput = RedirectStandardOutput;
-            process.StartInfo.RedirectStandardError = RedirectStandardOutput; // 也重定向错误输出以捕获可能的错误信息
-            process.StartInfo.StandardOutputEncoding = Encoding.UTF8;
-            process.StartInfo.StandardErrorEncoding = Encoding.UTF8;
+            if (RunAsAdmin == true)
+            {
+                process.StartInfo.FileName = UseShellExecute ? "powershell.exe" : "cmd.exe";
+                process.StartInfo.Arguments = UseShellExecute ? $"/c \"{Command}\"" : $"-Command \"{Command}\"";
+                process.StartInfo.CreateNoWindow = CreateNoWindow;
+                process.StartInfo.UseShellExecute = UseShellExecute;
+                process.StartInfo.RedirectStandardOutput = RedirectStandardOutput;
+                process.StartInfo.RedirectStandardError = RedirectStandardOutput; // 也重定向错误输出以捕获可能的错误信息
+                process.StartInfo.StandardOutputEncoding = Encoding.UTF8;
+                process.StartInfo.StandardErrorEncoding = Encoding.UTF8;
+                process.StartInfo.Verb = "runas";
+            }
+            else
+            {
+                process.StartInfo.FileName = UseShellExecute ? "powershell.exe" : "cmd.exe";
+                process.StartInfo.Arguments = UseShellExecute ? $"/c \"{Command}\"" : $"-Command \"{Command}\"";
+                process.StartInfo.CreateNoWindow = CreateNoWindow;
+                process.StartInfo.UseShellExecute = UseShellExecute;
+                process.StartInfo.RedirectStandardOutput = RedirectStandardOutput;
+                process.StartInfo.RedirectStandardError = RedirectStandardOutput; // 也重定向错误输出以捕获可能的错误信息
+                process.StartInfo.StandardOutputEncoding = Encoding.UTF8;
+                process.StartInfo.StandardErrorEncoding = Encoding.UTF8;
+            }
         }
 
         // 触发输出接收事件
