@@ -1,4 +1,4 @@
-﻿Class Crack
+Class Crack
 
     Shared Sub CrackAudio(filePath As String)
         ' 创建 NeteaseCrypt 类的实例
