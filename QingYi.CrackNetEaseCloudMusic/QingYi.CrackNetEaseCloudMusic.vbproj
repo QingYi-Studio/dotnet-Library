@@ -19,10 +19,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="GenerateLib.vb" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="libncmdump.dll" />
     <None Remove="readme.md" />
   </ItemGroup>
@@ -40,14 +36,26 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="GenerateLib.vb" />
+    <Resource Include="lib\libncmdump.dll">
+		<Pack>False</Pack>
+		<PackagePath>\</PackagePath>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="lib\libncmdump.dll">
-		<Pack>True</Pack>
-		<PackagePath>\</PackagePath>
-    </Resource>
+    <Compile Update="App.Designer.vb">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>App.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="App.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>App.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
