@@ -1,6 +1,6 @@
 Imports System.Runtime.InteropServices
 
-Public Class Core
+Class Core
 
     Private Const DLL_PATH As String = "lib/libncmdump.dll"
     Private ReadOnly NeteaseCryptClass As IntPtr = IntPtr.Zero
@@ -25,7 +25,7 @@ Public Class Core
     ''' 创建 NeteaseCrypt 类的实例。
     ''' </summary>
     ''' <param name="FileName">网易云音乐 ncm 加密文件路径</param>
-    Public Sub New(FileName As String)
+    Sub New(FileName As String)
         NeteaseCryptClass = CreateNeteaseCrypt(Marshal.StringToHGlobalAnsi(FileName))
     End Sub
 
@@ -33,21 +33,21 @@ Public Class Core
     ''' 启动转换过程。
     ''' </summary>
     ''' <returns>返回一个整数，指示转储过程的结果。如果成功，返回0；如果失败，返回1。</returns>
-    Public Function Dump() As Integer
+    Function Dump() As Integer
         Return Dump(NeteaseCryptClass)
     End Function
 
     ''' <summary>
     ''' 修复音乐文件元数据。
     ''' </summary>
-    Public Sub FixMetadata()
+    Sub FixMetadata()
         FixMetadata(NeteaseCryptClass)
     End Sub
 
     ''' <summary>
     ''' 销毁 NeteaseCrypt 类的实例。
     ''' </summary>
-    Public Sub Destroy()
+    Sub Destroy()
         DestroyNeteaseCrypt(NeteaseCryptClass)
     End Sub
 

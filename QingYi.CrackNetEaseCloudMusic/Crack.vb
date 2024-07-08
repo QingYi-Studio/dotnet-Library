@@ -1,6 +1,6 @@
-﻿Public Class Crack
+Class Crack
 
-    Public Shared Sub CrackAudio(ByVal filePath As String)
+    Shared Sub CrackAudio(filePath As String)
         ' 创建 NeteaseCrypt 类的实例
         Dim neteaseCrypt As New Core(filePath)
 
