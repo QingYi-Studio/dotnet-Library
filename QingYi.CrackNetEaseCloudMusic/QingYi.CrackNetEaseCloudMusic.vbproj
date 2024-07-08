@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>QingYi.CrackNetEaseCloudMusic</RootNamespace>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>QingYi.CrackNetEaseCloudMusic</Title>
+    <Version>1.0.0-beta</Version>
+    <Authors>QingYi-Studio</Authors>
+    <Description>A GitHub based on many open source projects and a lot of developers give the solution to produce a simple NetEase cloud music download down NCM files into MP3 files.</Description>
+    <PackageProjectUrl>https://github.com/QingYi-Studio/dotnet-Library</PackageProjectUrl>
+    <PackageIcon>favicon.png</PackageIcon>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/QingYi-Studio/dotnet-Library</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>QingYi;NetEase;CloudMusic;Audio;Crack;NCM</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="GenerateLib.vb" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="libncmdump.dll" />
+    <None Remove="readme.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="favicon.ico" />
+	  <Content Include="favicon.png">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+	  </Content>
+	  <Content Include="readme.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="GenerateLib.vb" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="lib\libncmdump.dll">
+		<Pack>True</Pack>
+		<PackagePath>\</PackagePath>
+    </Resource>
+  </ItemGroup>
+
+</Project>
