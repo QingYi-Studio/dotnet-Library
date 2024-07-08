@@ -7,7 +7,7 @@
     <ApplicationIcon>favicon.ico</ApplicationIcon>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>QingYi.CrackNetEaseCloudMusic</Title>
-    <Version>1.0.0-beta</Version>
+    <Version>1.0.0-beta2</Version>
     <Authors>QingYi-Studio</Authors>
     <Description>A GitHub based on many open source projects and a lot of developers give the solution to produce a simple NetEase cloud music download down NCM files into MP3 files.</Description>
     <PackageProjectUrl>https://github.com/QingYi-Studio/dotnet-Library</PackageProjectUrl>

@@ -1,13 +1,13 @@
 ﻿Imports System.IO
 Imports System.Resources
 
-Public Class GenerateLib
+Class GenerateLib
 
     ''' <summary>
     ''' Get libncmdump.dll base64 string
     ''' </summary>
-    ''' <param name="resourceName"></param>
-    ''' <returns></returns>
+    ''' <param name="resourceName">Resource name</param>
+    ''' <returns>Resource string</returns>
     Function GetResourceString(resourceName As String) As String
         Dim assembly As Reflection.Assembly = Reflection.Assembly.GetExecutingAssembly()
         Dim resourceManager As New ResourceManager("GenerateLib.Resources", assembly)
@@ -40,4 +40,29 @@ Public Class GenerateLib
             Throw New IOException("Error: " & ex.Message)
         End Try
     End Sub
+
+    ''' <summary>
+    ''' Create lib folder
+    ''' </summary>
+    ''' <returns>Folder path</returns>
+    Function CreateLibFolder() As String
+        Dim currentDirectory As String = AppDomain.CurrentDomain.BaseDirectory
+        Dim libFolderPath As String = Path.Combine(currentDirectory, "lib")
+
+        Try
+            Directory.CreateDirectory(libFolderPath)
+            Return libFolderPath
+        Catch ex As Exception
+            Throw New Exception("Error: " & ex.Message)
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Build libncmdump.dll
+    ''' </summary>
+    Sub BuildNcmDump()
+        Dim B64 As String = GetResourceString("libncmdump_base64")
+        Builder(B64, CreateLibFolder)
+    End Sub
+
 End Class
