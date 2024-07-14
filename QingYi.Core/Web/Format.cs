@@ -1,5 +1,5 @@
-﻿using System.Text.RegularExpressions;
-using System;
+﻿using System;
+using System.Text.RegularExpressions;
 
 namespace QingYi.Core.Web
 {
@@ -17,7 +17,7 @@ namespace QingYi.Core.Web
         public static string GetHost(string url)
         {
             // 解析URL
-            Uri uri = new(url);
+            Uri uri = new Uri(url);
 
             // 获取主机名
             string hostname = uri.Host;
@@ -37,7 +37,7 @@ namespace QingYi.Core.Web
         public static string GetHostRemoveWWW(string url)
         {
             // 解析URL
-            Uri uri = new(url);
+            Uri uri = new Uri(url);
 
             // 获取主机名
             string hostname = uri.Host;
@@ -57,16 +57,16 @@ namespace QingYi.Core.Web
         ///     网址
         /// </param>
         /// <returns></returns>
-        public static string GetDomain(string url)
+        public static string GetRootDomain(string url)
         {
             // 解析URL
-            Uri uri = new(url);
+            Uri uri = new Uri(url);
 
             // 获取主机名
             string hostname = uri.Host;
 
             // 匹配根域名
-            Match match = GetDomain().Match(hostname);
+            Match match = Regex.Match(hostname, @"(?:(?:[\w-]+\.)+([\w-]+\.[\w-]{2,}))$");
 
             if (match.Success)
             {
@@ -77,8 +77,5 @@ namespace QingYi.Core.Web
                 return hostname; // 返回原始主机名
             }
         }
-
-        [GeneratedRegex(@"(?:(?:[\w-]+\.)+)?([\w-]+\.[\w-]+)$")]
-        private static partial Regex GetDomain();
     }
 }
