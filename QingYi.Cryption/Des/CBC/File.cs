@@ -6,9 +6,24 @@ namespace QingYi.Cryption.Des.CBC
 {
     public class File
     {
+        /// <summary>
+        /// The key of the file you want to encrypt/decrypt
+        /// </summary>
         private readonly string key;
+
+        /// <summary>
+        /// The iv of the file you want to encrypt/decrypt
+        /// </summary>
         private readonly string iv;
+
+        /// <summary>
+        /// The path of the file you want to encrypt/decrypt
+        /// </summary>
         private readonly string inputFile;
+
+        /// <summary>
+        /// The output path of the file you want to encrypt/decrypt
+        /// </summary>
         private readonly string outputFile;
 
         public File(string key, string iv, string inputFile, string outputFile)

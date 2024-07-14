@@ -7,7 +7,14 @@ namespace QingYi.Cryption.Des.CTS
 {
     public class Text
     {
+        /// <summary>
+        /// The key of the text you want to encrypt/decrypt
+        /// </summary>
         private readonly byte[] key;
+
+        /// <summary>
+        /// The text content you want encrypted
+        /// </summary>
         private readonly string inputString;
 
         public Text(byte[] key, string inputString)
