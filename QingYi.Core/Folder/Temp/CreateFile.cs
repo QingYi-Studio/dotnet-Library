@@ -4,7 +4,7 @@ namespace QingYi.Core.Folder.Temp
 {
     public class CreateFile
     {
-        public static void Create(string fileName)
+        public static string Create(string fileName)
         {
             string filePath = Path.Combine(GetTempFolder.Get(), fileName);
 
@@ -12,6 +12,8 @@ namespace QingYi.Core.Folder.Temp
             {
                 File.Create(filePath);
             }
+
+            return filePath;
         }
     }
 }
