@@ -7,8 +7,19 @@ namespace QingYi.Cryption.Des.CFB
 {
     public class Text
     {
+        /// <summary>
+        /// The key of the text you want to encrypt/decrypt
+        /// </summary>
         private readonly string key;
+
+        /// <summary>
+        /// The iv of the text you want to encrypt/decrypt
+        /// </summary>
         private readonly string iv;
+
+        /// <summary>
+        /// The text content you want encrypted
+        /// </summary>
         private readonly string text;
 
         public Text(string key, string iv, string text)

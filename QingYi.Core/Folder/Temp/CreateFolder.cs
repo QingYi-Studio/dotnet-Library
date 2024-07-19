@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace QingYi.Core.Temp
+namespace QingYi.Core.Folder.Temp
 {
     public class CreateFolder
     {
@@ -12,10 +12,12 @@ namespace QingYi.Core.Temp
         ///     The name of the new folder you want to create<br></br>
         ///     想要创建的新文件夹名称
         /// </param>
-        public static void Create(string newFolderName)
+        public static string Create(string newFolderName)
         {
             string name = Path.Combine(GetTempFolder.Get(), newFolderName);
             Directory.CreateDirectory(name);
+
+            return name;
         }
     }
 }

@@ -3,7 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace QingYi.Cryption.Des.ECB
+namespace QingYi.Cryption.Des.OFB
 {
     public class Text
     {
@@ -41,7 +41,7 @@ namespace QingYi.Cryption.Des.ECB
                 des.IV = ivBytes;
 
                 // 设置ECB
-                des.Mode = CipherMode.ECB;
+                des.Mode = CipherMode.OFB;
 
                 using (MemoryStream memoryStream = new MemoryStream())
                 {
@@ -68,7 +68,7 @@ namespace QingYi.Cryption.Des.ECB
                 des.IV = ivBytes;
 
                 // 设置解密算法为DES的ECB模式
-                des.Mode = CipherMode.ECB;
+                des.Mode = CipherMode.OFB;
 
                 using (MemoryStream memoryStream = new MemoryStream())
                 {

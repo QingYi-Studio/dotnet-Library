@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace QingYi.Cryption.Des.CBC
+namespace QingYi.Cryption.Des.OFB
 {
     public class File
     {
@@ -45,7 +45,7 @@ namespace QingYi.Cryption.Des.CBC
                 des.IV = ivBytes;
 
                 // 设置ECB模式
-                des.Mode = CipherMode.CBC;
+                des.Mode = CipherMode.OFB;
 
                 using (FileStream inputFileStream = new FileStream(inputFile, FileMode.Open, FileAccess.Read))
                 using (FileStream outputFileStream = new FileStream(outputFile, FileMode.Create, FileAccess.Write))
@@ -79,7 +79,7 @@ namespace QingYi.Cryption.Des.CBC
                 des.IV = ivBytes;
 
                 // 设置解密算法为DES的ECB模式
-                des.Mode = CipherMode.CBC;
+                des.Mode = CipherMode.OFB;
 
                 using (FileStream inputFileStream = new FileStream(inputFile, FileMode.Open, FileAccess.Read))
                 using (FileStream outputFileStream = new FileStream(outputFile, FileMode.Create, FileAccess.Write))

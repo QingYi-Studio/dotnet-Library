@@ -5,8 +5,19 @@ namespace QingYi.Cryption.Des.CTS
 {
     public class File
     {
+        /// <summary>
+        /// The key of the file you want to encrypt/decrypt
+        /// </summary>
         private readonly byte[] key;
+
+        /// <summary>
+        /// The path of the file you want to encrypt/decrypt
+        /// </summary>
         private readonly string inputFile;
+
+        /// <summary>
+        /// The output path of the file you want to encrypt/decrypt
+        /// </summary>
         private readonly string outputFile;
 
         public File(byte[] key, string inputFile, string outputFile)
