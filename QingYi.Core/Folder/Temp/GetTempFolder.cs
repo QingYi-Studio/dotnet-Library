@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace QingYi.Core.Temp
+namespace QingYi.Core.Folder.Temp
 {
     public class GetTempFolder
     {
