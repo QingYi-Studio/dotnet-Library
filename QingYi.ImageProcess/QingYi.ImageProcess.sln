@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QingYi.ImageProcess", "QingYi.ImageProcess.csproj", "{EC32FBA1-9F64-451E-A453-40805A4DF54D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EC32FBA1-9F64-451E-A453-40805A4DF54D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC32FBA1-9F64-451E-A453-40805A4DF54D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC32FBA1-9F64-451E-A453-40805A4DF54D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC32FBA1-9F64-451E-A453-40805A4DF54D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1A2B5E4A-5471-42FE-B343-7911A4630744}
+	EndGlobalSection
+EndGlobal

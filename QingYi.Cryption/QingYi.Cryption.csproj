@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0,netstandard2.0</TargetFrameworks>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>QingYi.Cryption</Title>
+    <Version>1.1.0</Version>
+    <Authors>QingYi-Studio</Authors>
+    <Copyright></Copyright>
+    <Description>A simple library that can be quickly encrypted and decrypted, based on native C#.
+For business please send Issue or contact us directly.</Description>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/QingYi-Studio/dotnet-Library</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/QingYi-Studio/dotnet-Library</PackageProjectUrl>
+    <PackageTags>Encrypt;Decrypt;Crypt;Cryption;Des;Sha</PackageTags>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile></PackageLicenseFile>
+    <PackageIcon>use.png</PackageIcon>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="use.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="use.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Des\mode_diff.md">
+      <Pack>True</Pack>
+    </None>
+    <None Update="readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Des\OFB\" />
+  </ItemGroup>
+
+</Project>
