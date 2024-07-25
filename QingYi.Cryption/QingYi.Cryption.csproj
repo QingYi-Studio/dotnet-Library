@@ -4,7 +4,7 @@
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>QingYi.Cryption</Title>
-    <Version>1.1.0</Version>
+    <Version>1.1.0-beta1</Version>
     <Authors>QingYi-Studio</Authors>
     <Description>A simple library that can be quickly encrypted and decrypted, based on native C#.
 For business please send Issue or contact us directly.</Description>
@@ -17,10 +17,15 @@ For business please send Issue or contact us directly.</Description>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="readme.md" />
     <None Remove="use.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </Content>
     <Content Include="use.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -30,10 +35,6 @@ For business please send Issue or contact us directly.</Description>
   <ItemGroup>
     <None Update="Des\mode_diff.md">
       <Pack>True</Pack>
-    </None>
-    <None Update="readme.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 </Project>
